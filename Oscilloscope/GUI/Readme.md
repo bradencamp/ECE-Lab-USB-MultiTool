@@ -1,4 +1,3 @@
-=========================
 # Python libraries needed
 - time
 - Pyserial
@@ -6,7 +5,6 @@
 - PyQt5
 - NumPy
 - PyQtGraph
-========================
 # Instructions
 
 - For the GUI to run, the port and baudrate number needs to match the MCU's serial. 
@@ -24,12 +22,14 @@
 - Creating an automatic COM port detector to remove the need of updating it for each new device.
 
 What can suffice is using this example:
+```python
 	com_number, ok = QtGui.QInputDialog.getText(None, "COM Port", "Enter COM#:")
 	if ok:
 		ser = serial.Serial(f"COM{com_number}", 12000000)
 	else:
 		print("Wrong COM port, exiting...")
 		exit()
+```
 This  will prompt a window to input the COM# before opining the GUI.
 
 # FIXME
