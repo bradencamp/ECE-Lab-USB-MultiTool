@@ -86,13 +86,13 @@ def test(sub,amp,pwm_off, gain):###################
 #plt.title("low gain,offset = 0")
 
 
-#gain_value\offset
-test(231, 5, 0, 0)#low gain, off=0
-test(232, 5, 5, 0)##low gain,off=5
-test(233, 5, -5, 0)#low gain,off=-5
-test(234, 0.5, 0, 1)#high gain,off=0
-test(235, 0.5, 5, 1)#high gain,off=5
-test(236, 0.5, -5, 1)#high gain,off =-5
+# gain_value\offset
+test(231, 5, 0, 0)      # low gain, off = 0
+test(232, 5, 5, 0)      # low gain, off = 5
+test(233, 5, -5, 0)     # low gain, off = -5
+test(234, 0.5, 0, 1)    # high gain, off = 0
+test(235, 0.5, 5, 1)    # high gain, off = 5
+test(236, 0.5, -5, 1)   # high gain, off = -5
 plt.show()
 
 

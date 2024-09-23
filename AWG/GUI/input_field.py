@@ -85,12 +85,13 @@ class Input(QLineEdit):
         Parameters:
         event (QKeyEvent): The key event that was triggered.
         """
-        if event.key() == 16777235: 
-            self.setVal(self.value + 1)
-        elif event.key() == 16777237: 
-            self.setVal(self.value - 1)
-        else:
-            QLineEdit.keyPressEvent(self, event)
+        match event.key():
+            case 16777235:
+                self.setVal(self.value + 1)
+            case 16777237:
+                self.setVal(self.value - 1)
+            case _:
+                QLineEdit.keyPressEvent(self, event)
             
     def wheelEvent(self, event):
         """Event handler for mouse scrolling. The value is incremented or decremented based on the scroll direction.

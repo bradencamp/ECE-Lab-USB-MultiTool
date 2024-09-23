@@ -93,11 +93,11 @@ class Connection:
         """Dynamically picks the best numSamples value, and corresponding values for the ARR/PSC registers."""
         fclk = 72e6
         skipGoal = 25 #minimum sample period target
-        max_samples = 1024*4
+        max_samples = 4096
         numSamples = max_samples
         #get close to the target sample period without going under
         while (skips := self.getSkips(freq, numSamples, fclk)) < skipGoal:     
-            numSamples /= 2
+            numSamples = numSamples >> 1
             
         numSamples = int(numSamples)
         

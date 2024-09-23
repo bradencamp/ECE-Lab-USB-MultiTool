@@ -41,24 +41,25 @@ class Channel:
     def update_dropdown(self):
         """Called when the wavetype dropdown is triggered. enables/disables input boxes as needed by wavetype. Calls generate_waveform()"""
         self.waveform_type = self.dropdown.currentText().lower()
-        if (self.waveform_type == 'square'):
-            self.freqInput.setEnabled(True)
-            self.ampInput.setEnabled(True)
-            self.offsetInput.setEnabled(True)
-            self.dutyInput.setEnabled(True)
-            self.phaseInput.setEnabled(True)
-        elif (self.waveform_type == 'dc'):
-            self.freqInput.setEnabled(False)
-            self.ampInput.setEnabled(False)
-            self.offsetInput.setEnabled(True)
-            self.dutyInput.setEnabled(False)
-            self.phaseInput.setEnabled(False)
-        else:
-            self.freqInput.setEnabled(True)
-            self.ampInput.setEnabled(True)
-            self.offsetInput.setEnabled(True)
-            self.dutyInput.setEnabled(False)
-            self.phaseInput.setEnabled(True)
+        match self.waveform_type:
+            case 'square':
+                self.freqInput.setEnabled(True)
+                self.ampInput.setEnabled(True)
+                self.offsetInput.setEnabled(True)
+                self.dutyInput.setEnabled(True)
+                self.phaseInput.setEnabled(True)
+            case 'dc':
+                self.freqInput.setEnabled(False)
+                self.ampInput.setEnabled(False)
+                self.offsetInput.setEnabled(True)
+                self.dutyInput.setEnabled(False)
+                self.phaseInput.setEnabled(False)
+            case _:
+                self.freqInput.setEnabled(True)
+                self.ampInput.setEnabled(True)
+                self.offsetInput.setEnabled(True)
+                self.dutyInput.setEnabled(False)
+                self.phaseInput.setEnabled(True)
         self.generate_waveform()
 
     def updateAWList(self, AWlist, cause, modified = -1):
@@ -79,7 +80,7 @@ class Channel:
             self.dropdownArb.addItem(aw.name)
             if aw.icon:
                 self.dropdownArb.setItemIcon(ind, aw.icon)
-            ind+=1
+            ind += 1
         
         #some of the last_ind!= -1 checks might not be needed here but not enough time to check if removing them breaks anything
         
@@ -229,7 +230,7 @@ class Channel:
         self.amp_label = QtWidgets.QLabel('Amplitude:')
         self.ampInput = Input(self.generate_waveform, [-5, 5], float(5), "v", prefixes_v)
 
-        self.offset_label = QtWidgets.QLabel('Offset voltage:')
+        self.offset_label = QtWidgets.QLabel('Offset Voltage:')
         self.offsetInput = Input(self.generate_waveform, [-10, 10], float(0), "v", prefixes_v)
 
         self.DCLabel = QtWidgets.QLabel("Duty Cycle:")

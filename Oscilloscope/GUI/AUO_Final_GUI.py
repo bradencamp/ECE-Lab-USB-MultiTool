@@ -72,16 +72,16 @@ class SerialReader(QMainWindow):
         self.curve = self.plot_widget.plot(pen=pg.mkPen(color='g'))
         
         # Add cursor to plot widget
-        self.cursor = pg.LinearRegionItem(values=[0, 0], orientation=pg.LinearRegionItem.Vertical)
+        self.cursor = pg.LinearRegionItem(values = [0, 0], orientation = pg.LinearRegionItem.Vertical)
         self.cursor.setRegion([0, 0])
         self.plot_widget.addItem(self.cursor)
 
         # Add horizontal line to plot widget
-        self.hline = pg.InfiniteLine(pos=0, angle=0, movable=False)
+        self.hline = pg.InfiniteLine(pos = 0, angle = 0, movable=False)
         self.plot_widget.addItem(self.hline)
 
         # Add vertical line to plot widget
-        self.vline = pg.InfiniteLine(pos=0, angle=90, movable=False)
+        self.vline = pg.InfiniteLine(pos = 0, angle = 90, movable=False)
         self.plot_widget.addItem(self.vline)
         
         # Set pen color to red
@@ -144,17 +144,18 @@ class SerialReader(QMainWindow):
         grid_layout.addWidget(QLabel("ADC Clock (MHz)"), 12, 1)
         grid_layout.addWidget(self.adcclock_combo, 13, 1)
         
-    def send_data_to_board(self):        
-        if self.amplifier_data == 0:
-            amplifier = "1000"
-        elif self.amplifier_data == 1:
-            amplifier = "0100"
-        elif self.amplifier_data == 2:
-            amplifier = "0010" 
-        elif self.amplifier_data == 3:
-            amplifier = "0001"
-        else:
-            raise ValueError("Invalid amplifier data value")
+    def send_data_to_board(self):
+        match self.amplifier_data:
+            case 0:
+                amplifier = "1000"
+            case 1:
+                amplifier = "0100"
+            case 2:
+                amplifier = "0010"
+            case 3:
+                amplifier = "0001"
+            case _:
+                raise ValueError("Invalid amplifier data value!")
         pwmstring = '0000'
         send = f'1{self.samplingtime_data}{self.adcclock_data:02}{pwmstring}{self.attenuator_data}{self.ad_dc_data}{amplifier}'
         print(f"send: {send}")
@@ -173,58 +174,61 @@ class SerialReader(QMainWindow):
             self.ad_dc_data = 1
 
     def send_amplifier_data(self, text):
-        if text == '10':
-            self.amplifier_data = 0
-        elif text == '5':
-            self.amplifier_data = 1
-        elif text == '2.5':
-            self.amplifier_data = 2
-        elif text == '1':
-            self.amplifier_data = 3
+        match text:
+            case '10':
+                self.amplifier_data = 0
+            case '5':
+                self.amplifier_data = 1
+            case '2.5':
+                self.amplifier_data = 2
+            case '1':
+                self.amplifier_data = 3
           
     def send_samplingtime_data(self, text):
-        if text == '1.5':
-            self.samplingtime_data = 0
-        elif text == '2.5':
-            self.samplingtime_data = 1
-        elif text == '4.5':
-            self.samplingtime_data = 2
-        elif text == '7.5':
-            self.samplingtime_data = 3
-        elif text == '19.5':
-            self.samplingtime_data = 4
-        elif text == '61.5':
-            self.samplingtime_data = 5
-        elif text == '181.5':
-            self.samplingtime_data = 6
-        elif text == '601.5':
-            self.samplingtime_data = 7  
+        match text:
+            case '1.5':
+                self.samplingtime_data = 0
+            case '2.5':
+                self.samplingtime_data = 1
+            case '4.5':
+                self.samplingtime_data = 2
+            case '7.5':
+                self.samplingtime_data = 3
+            case '19.5':
+                self.samplingtime_data = 4
+            case '61.5':
+                self.samplingtime_data = 5
+            case '181.5':
+                self.samplingtime_data = 6
+            case '601.5':
+                self.samplingtime_data = 7
 
     def send_adcclock_data(self, text):
-        if text == '72':
-            self.adcclock_data = 0
-        elif text == '36':
-            self.adcclock_data = 1
-        elif text == '18':
-            self.adcclock_data = 2          
-        elif text == '12':
-            self.adcclock_data = 3
-        elif text == '9':
-            self.adcclock_data = 4 
-        elif text == '7.2':
-            self.adcclock_data = 5
-        elif text == '6':
-            self.adcclock_data = 6 
-        elif text == '4.5':
-            self.adcclock_data = 7
-        elif text == '2.25':
-            self.adcclock_data = 8 
-        elif text == '1.125':
-            self.adcclock_data = 9
-        elif text == '0.5625':
-            self.adcclock_data = 10 
-        elif text == '0.28125':
-            self.adcclock_data = 11
+        match text:
+            case '72':
+                self.adcclock_data = 0
+            case '36':
+                self.adcclock_data = 1
+            case '18':
+                self.adcclock_data = 2
+            case '12':
+                self.adcclock_data = 3
+            case '9':
+                self.adcclock_data = 4
+            case '7.2':
+                self.adcclock_data = 5
+            case '6':
+                self.adcclock_data = 6
+            case '4.5':
+                self.adcclock_data = 7
+            case '2.25':
+                self.adcclock_data = 8
+            case '1.125':
+                self.adcclock_data = 9
+            case '0.5625':
+                self.adcclock_data = 10
+            case '0.28125':
+                self.adcclock_data = 11
             
     def plot_300_points(self):
         start_time = time.time()  # Record the start time
@@ -237,19 +241,18 @@ class SerialReader(QMainWindow):
                 value = float(line) * 3.3 / 4096  # scale a voltage value between 0 and 3.3 volts.
                 value += self.offset_spinbox.value()  # add DC offset
                 #--------------invert to original voltage------------
-                if (self.attenuator_data==0):
-                    x = 1.25
-                else:
-                    x = 12.5 
+                x = 1.25 if self.attenuator_data == 0 else 12.5
 
-                if (self.amplifier_data==0):
-                    y = 10
-                elif(self.amplifier_data==1):
-                    y = 5
-                elif(self.amplifier_data==2):
-                    y = 2.5
-                else:
-                    y = 1
+                match self.amplifier_data:
+                    case 0:
+                        y = 10
+                    case 1:
+                        y = 5
+                    case 2:
+                        y = 2.5
+                    case _:
+                        y = 1
+
                 value = (value * x) / y
                 if value > self.max:
                     self.max = value
@@ -283,19 +286,18 @@ class SerialReader(QMainWindow):
             value = float(line) * 3.3 / 4096  # scale a voltage value between 0 and 3.3 volts.
             value += self.offset_spinbox.value()  # add DC offset
             #--------------invert to original voltage------------
-            if (self.attenuator_data==0):
-                x = 1.25
-            else:
-                x = 12.5 
+            x = 1.25 if self.attenuator_data == 0 else 12.5
 
-            if (self.amplifier_data==0):
-                y = 10
-            elif(self.amplifier_data==1):
-                y = 5
-            elif(self.amplifier_data==2):
-                y = 2.5
-            else:
-                y = 1
+            match self.amplifier_data:
+                case 0:
+                    y = 10
+                case 1:
+                    y = 5
+                case 2:
+                    y = 2.5
+                case _:
+                    y = 1
+
             value = (value * x) / y
             if value > self.max:
                 self.max = value
@@ -314,16 +316,18 @@ class SerialReader(QMainWindow):
     def plot_data(self):
         # Set the x-axis range based on the time combo selection
         time_range = self.time_combo.currentText()
-        if time_range == '2ms/Div':
-            x_range = 0.008
-        elif time_range == '1ms/Div':
-            x_range = 0.005
-        elif time_range == '0.5ms/Div':
-            x_range = 0.0025
-        elif time_range == '0.2ms/Div':
-            x_range = 0.001
-        elif time_range == '0.1ms/Div':
-            x_range = 0.0005
+
+        match time_range:
+            case '2ms/Div':
+                x_range = 0.008
+            case '1ms/Div':
+                x_range = 0.005
+            case '0.5ms/Div':
+                x_range = 0.0025
+            case '0.2ms/Div':
+                x_range = 0.001
+            case '0.1ms/Div':
+                x_range = 0.0005
 
         t = np.linspace(-x_range, x_range, len(self.data_buffer))
         # Set the x-axis to be the time array
@@ -332,29 +336,32 @@ class SerialReader(QMainWindow):
         
     def update_y_range(self):
         voltage_range = self.voltage_combo.currentText()
-        if voltage_range == '5V/Div':
-            self.plot_widget.setYRange(-25, 25)
-        elif voltage_range == '2V/Div':
-            self.plot_widget.setYRange(-10, 10)
-        elif voltage_range == '1V/Div':
-            self.plot_widget.setYRange(-5, 5)
-        elif voltage_range == '0.5V/Div':
-            self.plot_widget.setYRange(-2.5, 2.5)
-        elif voltage_range == '0.2V/Div':
-            self.plot_widget.setYRange(-1, 1)
+
+        match voltage_range:
+            case '5V/Div':
+                self.plot_widget.setYRange(-25, 25)
+            case '2V/Div':
+                self.plot_widget.setYRange(-10, 10)
+            case '1V/Div':
+                self.plot_widget.setYRange(-5, 5)
+            case '0.5V/Div':
+                self.plot_widget.setYRange(-2.5, 2.5)
+            case '0.2V/Div':
+                self.plot_widget.setYRange(-1, 1)
 
     def update_x_range(self):
         time_range = self.time_combo.currentText()
-        if time_range == '2ms/Div':
-            self.plot_widget.setXRange(-0.008, 0.008)
-        elif time_range == '1ms/Div':
-            self.plot_widget.setXRange(-0.005, 0.005)
-        elif time_range == '0.5ms/Div':
-            self.plot_widget.setXRange(-0.0025, 0.0025)
-        elif time_range == '0.2ms/Div':
-            self.plot_widget.setXRange(-0.001, 0.001)
-        elif time_range == '0.1ms/Div':
-            self.plot_widget.setXRange(-0.0005, 0.0005)
+        match time_range:
+            case '2ms/Div':
+                self.plot_widget.setXRange(-0.008, 0.008)
+            case '1ms/Div':
+                self.plot_widget.setXRange(-0.005, 0.005)
+            case '0.5ms/Div':
+                self.plot_widget.setXRange(-0.0025, 0.0025)
+            case '0.2ms/Div':
+                self.plot_widget.setXRange(-0.001, 0.001)
+            case '0.1ms/Div':
+                self.plot_widget.setXRange(-0.0005, 0.0005)
 
     def update_cursor_labels(self, evt):
         mouse_point = self.plot_widget.getViewBox().mapSceneToView(evt)
@@ -371,28 +378,18 @@ class SerialReader(QMainWindow):
         self.cursor.setRegion(cursor_pos)
 
     def on_attenuator_changed(self, text):
-        if text == '1.25':
-            self.attenuator_data = 0
-        elif text == '12.5':
-            self.attenuator_data = 1
+        send_attenuator_data(self, text)
         self.serial.write(str(self.attenuator_data).encode())
 
     def on_ad_dc_changed(self, text):
         if text == 'DC':
             self.ad_dc_data = 0
-        elif text == 'No DC':
+        elif text == 'No DC': # should this be AC?
             self.ad_dc_data = 1
         self.serial.write(str(self.ad_dc_data).encode())
 
     def on_amplifier_changed(self, text):
-        if text == '10':
-            self.amplifier_data = 0
-        elif text == '5':
-            self.amplifier_data = 1
-        elif text == '2.5':
-            self.amplifier_data = 2
-        elif text == '1':
-            self.amplifier_data = 3
+        send_amplifier_data(self, text)
         self.serial.write(str(self.amplifier_data).encode())
 
 if __name__ == "__main__":

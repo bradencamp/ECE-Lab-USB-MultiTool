@@ -59,8 +59,8 @@ def sample(samples, x):
     f = x - ind
     return lerp(samples[ind], samples[ind2], f)
     
-def generateSamples(wavetype="sine", numSamples=1024, amplitude=5, arbitrary_waveform=None, duty=50, phase=0, offset=0,
-                    timeRange=1, clamp=None, numT = 1):
+def generateSamples(wavetype = "sine", numSamples = 1024, amplitude = 5, arbitrary_waveform = None, duty = 50, phase = 0, offset = 0,
+                    timeRange = 1, clamp = None, numT = 1):
     """Generates a waveform of the given type and parameters.
     
     Parameters:
@@ -82,26 +82,26 @@ def generateSamples(wavetype="sine", numSamples=1024, amplitude=5, arbitrary_wav
     phase = float(phase)
     t = np.mod(t + phase, 1)
 
-    if wavetype == 'arbitrary':
-        y = np.zeros(numSamples)
-        for i in range(numSamples):
-            y[i] = sample(arbitrary_waveform, t[i])
-    else:
-        if wavetype == 'sine':
+    match wavetype:
+        case 'arbitrary':
+            y = np.zeros(numSamples)
+            for i in range(numSamples):
+                y[i] = sample(arbitrary_waveform, t[i])
+        case 'sine':
             y = np.sin(2 * np.pi * t)
-        elif wavetype == "triangle":
+        case 'triangle':
             t = np.mod(t + 0.25, 1)
             y = (np.mod(t * 2, 1) * -(np.floor(t * 2) * 2 - 1) + np.floor(t * 2)) * 2 - 1
-        elif wavetype == "square":
+        case 'square':
             y = np.ones(numSamples)
             y[t >= float(duty) / 100] = -1
-        elif wavetype == "sawtooth":
+        case 'sawtooth':
             t = np.mod(t + 0.5, 1)
             y = np.mod(t * 2, 2) - 1
-        elif wavetype == "dc":
+        case 'dc'
             y = np.zeros(numSamples)
-        else:
-            print("bad wavetype")
+        case _:
+            print("Illegal wavetype!") # should this be an Exception?
 
     tt = tt * timeRange
     y = y * amplitude + offset

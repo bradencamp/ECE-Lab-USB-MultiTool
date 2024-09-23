@@ -9,7 +9,7 @@ import math
 from random import random
 from PyQt6 import QtGui, QtCore
 
-SAMPLE_POINTS = 1024*4
+SAMPLE_POINTS = 4096
 """Max number of samples"""
 ICON_SIZE = 64
 """Size in pixels of the icon to represent a arbitrary wave"""
@@ -46,7 +46,7 @@ class AW:
         yincrement = dy/steps
         i = 0
         while i < steps:
-            i +=1
+            i += 1
             x1 = x1 + xincrement
             y1 = y1 + yincrement
             brush = 1
