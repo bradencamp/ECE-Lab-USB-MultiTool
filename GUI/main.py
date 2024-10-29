@@ -1,11 +1,24 @@
 import sys
 from PyQt6.QtWidgets import QApplication, QMainWindow, QWidget,QGridLayout,QPushButton,QLabel,QCheckBox,QComboBox    
-from PyQt6.QtGui import QPalette, QColor
+from PyQt6.QtGui import QPalette, QColor, QPen
 from PyQt6.QtCore import Qt
+import pyqtgraph as pg
+from labeled_field import LabelField 
 
 #html standard colors
 colors = ["Yellow","Teal","Silver","Red","Purple","Olive","Navy","White",
             "Maroon","Lime","Green","Gray","Fuchsia","Blue","Black","Aqua"]
+
+MAXFREQUENCY = 250e3
+MINFREQUENCY = 1
+MINAMP = -5
+MAXAMP = 5
+MINOFF = -10
+MAXOFF = 10
+#because of a change made to input field, we need to specify a "" unit
+prefixes_voltage = {"m": 1e-3,"":1}
+prefixes_frequency = {"k": 1e3, "M": 1e6,"":1}
+
 class ColorBox(QWidget):
 
     def __init__(self, color):
@@ -15,7 +28,9 @@ class ColorBox(QWidget):
         palette = self.palette()
         palette.setColor(QPalette.ColorRole.Window, QColor(color))
         self.setPalette(palette)
-
+#placeholder until other callbacks are written
+def BLANK():
+    return
 class MainWindow(QMainWindow):
     
     def __init__(self):
@@ -45,7 +60,7 @@ class MainWindow(QMainWindow):
         widget = QWidget()
         widget.setLayout(layout)
         self.setCentralWidget(widget)
-        self.resize(400,500)
+        #self.resize(400,500)
 
         
     def awgLayoutSetup(self):
@@ -67,33 +82,31 @@ class MainWindow(QMainWindow):
         awgLayout.addWidget(ch1WaveSelect,0,1)
         awgLayout.addWidget(ch2WaveSelect,1,1)
 
+
         #AWG frequencies
-        ch1Freq = ColorBox(colors[1])
+        ch1Freq = LabelField("Frequency:",[MINFREQUENCY, MAXFREQUENCY],float(5), 3,"Hz", prefixes_frequency,BLANK)
         awgLayout.addWidget(ch1Freq,0,2)
-        awgLayout.addWidget(QLabel("Frequency (Hz):"),0,2)
-        ch2Freq = ColorBox(colors[2])
+        ch2Freq = LabelField("Frequency:",[MINFREQUENCY, MAXFREQUENCY],float(1000),3, "Hz", prefixes_frequency,BLANK)
         awgLayout.addWidget(ch2Freq,1,2)
-        awgLayout.addWidget(QLabel("Frequency (Hz):"),1,2)
             
         #AWG amplitueds
-        ch1Amp = ColorBox(colors[3])
+        ch1Amp = LabelField("Amplitude:",[MINAMP,MAXAMP],float(5),2,"V", prefixes_voltage,BLANK)#ColorBox(colors[3])
         awgLayout.addWidget(ch1Amp,0,3)
-        awgLayout.addWidget(QLabel("Amplitude (V):"),0,3)
-        ch2Amp = ColorBox(colors[4])
-        awgLayout.addWidget(ch2Amp,1,3)        
-        awgLayout.addWidget(QLabel("Amplitude (V):"),1,3)
+        ch2Amp = LabelField("Amplitude:",[MINAMP,MAXAMP],float(5),2,"V", prefixes_voltage,BLANK)#ColorBox(colors[4])
+        awgLayout.addWidget(ch2Amp,1,3)
 
         #AWG offsets
-        ch1Off = ColorBox(colors[5])
+        ch1Off = LabelField("Offset:" ,[MINAMP, MAXAMP],float(5),2,"V", prefixes_voltage,BLANK)#ColorBox(colors[5])
         awgLayout.addWidget(ch1Off,0,4)
-        awgLayout.addWidget(QLabel("Offset (V):"),0,4)
-        ch2Off = ColorBox(colors[7])#6 doesn't play nice with black text
+        #awgLayout.addWidget(QLabel("Offset (V):"),0,4)
+        ch2Off = LabelField("Offset:" ,[MINAMP, MAXAMP],float(5),2,"V", prefixes_voltage,BLANK)#ColorBox(colors[7])#6 doesn't play nice with black text
         awgLayout.addWidget(ch2Off,1,4)        
-        awgLayout.addWidget(QLabel("Offset (V):"),1,4)
+        #awgLayout.addWidget(QLabel("Offset (V):"),1,4)
 
-        awgPhase = ColorBox(colors[8])
+        awgPhase = LabelField("Phase:" ,[0, 180],float(0),2,"°", {"":1},BLANK)##ColorBox(colors[8])
         awgLayout.addWidget(awgPhase,0,5)
-        awgLayout.addWidget(QLabel("Phase (°):"),0,5)
+
+        # awgLayout.addWidget(QLabel("Phase (°):"),0,5)
         awgLayout.addWidget(QLabel("Sync Status:"),1,5)
 
         syncButton = QPushButton("FORCE SYNC")
@@ -136,7 +149,17 @@ class MainWindow(QMainWindow):
 
         dataLayout = QGridLayout()
         dataLayout.addWidget(ColorBox("lime"),0,0,-1,-1)#background for demonstration. Remove later
-        dataLayout.addWidget(QLabel("Live Data",alignment = (Qt.AlignmentFlag.AlignTop | Qt.AlignmentFlag.AlignHCenter)),0,0,-1,-1)
+        dataLayout.addWidget(QLabel("Live Data"),0,1)
+        #maybe alter plotwidget
+        self.plot_graph = pg.PlotWidget()
+        self.plot_graph.setBackground("w")
+
+        self.pen1 = pg.mkPen(color=(255, 0, 0), width=5, style=Qt.PenStyle.DashLine)
+
+        minutes = [1, 2, 3, 4, 5, 6, 7, 8, 9, 10]
+        temperature = [30, 32, 34, 32, 33, 31, 29, 32, 35, 30]
+        self.plot_graph.plot(minutes, temperature,pen = self.pen1)
+        dataLayout.addWidget(self.plot_graph,1,1)
         
 
         oscilloLayout = QGridLayout()
