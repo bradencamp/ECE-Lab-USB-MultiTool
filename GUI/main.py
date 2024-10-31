@@ -1,10 +1,10 @@
 import sys
 from PyQt6.QtWidgets import QApplication, QMainWindow, QWidget,QGridLayout,QPushButton,QLabel,QCheckBox,QComboBox    
 from PyQt6.QtGui import QPalette, QColor, QPen
-from PyQt6.QtCore import Qt
+from PyQt6.QtCore import Qt, QTimer
 import pyqtgraph as pg
 from labeled_field import LabelField 
-
+from random import uniform
 #html standard colors
 colors = ["Yellow","Teal","Silver","Red","Purple","Olive","Navy","White",
             "Maroon","Lime","Green","Gray","Fuchsia","Blue","Black","Aqua"]
@@ -15,6 +15,7 @@ MINAMP = -5
 MAXAMP = 5
 MINOFF = -10
 MAXOFF = 10
+
 #because of a change made to input field, we need to specify a "" unit
 prefixes_voltage = {"m": 1e-3,"":1}
 prefixes_frequency = {"k": 1e3, "M": 1e6,"":1}
@@ -55,6 +56,12 @@ class MainWindow(QMainWindow):
         layout.addLayout(awgLayout, 0, 0, 2, -1)#for awg
         layout.addLayout(centerLayout, 2, 0, 7,-1) #for center block
         layout.addLayout(deviceLayout, 9, 0,1,-1) #for connect/disconect
+
+
+        self.timer = QTimer()
+        self.timer.setInterval(300)
+        self.timer.timeout.connect(self.update_plot)
+        self.timer.start()
 
 
         widget = QWidget()
@@ -143,30 +150,68 @@ class MainWindow(QMainWindow):
 
         logicLayout = QGridLayout()
         logicLayout.addWidget(ColorBox("Fuchsia"),0,0,-1,-1)#background for demonstration. Remove later
-        logicCheck = QLabel("Logic Analyzer",alignment = Qt.AlignmentFlag.AlignTop)#QCheckBox("Logic Analyzer")
-        logicLayout.addWidget(logicCheck,0,0,0,-1)
+        logicCheck = QCheckBox()#QLabel("Logic Analyzer",alignment = Qt.AlignmentFlag.AlignTop)#QCheckBox("Logic Analyzer")
+        logicLayout.addWidget(logicCheck,0,0)
+        logicLayout.addWidget(QLabel("Logic Analyzer"),0,1,alignment = Qt.AlignmentFlag.AlignHCenter)
+        #logicChannelLayout = QGridLayout()
+        
+        edges = ["Rising Edge","Falling Edge"]
+        self.logic_checks = [None,]*8
+        self.logic_edges = [None]*8
+        for i in range(0,8):
+            pos = i+1
+            self.logic_checks[i] = QCheckBox(f"Channel {pos}")
+            self.logic_edges[i] = QComboBox()
+            self.logic_edges[i].addItems(edges)
+            logicLayout.addWidget(self.logic_checks[i],i+1,0)
+            logicLayout.addWidget(self.logic_edges[i],i+1,1)
+        #logicLayout.addLayout(logicChannelLayout,1,0,-1,-1)
+        logicLayout.setColumnStretch(0,1)
+        logicLayout.setColumnStretch(1,4)
+
         
 
         dataLayout = QGridLayout()
         dataLayout.addWidget(ColorBox("lime"),0,0,-1,-1)#background for demonstration. Remove later
-        dataLayout.addWidget(QLabel("Live Data"),0,1)
-        #maybe alter plotwidget
+        dataLayout.addWidget(QLabel("Live Data"),0,1,alignment=Qt.AlignmentFlag.AlignHCenter)
+        #maybe make a custom plotwidget, this will work for now
         self.plot_graph = pg.PlotWidget()
         self.plot_graph.setBackground("w")
 
+
         self.pen1 = pg.mkPen(color=(255, 0, 0), width=5, style=Qt.PenStyle.DashLine)
 
-        minutes = [1, 2, 3, 4, 5, 6, 7, 8, 9, 10]
-        temperature = [30, 32, 34, 32, 33, 31, 29, 32, 35, 30]
-        self.plot_graph.plot(minutes, temperature,pen = self.pen1)
+        self.time = [1, 2, 3, 4, 5, 6, 7, 8, 9, 10]
+        self.temperature = [uniform(-5, 5) for _ in range(10)]
+        self.plot_graph.setLabel("left", "Voltage (V)")
+        self.plot_graph.setLabel("bottom", "Time (s)",)
+        self.line = self.plot_graph.plot(self.time, self.temperature,pen = self.pen1)
         dataLayout.addWidget(self.plot_graph,1,1)
         
 
         oscilloLayout = QGridLayout()
-        oscilloLayout.addWidget(ColorBox("yellow"),0,0,-1,-1)#background for demonstration. Remove later
-        oscilloCheck = QLabel("Oscilloscope",alignment = Qt.AlignmentFlag.AlignTop)#QCheckBox("Oscilloscope")
-        oscilloLayout.addWidget(oscilloCheck,0,0,-1,-1)
+        oscilloLayout.addWidget(ColorBox("Olive"),0,0,-1,-1)#background for demonstration. Remove later
+        oscilloCheck = QCheckBox()#QLabel("Logic Analyzer",alignment = Qt.AlignmentFlag.AlignTop)#QCheckBox("Logic Analyzer")
+        oscilloLayout.addWidget(oscilloCheck,0,0)
+        oscilloLayout.addWidget(QLabel("Oscilloscope"),0,1,alignment = Qt.AlignmentFlag.AlignHCenter)
+        
+        self.oscCh1EN = QCheckBox("CH1")
+        self.oscCh1Trig = QComboBox()
+        self.oscCh1Trig.addItems(edges)
+        self.oscCh1VDiv = LabelField("Range",[1e-6,20],1.0,2,"V/Div",{"u":1e-6,"m":1e-3,"":1},BLANK)
 
+        self.oscCh2EN = QCheckBox("CH2")
+        self.oscCh2Trig = QComboBox()
+        self.oscCh2Trig.addItems(edges)
+        self.oscCh2VDiv = LabelField("Range",[1e-6,20],1.0,2,"V/Div",{"u":1e-6,"m":1e-3,"":1},BLANK)
+        
+        oscilloLayout.addWidget(self.oscCh1EN,1,0,2,1)
+        oscilloLayout.addWidget(self.oscCh1VDiv,1,1)
+        oscilloLayout.addWidget(self.oscCh1Trig,2,1)
+
+        oscilloLayout.addWidget(self.oscCh2EN,3,0,2,1)
+        oscilloLayout.addWidget(self.oscCh2VDiv,3,1)
+        oscilloLayout.addWidget(self.oscCh2Trig,4,1)
 
         centerLayout.addLayout(logicLayout,1,0,6,3)
         centerLayout.addLayout(dataLayout,1,3,6,4)
@@ -199,6 +244,7 @@ class MainWindow(QMainWindow):
         disconnectButton.setPalette(buttonPalette)
 
 
+
         deviceLayout.addWidget(connectButton,0,1,1,1)
         deviceLayout.addWidget(disconnectButton,0,2,1,1)
         deviceLayout.addWidget(QPushButton("Wave Drawer"),1,0,1,1)
@@ -210,7 +256,12 @@ class MainWindow(QMainWindow):
 
         return deviceLayout
 
-
+    def update_plot(self):
+        self.time = self.time[1:]
+        self.time.append(self.time[-1] + 1)
+        self.temperature = self.temperature[1:]
+        self.temperature.append(uniform(-5, 5))
+        self.line.setData(self.time, self.temperature)
 app = QApplication(sys.argv)
 
 window = MainWindow()

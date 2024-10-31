@@ -48,7 +48,7 @@ class LabelField(QWidget):
         return
     def getVal(self):
         return self.input_field.value
-    def __init__(self, text, range, init_val, precision,def_unit, prefixes = [], callback_update = doNothing,*args, **kwargs):
+    def __init__(self, text:str, range:list[float], init_val:float, precision:int,def_unit:str, prefixes = [], callback_update = doNothing,*args, **kwargs):
         super(LabelField, self).__init__()
 
         self.input_field = Input(callback_update,range,init_val,precision,def_unit,prefixes,*args, **kwargs)
