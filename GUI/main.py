@@ -103,10 +103,10 @@ class MainWindow(QMainWindow):
         awgLayout.addWidget(ch2Amp,1,3)
 
         #AWG offsets
-        ch1Off = LabelField("Offset:" ,[MINAMP, MAXAMP],float(5),2,"V", prefixes_voltage,BLANK)#ColorBox(colors[5])
+        ch1Off = LabelField("Offset:" ,[MINAMP, MAXAMP],float(0),2,"V", prefixes_voltage,BLANK)#ColorBox(colors[5])
         awgLayout.addWidget(ch1Off,0,4)
         #awgLayout.addWidget(QLabel("Offset (V):"),0,4)
-        ch2Off = LabelField("Offset:" ,[MINAMP, MAXAMP],float(5),2,"V", prefixes_voltage,BLANK)#ColorBox(colors[7])#6 doesn't play nice with black text
+        ch2Off = LabelField("Offset:" ,[MINAMP, MAXAMP],float(0),2,"V", prefixes_voltage,BLANK)#ColorBox(colors[7])#6 doesn't play nice with black text
         awgLayout.addWidget(ch2Off,1,4)        
         #awgLayout.addWidget(QLabel("Offset (V):"),1,4)
 
@@ -136,7 +136,8 @@ class MainWindow(QMainWindow):
         centerSettings = QGridLayout()
         timeSetting = ColorBox("aqua")
         centerSettings.addWidget(timeSetting,0,0,1,1)
-        centerSettings.addWidget(QLabel("Time s/div"),0,0,1,1)
+        self.timeDiv = LabelField("Time Base", [1/MAXFREQUENCY,1/MINFREQUENCY],1e-3,3,"s/div",{"u":1e-6,"m":1e-3,"":1},BLANK)
+        centerSettings.addWidget(self.timeDiv,0,0,1,1)
 
         centerSettings.addWidget(QLabel("Trigger Settings: "),0,1,1,1)
 
@@ -173,7 +174,7 @@ class MainWindow(QMainWindow):
 
         dataLayout = QGridLayout()
         dataLayout.addWidget(ColorBox("lime"),0,0,-1,-1)#background for demonstration. Remove later
-        dataLayout.addWidget(QLabel("Live Data"),0,1,alignment=Qt.AlignmentFlag.AlignHCenter)
+        dataLayout.addWidget(QLabel("Live Data"),0,0,1,-1,alignment=Qt.AlignmentFlag.AlignHCenter)
         #maybe make a custom plotwidget, this will work for now
         self.plot_graph = pg.PlotWidget()
         self.plot_graph.setBackground("w")
@@ -185,8 +186,8 @@ class MainWindow(QMainWindow):
         self.temperature = [uniform(-5, 5) for _ in range(10)]
         self.plot_graph.setLabel("left", "Voltage (V)")
         self.plot_graph.setLabel("bottom", "Time (s)",)
-        self.line = self.plot_graph.plot(self.time, self.temperature,pen = self.pen1)
-        dataLayout.addWidget(self.plot_graph,1,1)
+        self.templine = self.plot_graph.plot(self.time, self.temperature,pen = self.pen1)
+        dataLayout.addWidget(self.plot_graph,1,0,-1,-1)
         
 
         oscilloLayout = QGridLayout()
@@ -257,11 +258,11 @@ class MainWindow(QMainWindow):
         return deviceLayout
 
     def update_plot(self):
-        self.time = self.time[1:]
-        self.time.append(self.time[-1] + 1)
+        #self.time = self.time[1:]
+        #self.time.append(self.time[-1] + 1)
         self.temperature = self.temperature[1:]
         self.temperature.append(uniform(-5, 5))
-        self.line.setData(self.time, self.temperature)
+        self.templine.setData(self.time, self.temperature)
 app = QApplication(sys.argv)
 
 window = MainWindow()
