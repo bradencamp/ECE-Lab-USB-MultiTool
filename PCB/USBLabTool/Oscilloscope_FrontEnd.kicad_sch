@@ -12181,6 +12181,71 @@
 		)
 	)
 	(symbol
+		(lib_id "power:GND")
+		(at 171.45 148.59 0)
+		(unit 1)
+		(exclude_from_sim no)
+		(in_bom yes)
+		(on_board yes)
+		(dnp no)
+		(uuid "8ff63271-6afd-405e-8a79-e0c9132f593f")
+		(property "Reference" "#PWR06"
+			(at 171.45 154.94 0)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(hide yes)
+			)
+		)
+		(property "Value" "GND"
+			(at 171.704 152.146 0)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+			)
+		)
+		(property "Footprint" ""
+			(at 171.45 148.59 0)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(hide yes)
+			)
+		)
+		(property "Datasheet" ""
+			(at 171.45 148.59 0)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(hide yes)
+			)
+		)
+		(property "Description" ""
+			(at 171.45 148.59 0)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(hide yes)
+			)
+		)
+		(pin "1"
+			(uuid "9c3c1c98-c4d1-438f-bc7d-4aeeb060b7ac")
+		)
+		(instances
+			(project "USBLabTool"
+				(path "/b5440f7d-90d5-417e-adc2-aa6b11e5424d/4269701b-4537-45be-98a2-a1633b405066"
+					(reference "#PWR06")
+					(unit 1)
+				)
+			)
+		)
+	)
+	(symbol
 		(lib_id "Connector_Generic:Conn_01x01")
 		(at 322.5038 82.5246 0)
 		(unit 1)
