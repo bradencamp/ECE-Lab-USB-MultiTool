@@ -20,6 +20,9 @@ MAXOFF = 10
 prefixes_voltage = {"m": 1e-3,"":1}
 prefixes_frequency = {"k": 1e3, "M": 1e6,"":1}
 
+#arbitrary number used in update_plot to check which checkbox is checked, initialize to 0
+checked = 0
+
 class ColorBox(QWidget):
 
     def __init__(self, color):
@@ -61,6 +64,7 @@ class MainWindow(QMainWindow):
         self.timer = QTimer()
         self.timer.setInterval(300)
         self.timer.timeout.connect(self.update_plot)
+
         self.timer.start()
 
 
@@ -75,10 +79,16 @@ class MainWindow(QMainWindow):
         awgLayout.addWidget(ColorBox(colors[0]),0,0, -1,-1)#background for demonstration. Remove later
         #enable channel
             #to be able to use these outside of init, we'll need to prepend self as in "self.ch1En"
-        ch1En = QCheckBox("Channel 1")
-        ch2En = QCheckBox("Channel 2")
-        awgLayout.addWidget(ch1En,0,0)
-        awgLayout.addWidget(ch2En,1,0)
+        self.ch1En = QCheckBox("Channel 1",self)
+        self.ch2En = QCheckBox("Channel 2",self)
+        #initially set ch1 & ch2 checkboxes to selected/on
+        self.ch1En.setChecked(True)
+        self.ch2En.setChecked(True)
+        awgLayout.addWidget(self.ch1En,0,0)
+        awgLayout.addWidget(self.ch2En,1,0)
+        #connect stateChanged signals for ch1 & ch2 from QCheckBox to onStateChanged method/slot
+        self.ch1En.stateChanged.connect(self.onStateChanged)
+        self.ch2En.stateChanged.connect(self.onStateChanged)
 
         #wave types available
         waves = ["Sine","Square","Triangle","Sawtooth","Abritrary"]
@@ -88,7 +98,6 @@ class MainWindow(QMainWindow):
         ch2WaveSelect.addItems(waves)
         awgLayout.addWidget(ch1WaveSelect,0,1)
         awgLayout.addWidget(ch2WaveSelect,1,1)
-
 
         #AWG frequencies
         ch1Freq = LabelField("Frequency:",[MINFREQUENCY, MAXFREQUENCY],float(5), 3,"Hz", prefixes_frequency,BLANK)
@@ -124,7 +133,6 @@ class MainWindow(QMainWindow):
         awgLayout.addWidget(QLabel("Waveform Generator"),0,6)
 
         return awgLayout
-    
 
     def centerLayoutSetup(self):
         centerLayout = QGridLayout()
@@ -178,16 +186,19 @@ class MainWindow(QMainWindow):
         self.plot_graph = pg.PlotWidget()
         self.plot_graph.setBackground("w")
 
-
         self.pen1 = pg.mkPen(color=(255, 0, 0), width=5, style=Qt.PenStyle.DashLine)
+        self.pen2 = pg.mkPen(color=(0, 0, 255), width=5, style=Qt.PenStyle.DotLine)
 
         self.time = [1, 2, 3, 4, 5, 6, 7, 8, 9, 10]
         self.temperature = [uniform(-5, 5) for _ in range(10)]
+        self.zeros = [0, 0, 0, 0, 0, 0, 0, 0, 0, 0]#array of 0's for when no channel checkbox selected
         self.plot_graph.setLabel("left", "Voltage (V)")
         self.plot_graph.setLabel("bottom", "Time (s)",)
-        self.line = self.plot_graph.plot(self.time, self.temperature,pen = self.pen1)
+        self.ch1Line = self.plot_graph.plot(self.time, self.temperature,pen = self.pen1)
+        self.ch2Line = self.plot_graph.plot(self.time, self.temperature,pen = self.pen2)
+
         dataLayout.addWidget(self.plot_graph,1,1)
-        
+
 
         oscilloLayout = QGridLayout()
         oscilloLayout.addWidget(ColorBox("Olive"),0,0,-1,-1)#background for demonstration. Remove later
@@ -256,12 +267,45 @@ class MainWindow(QMainWindow):
 
         return deviceLayout
 
+
+    def onStateChanged(self):#tracks state of ch1 & ch2 checkboxes
+        #only ch1 checkbox selected
+        if self.ch1En.isChecked() and not self.ch2En.isChecked():
+            checked = 1
+        #only ch2 checkbox selected
+        elif not self.ch1En.isChecked() and self.ch2En.isChecked():
+            checked = 2
+        #both ch1 & ch2 checkbox selected
+        elif self.ch1En.isChecked() and self.ch2En.isChecked():
+            checked = 3
+        #no checkbox selected
+        else:
+            checked = 0
+
+        return checked#return which checkbox is checked
+   
     def update_plot(self):
         self.time = self.time[1:]
         self.time.append(self.time[-1] + 1)
         self.temperature = self.temperature[1:]
-        self.temperature.append(uniform(-5, 5))
-        self.line.setData(self.time, self.temperature)
+        self.temperature.append(uniform(-5, 5))   
+        #checked=1
+        if self.onStateChanged() == 1:
+            self.ch1Line.setData(self.time, self.temperature)#plot ch1 data
+            self.ch2Line.setData(self.zeros, self.zeros)#plot zeros for ch2, works for now
+        #checked=2
+        elif self.onStateChanged() == 2:
+            self.ch2Line.setData(self.time, self.temperature)
+            self.ch1Line.setData(self.zeros, self.zeros)
+        #checked=3
+        elif self.onStateChanged() == 3:
+            self.ch1Line.setData(self.time, self.temperature)
+            self.ch2Line.setData(self.time, self.temperature)
+        #checked=0
+        else:
+            self.ch1Line.setData(self.zeros, self.zeros)
+            self.ch2Line.setData(self.zeros, self.zeros)
+            
 app = QApplication(sys.argv)
 
 window = MainWindow()
