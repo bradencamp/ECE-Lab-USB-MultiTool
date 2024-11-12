@@ -23,6 +23,8 @@ prefixes_frequency = {"k": 1e3, "M": 1e6,"":1}
 #arbitrary number used in update_plot to check which checkbox is checked, initialize to 0
 checked = 0
 
+runStopClicked = 0
+
 class ColorBox(QWidget):
 
     def __init__(self, color):
@@ -137,7 +139,10 @@ class MainWindow(QMainWindow):
     def centerLayoutSetup(self):
         centerLayout = QGridLayout()
         centerLayout.addWidget(ColorBox(colors[1]),0,0, -1,-1)#background for demonstration. Remove later
-        runStopButton = QPushButton("RUN/STOP")
+        self.runStopButton = QPushButton("RUN/STOP", self)
+        self.runStopButton.setCheckable(True)
+        self.runStopButton.setChecked(False)
+        self.runStopButton.clicked.connect(self.button_was_clicked)
         singleButton = QPushButton("SINGLE")
         dataButton = QPushButton("RECORD DATA")
 
@@ -163,7 +168,7 @@ class MainWindow(QMainWindow):
         logicLayout.addWidget(QLabel("Logic Analyzer"),0,1,alignment = Qt.AlignmentFlag.AlignHCenter)
         #logicChannelLayout = QGridLayout()
         
-        edges = ["Rising Edge","Falling Edge"]
+        edges = ["Rising Edge","Falling Edge", "None"]
         self.logic_checks = [None,]*8
         self.logic_edges = [None]*8
         for i in range(0,8):
@@ -230,7 +235,7 @@ class MainWindow(QMainWindow):
 
         centerLayout.addLayout(centerSettings,0,3,1,6)
 
-        centerLayout.addWidget(runStopButton,0,0)
+        centerLayout.addWidget(self.runStopButton,0,0)
         centerLayout.addWidget(singleButton,0,1)
         centerLayout.addWidget(dataButton,0,2)
         centerLayout.addWidget(QLabel("Live Data"),0,9)
@@ -267,6 +272,14 @@ class MainWindow(QMainWindow):
 
         return deviceLayout
 
+    def button_was_clicked(self):
+        if self.runStopButton.isChecked():
+            runStopClicked = 1
+            self.runStopButton.setChecked(True)
+        else:
+            runStopClicked = 0
+            self.runStopButton.setChecked(False)
+        return runStopClicked
 
     def onStateChanged(self):#tracks state of ch1 & ch2 checkboxes
         #only ch1 checkbox selected
@@ -290,21 +303,23 @@ class MainWindow(QMainWindow):
         self.temperature = self.temperature[1:]
         self.temperature.append(uniform(-5, 5))   
         #checked=1
-        if self.onStateChanged() == 1:
+        if self.onStateChanged() == 1 and self.button_was_clicked():
             self.ch1Line.setData(self.time, self.temperature)#plot ch1 data
             self.ch2Line.setData(self.zeros, self.zeros)#plot zeros for ch2, works for now
         #checked=2
-        elif self.onStateChanged() == 2:
+        elif self.onStateChanged() == 2 and self.button_was_clicked():
             self.ch2Line.setData(self.time, self.temperature)
             self.ch1Line.setData(self.zeros, self.zeros)
         #checked=3
-        elif self.onStateChanged() == 3:
+        elif self.onStateChanged() == 3 and self.button_was_clicked():
             self.ch1Line.setData(self.time, self.temperature)
             self.ch2Line.setData(self.time, self.temperature)
         #checked=0
         else:
             self.ch1Line.setData(self.zeros, self.zeros)
             self.ch2Line.setData(self.zeros, self.zeros)
+
+            
             
 app = QApplication(sys.argv)
 
