@@ -1,8 +1,11 @@
 from input_field import Input
 from PyQt6.QtWidgets import QWidget, QLabel, QHBoxLayout
+from PyQt6.QtCore import pyqtSignal
 
 
 class LabelField(QWidget):
+    #add a config argument to signal and intit
+    valueChanged = pyqtSignal(float)
     #properites to ensure that internal field values are always the same as this class
     @property
     def range(self):
@@ -46,13 +49,19 @@ class LabelField(QWidget):
 
     def doNothing():
         return
+    
+    def broadcastVal(self):
+        self.valueChanged.emit(self.getVal())
+        #print(f"{self.getVal():.{self.numDec}f} {self.input_field.prefix}{self.def_unit}")
+        return
+    
     def getVal(self):
         return self.input_field.value
     def __init__(self, text:str, range:list[float], init_val:float, precision:int,def_unit:str, prefixes = [], callback_update = doNothing,*args, **kwargs):
         super(LabelField, self).__init__()
 
         self.input_field = Input(callback_update,range,init_val,precision,def_unit,prefixes,*args, **kwargs)
-        self.callback_update = callback_update
+        self.callback_update = self.broadcastVal
         self.range = range
         self.prefixes = prefixes
         self.def_unit = def_unit
@@ -74,7 +83,7 @@ if __name__ == "__main__":
     app = QApplication([])
     window = QMainWindow()
     field = LabelField("hallo",[0,10],5,1,"Hz",{"m": 1e-3,"":1}) 
-    field.callback_update = field.printVal
+    #field.callback_update = field.printVal
     window.setCentralWidget(field)
     window.show()
     app.exec()

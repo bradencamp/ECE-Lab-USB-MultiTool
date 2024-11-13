@@ -4,7 +4,10 @@ from PyQt6.QtGui import QPalette, QColor, QPen
 from PyQt6.QtCore import Qt, QTimer
 import pyqtgraph as pg
 from labeled_field import LabelField 
+import numpy as np
+
 from random import uniform
+from math import isclose,pi
 #html standard colors
 colors = ["Yellow","Teal","Silver","Red","Purple","Olive","Navy","White",
             "Maroon","Lime","Green","Gray","Fuchsia","Blue","Black","Aqua"]
@@ -15,6 +18,8 @@ MINAMP = -5
 MAXAMP = 5
 MINOFF = -10
 MAXOFF = 10
+NUMPOINTS = 300
+NUMDIVS = 10 #based on default we've worked with thus far, scopy uses ~16
 
 #because of a change made to input field, we need to specify a "" unit
 prefixes_voltage = {"m": 1e-3,"":1}
@@ -36,7 +41,7 @@ class MainWindow(QMainWindow):
     
     def __init__(self):
         super(MainWindow, self).__init__()
-
+        self.awgCh1Config = dict(amp=5, off=0,freq = 1,phase = 0)  # Dictionary with initial values
         self.setWindowTitle("My App")
 
         #layout for awg section
@@ -62,14 +67,62 @@ class MainWindow(QMainWindow):
         self.timer.setInterval(300)
         self.timer.timeout.connect(self.update_plot)
         self.timer.start()
-
-
+        self.sampRes = 0
+        self.awgPen = pg.mkPen(color=(0, 0, 255), width=5, style=Qt.PenStyle.SolidLine)
+        self.awgTime = np.linspace(0,10,NUMPOINTS)
+        self.awgData = 5*np.sin(2*pi*self.awgTime)
+        #for i in range(0,10):
+         #   self.awgData[i] = sin(pi/2*self.time[i])
+        self.awgLine = self.plot_graph.plot(self.time, self.awgData,pen = self.awgPen)
+        self.set_time_div(1.0)
         widget = QWidget()
         widget.setLayout(layout)
         self.setCentralWidget(widget)
         #self.resize(400,500)
 
-        
+    def set_awgCh1Amp(self, amp):
+        print("new Amp: ", amp)
+        self.awgCh1Config["amp"] = amp
+
+    def set_awgCh1Off(self,off):
+        print("new Off: ", off)
+        self.awgCh1Config["off"] = off
+
+    def set_awgCh1Freq(self,freq):
+        print("new Freq: ", freq)
+        self.awgCh1Config["freq"] = freq
+
+    def set_awgPhase(self, phase):
+        print("new Phase: ", phase)
+        self.awgCh1Config["phase"] = phase 
+
+    def set_time_div(self, div):
+        try:
+            self.plotViewBox.setXRange(self.viewRange[0][0],self.viewRange[0][0]+10*div)
+            self.xAxis.setTickSpacing(div,div/2)
+        #TODO throws error if current range is too large in comparision to div
+            #ie 10s range, 4us divs
+            #happens IN pyqtgraph library, so this try does nothoing
+        #also idealy we do not change the range much, so implement float div->mult correction
+        except:
+            return
+
+    def on_range_changed(self,vb, ranges):
+        #perhaps include processing to ensure 
+        print("Scaling occurred:", ranges)
+        #controling x scale
+            #look into using an event filter for this
+        xconstant = isclose(ranges[0][0],self.viewRange[0][0]) and isclose(ranges[0][1],self.viewRange[0][1])
+        if(xconstant):
+            #this happens 
+            print("\tx close")
+        else:
+            self.awgTime = np.linspace(ranges[0][0],ranges[0][1],NUMPOINTS)
+            print("\t{} : {}".format(self.awgTime[0],self.awgTime[-1]))
+            vb.disableAutoRange(pg.ViewBox.XAxis)
+
+        self.viewRange = ranges
+
     def awgLayoutSetup(self):
         awgLayout = QGridLayout()
         awgLayout.addWidget(ColorBox(colors[0]),0,0, -1,-1)#background for demonstration. Remove later
@@ -91,13 +144,15 @@ class MainWindow(QMainWindow):
 
 
         #AWG frequencies
-        ch1Freq = LabelField("Frequency:",[MINFREQUENCY, MAXFREQUENCY],float(5), 3,"Hz", prefixes_frequency,BLANK)
+        ch1Freq = LabelField("Frequency:",[MINFREQUENCY, MAXFREQUENCY],float(1), 3,"Hz", prefixes_frequency,BLANK)
         awgLayout.addWidget(ch1Freq,0,2)
+        ch1Freq.valueChanged.connect(self.set_awgCh1Freq)
         ch2Freq = LabelField("Frequency:",[MINFREQUENCY, MAXFREQUENCY],float(1000),3, "Hz", prefixes_frequency,BLANK)
         awgLayout.addWidget(ch2Freq,1,2)
             
         #AWG amplitueds
         ch1Amp = LabelField("Amplitude:",[MINAMP,MAXAMP],float(5),2,"V", prefixes_voltage,BLANK)#ColorBox(colors[3])
+        ch1Amp.valueChanged.connect(self.set_awgCh1Amp)
         awgLayout.addWidget(ch1Amp,0,3)
         ch2Amp = LabelField("Amplitude:",[MINAMP,MAXAMP],float(5),2,"V", prefixes_voltage,BLANK)#ColorBox(colors[4])
         awgLayout.addWidget(ch2Amp,1,3)
@@ -109,10 +164,10 @@ class MainWindow(QMainWindow):
         ch2Off = LabelField("Offset:" ,[MINAMP, MAXAMP],float(0),2,"V", prefixes_voltage,BLANK)#ColorBox(colors[7])#6 doesn't play nice with black text
         awgLayout.addWidget(ch2Off,1,4)        
         #awgLayout.addWidget(QLabel("Offset (V):"),1,4)
-
+        ch1Off.valueChanged.connect(self.set_awgCh1Off)
         awgPhase = LabelField("Phase:" ,[0, 180],float(0),2,"°", {"":1},BLANK)##ColorBox(colors[8])
         awgLayout.addWidget(awgPhase,0,5)
-
+        awgPhase.valueChanged.connect(self.set_awgPhase)
         # awgLayout.addWidget(QLabel("Phase (°):"),0,5)
         awgLayout.addWidget(QLabel("Sync Status:"),1,5)
 
@@ -136,8 +191,9 @@ class MainWindow(QMainWindow):
         centerSettings = QGridLayout()
         timeSetting = ColorBox("aqua")
         centerSettings.addWidget(timeSetting,0,0,1,1)
-        self.timeDiv = LabelField("Time Base", [1/MAXFREQUENCY,1/MINFREQUENCY],1e-3,3,"s/div",{"u":1e-6,"m":1e-3,"":1},BLANK)
+        self.timeDiv = LabelField("Time Base", [1/MAXFREQUENCY,1/MINFREQUENCY],1,3,"s/div",{"u":1e-6,"m":1e-3,"":1},BLANK)
         centerSettings.addWidget(self.timeDiv,0,0,1,1)
+        self.timeDiv.valueChanged.connect(self.set_time_div)
 
         centerSettings.addWidget(QLabel("Trigger Settings: "),0,1,1,1)
 
@@ -178,15 +234,31 @@ class MainWindow(QMainWindow):
         #maybe make a custom plotwidget, this will work for now
         self.plot_graph = pg.PlotWidget()
         self.plot_graph.setBackground("w")
+        vb = self.plot_graph.plotItem.getViewBox()
+        vb.setMouseMode(pg.ViewBox.RectMode)
+        #this line disables a right click menu
+        #self.plot_graph.plotItem.setMenuEnabled(False)
+        vb.sigRangeChanged.connect(self.on_range_changed)
+        self.viewRange = vb.viewRange()
+        #if we need to completely disable resizing, uncomment below
+        self.plot_graph.setMouseEnabled(x=False,y=True)
+        #if this is commented, autoranging will grow x axis indefinitely
+        vb.disableAutoRange(pg.ViewBox.XAxis)
+        vb.setDefaultPadding(0.0)#doesn't help 
+        self.plotViewBox = vb
+        vb.setXRange(0,10,.01)
+        self.xAxis = self.plot_graph.plotItem.getAxis("bottom")
+        self.xAxis.setTickPen(color = "black", width = 2)
+        #set y axis as well
+        self.plot_graph.plotItem.getAxis("left").setTickPen(color = "black", width = 2)
+        self.oscPen = pg.mkPen(color=(255, 0, 0), width=5, style=Qt.PenStyle.DotLine)
 
-
-        self.pen1 = pg.mkPen(color=(255, 0, 0), width=5, style=Qt.PenStyle.DashLine)
-
-        self.time = [1, 2, 3, 4, 5, 6, 7, 8, 9, 10]
-        self.temperature = [uniform(-5, 5) for _ in range(10)]
+        self.time = np.linspace(0,10,NUMPOINTS)
+        self.temperature = np.array([uniform(-1*self.awgCh1Config["amp"], self.awgCh1Config["amp"]) for _ in range(NUMPOINTS)])
         self.plot_graph.setLabel("left", "Voltage (V)")
         self.plot_graph.setLabel("bottom", "Time (s)",)
-        self.templine = self.plot_graph.plot(self.time, self.temperature,pen = self.pen1)
+        self.plot_graph.showGrid(x=True, y=True)
+        self.templine = self.plot_graph.plot(self.time, self.temperature,pen = self.oscPen)
         dataLayout.addWidget(self.plot_graph,1,0,-1,-1)
         
 
@@ -258,11 +330,12 @@ class MainWindow(QMainWindow):
         return deviceLayout
 
     def update_plot(self):
-        #self.time = self.time[1:]
-        #self.time.append(self.time[-1] + 1)
-        self.temperature = self.temperature[1:]
-        self.temperature.append(uniform(-5, 5))
+        self.temperature = np.roll(self.temperature,-1)
+        self.temperature[-1] = uniform(-1*self.awgCh1Config["amp"], self.awgCh1Config["amp"])
+    
         self.templine.setData(self.time, self.temperature)
+        self.awgData = self.awgCh1Config["amp"]*np.sin(2*pi*self.awgCh1Config["freq"]*self.awgTime+pi/180*self.awgCh1Config["phase"])+self.awgCh1Config["off"]
+        self.awgLine.setData(self.awgTime,self.awgData)
 app = QApplication(sys.argv)
 
 window = MainWindow()
