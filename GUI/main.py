@@ -3,8 +3,12 @@ from PyQt6.QtWidgets import QApplication, QMainWindow, QWidget,QGridLayout,QPush
 from PyQt6.QtGui import QPalette, QColor, QPen
 from PyQt6.QtCore import Qt, QTimer
 import pyqtgraph as pg
+import pyqtgraph.exporters
 from labeled_field import LabelField 
+from pyqtgraph.Qt import QtCore
 from random import uniform
+import numpy as np
+
 #html standard colors
 colors = ["Yellow","Teal","Silver","Red","Purple","Olive","Navy","White",
             "Maroon","Lime","Green","Gray","Fuchsia","Blue","Black","Aqua"]
@@ -15,6 +19,7 @@ MINAMP = -5
 MAXAMP = 5
 MINOFF = -10
 MAXOFF = 10
+SAMPLE_POINTS = 1024
 
 #because of a change made to input field, we need to specify a "" unit
 prefixes_voltage = {"m": 1e-3,"":1}
@@ -24,6 +29,7 @@ prefixes_frequency = {"k": 1e3, "M": 1e6,"":1}
 awgChecked = 0
 
 runStopClicked = 0#holds state of runStopButton
+recDataClicked = 0#holds state of recordData button
 oscChecked = 0#holds state of scope checkbox
 oscCHChecked = 0#holds state of scope channel checkboxes
 
@@ -77,7 +83,7 @@ class MainWindow(QMainWindow):
         self.setCentralWidget(widget)
         #self.resize(400,500)
 
-        
+    '''AWG layout setup'''    
     def awgLayoutSetup(self):
         awgLayout = QGridLayout()
         awgLayout.addWidget(ColorBox(colors[0]),0,0, -1,-1)#background for demonstration. Remove later
@@ -138,15 +144,20 @@ class MainWindow(QMainWindow):
 
         return awgLayout
 
+    '''center layout setup'''
     def centerLayoutSetup(self):
         centerLayout = QGridLayout()
         centerLayout.addWidget(ColorBox(colors[1]),0,0, -1,-1)#background for demonstration. Remove later
         self.runStopButton = QPushButton("RUN/STOP", self)
         self.runStopButton.setCheckable(True)
-        self.runStopButton.setChecked(False)
+        self.runStopButton.setChecked(False)#default not running
         self.runStopButton.clicked.connect(self.button_was_clicked)
         singleButton = QPushButton("SINGLE")
-        dataButton = QPushButton("RECORD DATA")
+        self.dataButton = QPushButton("RECORD DATA")
+        self.dataButton.setCheckable(True)
+        self.dataButton.setChecked(False)#default not clicked
+        #connect to method/slot to handle recording data
+        self.dataButton.clicked.connect(self.record_data)
 
         centerSettings = QGridLayout()
         timeSetting = ColorBox("aqua")
@@ -195,7 +206,12 @@ class MainWindow(QMainWindow):
         dataLayout.addWidget(QLabel("Live Data"),0,1,alignment=Qt.AlignmentFlag.AlignHCenter)
         #maybe make a custom plotwidget, this will work for now
         self.plot_graph = pg.PlotWidget()
+        pg.setConfigOptions(antialias=True)
         self.plot_graph.setBackground("w")
+        self.plot_graph.showGrid(x=True,y=True)
+        
+        #when recordData clicked, export plot data to image
+        self.exportData = pg.exporters.ImageExporter(self.plot_graph.plotItem)
 
         self.pen1 = pg.mkPen(color=(255, 0, 0), width=5, style=Qt.PenStyle.DashLine)
         self.pen2 = pg.mkPen(color=(0, 0, 255), width=5, style=Qt.PenStyle.DotLine)
@@ -208,7 +224,6 @@ class MainWindow(QMainWindow):
         self.plot_graph.setYRange(-5, 5)
         self.ch1Line = self.plot_graph.plot(self.time, self.temperature,pen = self.pen1)
         self.ch2Line = self.plot_graph.plot(self.time, self.temperature,pen = self.pen2)
-
         dataLayout.addWidget(self.plot_graph,1,1)
 
 
@@ -255,11 +270,12 @@ class MainWindow(QMainWindow):
 
         centerLayout.addWidget(self.runStopButton,0,0)
         centerLayout.addWidget(singleButton,0,1)
-        centerLayout.addWidget(dataButton,0,2)
+        centerLayout.addWidget(self.dataButton,0,2)
         centerLayout.addWidget(QLabel("Live Data"),0,9)
 
         return centerLayout
 
+    '''device layout setup'''
     def deviceLayoutSetup(self):
         deviceLayout = QGridLayout()
         deviceLayout.addWidget(ColorBox(colors[2]),0,0, -1,-1)#background for demonstration. Remove later
@@ -290,23 +306,24 @@ class MainWindow(QMainWindow):
 
         return deviceLayout
 
-    def button_was_clicked(self):#checks if runStopButton was clicked/unclicked
+    #checks if runStopButton was clicked/unclicked
+    def button_was_clicked(self):
         if self.runStopButton.isChecked():#runStopButton clicked to run
-            self.runStopButton.setChecked(True)#set button clicked
-            runStopClicked = 1
+            runStopClicked = 1#run
         else:#runStopButton unclicked to stop
-            self.runStopButton.setChecked(False)#set button unclicked
-            runStopClicked = 0
+            runStopClicked = 0#stop
         return runStopClicked
 
-    def oscStateChanged(self):#tracks state of oscilloscope checkbox 
+    #tracks state of oscilloscope checkbox 
+    def oscStateChanged(self):
         if self.oscilloCheck.isChecked():
             oscChecked = 1#scope on
         else:
             oscChecked = 0#scope off
         return oscChecked#return scope checkbox state
 
-    def awgChStateChanged(self):#tracks state of awg ch1 & ch2 checkboxes
+    #tracks state of awg ch1 & ch2 checkboxes
+    def awgChStateChanged(self):
         #only ch1 awg checkbox selected
         if self.ch1En.isChecked() and not self.ch2En.isChecked():
             awgChecked = 1
@@ -321,26 +338,19 @@ class MainWindow(QMainWindow):
             awgChecked = 0
         return awgChecked#return which checkbox is checked
     
-    def oscChStateChanged(self):#tracks state of osc ch1 & ch2 checkboxes
+    #tracks state of osc ch1 & ch2 checkboxes
+    def oscChStateChanged(self):
         #only ch1 scope checkbox selected
         if self.oscCh1EN.isChecked() and not self.oscCh2EN.isChecked():
-            self.oscCh1EN.setChecked(True)
-            self.oscCh2EN.setChecked(False)
             oscCHChecked = 1
         #only ch2 scope checkbox selected
         elif not self.oscCh1EN.isChecked() and self.oscCh2EN.isChecked():
-            self.oscCh1EN.setChecked(False)
-            self.oscCh2EN.setChecked(True)
             oscCHChecked = 2
         #both ch1 & ch2 scope checkbox selected
         elif self.oscCh1EN.isChecked() and self.oscCh2EN.isChecked():
-            self.oscCh1EN.setChecked(True)
-            self.oscCh2EN.setChecked(True)
             oscCHChecked = 3
         #no scope checkbox selected
         else:
-            self.oscCh1EN.setChecked(False)
-            self.oscCh2EN.setChecked(False)
             oscCHChecked = 0
         return oscCHChecked#return which scope checkbox is checked
    
@@ -364,19 +374,28 @@ class MainWindow(QMainWindow):
         self.time = self.time[1:]
         self.time.append(self.time[-1] + 1)
         self.temperature = self.temperature[1:]
-        self.temperature.append(uniform(-5, 5))   
-        #awgChecked=1 run/stop button clicked, oscChecked=1, 
-        if self.awgChStateChanged() == 1 and self.button_was_clicked() and self.oscStateChanged():
+        self.temperature.append(uniform(-5, 5))
+        #oscChChecked=1 run/stop button clicked, oscChecked=1, 
+        if self.oscChStateChanged() == 1 and self.button_was_clicked() and self.oscStateChanged():
             self.plotCh1()#plot only ch1
-        #awgChecked=2 run/stop button clicked, oscChecked=1, 
-        elif self.awgChStateChanged() == 2 and self.button_was_clicked() and self.oscStateChanged():
+        #oscChChecked=2 run/stop button clicked, oscChecked=1, 
+        elif self.oscChStateChanged() == 2 and self.button_was_clicked() and self.oscStateChanged():
             self.plotCh2()#plot only ch2
-        #awgChecked=3 run/stop button clicked, oscChecked=1, 
-        elif self.awgChStateChanged() == 3 and self.button_was_clicked() and self.oscStateChanged():
+        #oscChChecked=3 run/stop button clicked, oscChecked=1, 
+        elif self.oscChStateChanged() == 3 and self.button_was_clicked() and self.oscStateChanged():
             self.plotCh12()#plot both ch1 & ch2
-        #awgChecked=0 run/stop button clicked, oscChecked=1, 
+        #oscChChecked=0 run/stop button clicked, oscChecked=1, 
         else:#don't plot anything
             self.plotZero()
+
+    #handles record data button & exports snapshot of plot to file
+    def record_data(self):
+        if self.dataButton.isChecked():#recordData clicked 
+            recordData = 1#record data
+            self.exportData.export('dataSnapshot.png')
+        else:#do nothing
+            recordData = 0
+        return recordData
 
 app = QApplication(sys.argv)
 
