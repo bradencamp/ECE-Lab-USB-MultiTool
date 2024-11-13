@@ -98,7 +98,7 @@ def generateSamples(wavetype = "sine", numSamples = 1024, amplitude = 5, arbitra
         case 'sawtooth':
             t = np.mod(t + 0.5, 1)
             y = np.mod(t * 2, 2) - 1
-        case 'dc'
+        case 'dc':
             y = np.zeros(numSamples)
         case _:
             print("Illegal wavetype!") # should this be an Exception?
