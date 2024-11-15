@@ -7,6 +7,7 @@ import pyqtgraph.exporters
 from labeled_field import LabelField 
 from pyqtgraph.Qt import QtCore
 from random import uniform
+import math
 from math import isclose,pi
 import numpy as np
 
@@ -34,6 +35,11 @@ runStopClicked = 0#holds state of runStopButton
 recDataClicked = 0#holds state of recordData button
 oscChecked = 0#holds state of scope checkbox
 oscCHChecked = 0#holds state of scope channel checkboxes
+logicChecked = 0#holds state of logic checkbox
+logic_box = [None,]*8#holds state of logic analyzer channel checkboxes
+for i in range(0,8):
+    logic_box[i] = 0
+
 
 class ColorBox(QWidget):
 
@@ -78,15 +84,31 @@ class MainWindow(QMainWindow):
 
         self.timer.start()
         self.awgTime = np.linspace(0,10,NUMPOINTS)
-        self.awgCh1Data = 5*np.sin(2*pi*self.awgTime)
-        self.awgCh2Data = 2*np.sin(2*pi*self.awgTime)
+
         #for i in range(0,10):
          #   self.awgCh1Data[i] = sin(pi/2*self.time[i])
-        self.awgCh1Line = self.plot_graph.plot(self.time, self.awgCh1Data,pen = self.pen1)
-        self.awgCh2Line = self.plot_graph.plot(self.time, self.awgCh1Data,pen = self.pen2)
 
         self.set_time_div(1.0)
 
+        self.time = np.linspace(0,10,NUMPOINTS)
+        
+        #self.awgPen = pg.mkPen(color=(0, 0, 255), width=5, style=Qt.PenStyle.SolidLine)
+        self.pen1 = pg.mkPen(color=(255, 0, 0), width=5, style=Qt.PenStyle.DashLine)
+        self.pen2 = pg.mkPen(color=(0, 0, 255), width=5, style=Qt.PenStyle.DotLine)
+        self.awgCh1Data = 5*np.sin(2*pi*self.awgTime)
+        self.awgCh2Data = 2*np.sin(2*pi*self.awgTime)
+        self.awgCh1Line = self.plot_graph.plot(self.time, self.awgCh1Data,pen = self.pen1)
+        self.awgCh2Line = self.plot_graph.plot(self.time, self.awgCh2Data,pen = self.pen2)
+
+        self.logicTime = np.linspace(0,10,NUMPOINTS)            
+        self.logicWave = ([None])*8 #empty array to hold 8 logic analyzer equations
+        self.logicLine = ([None])*8 #empty array to hold 8 logic analyzer plot lines
+        for i in range(0,8):
+            self.logicPen[i] = pg.mkPen(color=colors[i], width=6, style=Qt.PenStyle.SolidLine)
+            # plot a square wave
+            self.logicWave[i] = ((-i/2 +2)*2)*np.array([1 if math.floor(2*t) % 2 == 0 else 0 for t in self.logicTime]) # every even index = 0, odd index = 1
+            self.logicLine[i] = self.plot_graph.plot(self.time, self.logicWave[i],pen = self.logicPen[i]) # different pen for each logic analyzer channel
+    
         widget = QWidget()
         widget.setLayout(layout)
         self.setCentralWidget(widget)
@@ -248,29 +270,6 @@ class MainWindow(QMainWindow):
         centerSettings.addWidget(trigTypeSelect,0,2)
         centerSettings.addWidget(trigHoldoffSelect,0,3)
 
-        logicLayout = QGridLayout()
-        logicLayout.addWidget(ColorBox("Fuchsia"),0,0,-1,-1)#background for demonstration. Remove later
-        logicCheck = QCheckBox()#QLabel("Logic Analyzer",alignment = Qt.AlignmentFlag.AlignTop)#QCheckBox("Logic Analyzer")
-        logicLayout.addWidget(logicCheck,0,0)
-        logicLayout.addWidget(QLabel("Logic Analyzer"),0,1,alignment = Qt.AlignmentFlag.AlignHCenter)
-        #logicChannelLayout = QGridLayout()
-        
-        edges = ["Rising Edge","Falling Edge", "None"]
-        self.logic_checks = [None,]*8
-        self.logic_edges = [None]*8
-        for i in range(0,8):
-            pos = i+1
-            self.logic_checks[i] = QCheckBox(f"Channel {pos}")
-            self.logic_edges[i] = QComboBox()
-            self.logic_edges[i].setPlaceholderText('Trigger Type')
-            self.logic_edges[i].addItems(edges)
-            logicLayout.addWidget(self.logic_checks[i],i+1,0)
-            logicLayout.addWidget(self.logic_edges[i],i+1,1)
-        #logicLayout.addLayout(logicChannelLayout,1,0,-1,-1)
-        logicLayout.setColumnStretch(0,1)
-        logicLayout.setColumnStretch(1,4)
-
-        
 
         dataLayout = QGridLayout()
         dataLayout.addWidget(ColorBox("lime"),0,0,-1,-1)#background for demonstration. Remove later
@@ -299,26 +298,49 @@ class MainWindow(QMainWindow):
         self.plot_graph.plotItem.getAxis("left").setTickPen(color = "black", width = 2)
         self.oscPen = pg.mkPen(color=(255, 0, 0), width=5, style=Qt.PenStyle.DotLine)
 
-        self.time = np.linspace(0,10,NUMPOINTS)
         #self.temperature = np.array([uniform(-1*self.awgCh1Config["amp"], self.awgCh1Config["amp"]) for _ in range(NUMPOINTS)])
         
         #when recordData clicked, export plot data to image
         self.exportData = pg.exporters.ImageExporter(self.plot_graph.plotItem)
 
-        self.pen1 = pg.mkPen(color=(255, 0, 0), width=5, style=Qt.PenStyle.DashLine)
-        self.pen2 = pg.mkPen(color=(0, 0, 255), width=5, style=Qt.PenStyle.DotLine)
-        #self.awgPen = pg.mkPen(color=(0, 0, 255), width=5, style=Qt.PenStyle.SolidLine)
-
+        logicLayout = QGridLayout()
+        logicLayout.addWidget(ColorBox("Fuchsia"),0,0,-1,-1)#background for demonstration. Remove later
+        self.logicCheck = QCheckBox()#QLabel("Logic Analyzer",alignment = Qt.AlignmentFlag.AlignTop)#QCheckBox("Logic Analyzer")
+        self.logicCheck.setChecked(True) # initially set logic analyzer function to on
+        self.logicCheck.clicked.connect(self.logicStateChanged) # connect to slot to handle logic analyzer on/off
+        logicLayout.addWidget(self.logicCheck,0,0)
+        logicLayout.addWidget(QLabel("Logic Analyzer"),0,1,alignment = Qt.AlignmentFlag.AlignHCenter)
+        #logicChannelLayout = QGridLayout()
+        
+        edges = ["Rising Edge","Falling Edge", "None"]
+        self.logic_checks = [None,]*8
+        self.logic_edges = [None]*8
+        self.logicPen = [None]*8 # to create array of 8 different pen colors using colors array
+        
+        for i in range(0,8):
+            pos = i+1
+            self.logic_checks[i] = QCheckBox(f"Channel {pos}")
+            self.logic_checks[i].setChecked(True) # initially set all logic analyzer channels to ff
+            self.logic_checks[i].clicked.connect(self.logicCH_StateChanged) # connect to slot to handle logic analyzer channels on/off
+            self.logic_edges[i] = QComboBox()
+            self.logic_edges[i].setPlaceholderText('Trigger Type')
+            self.logic_edges[i].addItems(edges)
+            logicLayout.addWidget(self.logic_checks[i],i+1,0)
+            logicLayout.addWidget(self.logic_edges[i],i+1,1)
+        #logicLayout.addLayout(logicChannelLayout,1,0,-1,-1)
+        logicLayout.setColumnStretch(0,1)
+        logicLayout.setColumnStretch(1,4)
 
         #self.time = [1, 2, 3, 4, 5, 6, 7, 8, 9, 10]
         #self.temperature = [uniform(-5, 5) for _ in range(10)]
         self.zeros = [0, 0, 0, 0, 0, 0, 0, 0, 0, 0]#array of 0's for when no channel checkbox selected
-        self.awgTime = np.linspace(0,10,NUMPOINTS)
         self.plot_graph.setLabel("left", "Voltage (V)")
         self.plot_graph.setLabel("bottom", "Time (s)",)
         self.plot_graph.setYRange(-5, 5)
 
         dataLayout.addWidget(self.plot_graph,1,0,-1,-1)
+        self.time = np.linspace(0,10,NUMPOINTS)
+
 
         oscilloLayout = QGridLayout()
         oscilloLayout.addWidget(ColorBox("Olive"),0,0,-1,-1)#background for demonstration. Remove later
@@ -346,7 +368,8 @@ class MainWindow(QMainWindow):
         self.oscCh2Trig.setPlaceholderText('Trigger Type')
         self.oscCh2Trig.addItems(edges)
         self.oscCh2VDiv = LabelField("Range",[1e-6,20],1.0,2,"V/Div",{"u":1e-6,"m":1e-3,"":1},BLANK)
-        
+
+         
         oscilloLayout.addWidget(self.oscCh1EN,1,0,2,1)
         oscilloLayout.addWidget(self.oscCh1VDiv,1,1)
         oscilloLayout.addWidget(self.oscCh1Trig,2,1)
@@ -406,15 +429,7 @@ class MainWindow(QMainWindow):
         else:#runStopButton unclicked to stop
             runStopClicked = 0#stop
         return runStopClicked
-
-    #tracks state of oscilloscope checkbox 
-    def oscStateChanged(self):
-        if self.oscilloCheck.isChecked():
-            oscChecked = 1#scope on
-        else:
-            oscChecked = 0#scope off
-        return oscChecked#return scope checkbox state
-
+    
     #tracks state of awg ch1 & ch2 checkboxes
     def awgChStateChanged(self):
         #only ch1 awg checkbox selected
@@ -430,7 +445,29 @@ class MainWindow(QMainWindow):
         else:
             awgChecked = 0
         return awgChecked#return which checkbox is checked
-    
+
+    #tracks state of oscilloscope checkbox 
+    def oscStateChanged(self):
+        if self.oscilloCheck.isChecked():
+            oscChecked = 1#scope on
+            #doesn't work:
+            #if self.oscChStateChanged() == 1:
+                #self.oscCh1EN.setChecked(True)
+            #if self.oscChStateChanged() == 2:
+                #self.oscCh2EN.setChecked(True)
+        else:
+            oscChecked = 0#scope off
+            self.oscCh1EN.setChecked(False)
+            self.oscCh2EN.setChecked(False)
+            #idk yet if this is needed. trying to automatically turn all channels back on after reenabling scope
+            if self.oscChStateChanged() == 1:
+                oscChecked = 1
+                self.oscCh1EN.setChecked(True)
+            if self.oscChStateChanged():    
+                oscChecked = 1
+                self.oscCh2EN.setChecked(True)
+        return oscChecked#return scope checkbox state
+        
     #tracks state of osc ch1 & ch2 checkboxes
     def oscChStateChanged(self):
         #only ch1 scope checkbox selected
@@ -446,53 +483,117 @@ class MainWindow(QMainWindow):
         else:
             oscCHChecked = 0
         return oscCHChecked#return which scope checkbox is checked
+    
+    #tracks state of logic analyzer checkbox
+    #automaticaly reenabling all channels works for logic analyzer & not scope, idk why yet
+    # opposite of what we want(?):
+    #   scope rechecked -> reenable all channels & logic analyzer rechecked -> user individually selects channels to reenable ?
+    def logicStateChanged(self):
+        #print("in logicStateChanged")
+        if self.logicCheck.isChecked():
+            #print("self.logicCheck is checked")
+            logicChecked = 1#logic analyzer on
+            self.logicCheck.setChecked(True)
+            for i in range(0,8):
+                logic_box[i] = 1
+                self.logic_checks[i].setChecked(True)
+        else:
+            #print("self.logicCheck is not checked")
+            logicChecked = 0#logic analyzer off
+            self.logicCheck.setChecked(False)
+            for i in range(0,8):
+                self.logic_checks[i].setChecked(False)
+                logic_box[i] = 0
+        self.logicCH_StateChanged()
+        #for i in range(0,8):
+         #   if logic_box[i] == 1:
+          #      logic_box[i] = 1
+           #     self.logic_checks[i].setChecked(True)
+        #    else:
+         #       logic_box[i] = 0
+          #      self.logic_checks[i].setChecked(False)
+            
+        return logicChecked
+        
+    #tracks state of all 8 logic analyzer checkboxes
+    def logicCH_StateChanged(self):
+        #print("in logicCH_StateChanged")
+        for i in range(0,8):
+            if self.logic_checks[i].isChecked():
+                #print("self.logic_checks[i] is checked")
+                logic_box[i] = 1
+                self.logic_checks[i].setChecked(True)
+            else:
+                #print("self.logic_checks[i] is not checked")
+                logic_box[i] = 0
+                self.logic_checks[i].setChecked(False)
+        return logic_box
    
-    def plotCh1(self):#plot ch1 data
-        self.awgCh1Data = self.awgCh1Config["amp"]*np.sin(2*pi*self.awgCh1Config["freq"]*self.awgTime+pi/180*self.awgCh1Config["phase"])+self.awgCh1Config["off"]
+    def configOscPlot(self):
+        self.awgTime = self.awgTime[1:]#continuous time, keep counting
         self.awgCh1Data = self.awgCh1Config["amp"]*np.sin(2*pi*self.awgCh1Config["freq"]*self.awgTime+pi/180*self.awgCh1Config["phase"])+self.awgCh1Config["off"]
         self.awgCh2Data = self.awgCh2Config["amp"]*np.sin(2*pi*self.awgCh2Config["freq"]*self.awgTime+pi/180*self.awgCh2Config["phase"])+self.awgCh2Config["off"]
-        self.awgCh2Data = self.awgCh2Config["amp"]*np.sin(2*pi*self.awgCh2Config["freq"]*self.awgTime+pi/180*self.awgCh2Config["phase"])+self.awgCh2Config["off"]
+
+    def configLogicPlot(self):
+        self.logicTime = self.logicTime[1:]
+        for i in range(0,8):
+            self.logicWave[i] = self.logicWave[i]
+        return self.logicWave
+
+    def plotOscCh1(self):#plot ch1 data
+        self.configOscPlot()
         self.awgCh1Line.setData(self.awgTime, self.awgCh1Data)
         self.awgCh2Line.setData(self.zeros,self.zeros)#plot zeros for ch2, works for now
 
-    def plotCh2(self):#plot ch2 data
-        self.awgCh1Data = self.awgCh1Config["amp"]*np.sin(2*pi*self.awgCh1Config["freq"]*self.awgTime+pi/180*self.awgCh1Config["phase"])+self.awgCh1Config["off"]
-        self.awgCh1Data = self.awgCh1Config["amp"]*np.sin(2*pi*self.awgCh1Config["freq"]*self.awgTime+pi/180*self.awgCh1Config["phase"])+self.awgCh1Config["off"]
-        self.awgCh2Data = self.awgCh2Config["amp"]*np.sin(2*pi*self.awgCh2Config["freq"]*self.awgTime+pi/180*self.awgCh2Config["phase"])+self.awgCh2Config["off"]
-        self.awgCh2Data = self.awgCh2Config["amp"]*np.sin(2*pi*self.awgCh2Config["freq"]*self.awgTime+pi/180*self.awgCh2Config["phase"])+self.awgCh2Config["off"]
+    def plotOscCh2(self):#plot ch2 data
+        self.configOscPlot()
         self.awgCh1Line.setData(self.zeros, self.zeros)#plot zeros for ch1, works for now
         self.awgCh2Line.setData(self.awgTime,self.awgCh2Data)
 
-
-    def plotCh12(self):#plot ch1 & ch2 data
-        self.awgCh1Data = self.awgCh1Config["amp"]*np.sin(2*pi*self.awgCh1Config["freq"]*self.awgTime+pi/180*self.awgCh1Config["phase"])+self.awgCh1Config["off"]
-        self.awgCh1Data = self.awgCh1Config["amp"]*np.sin(2*pi*self.awgCh1Config["freq"]*self.awgTime+pi/180*self.awgCh1Config["phase"])+self.awgCh1Config["off"]
-        self.awgCh2Data = self.awgCh2Config["amp"]*np.sin(2*pi*self.awgCh2Config["freq"]*self.awgTime+pi/180*self.awgCh2Config["phase"])+self.awgCh2Config["off"]
-        self.awgCh2Data = self.awgCh2Config["amp"]*np.sin(2*pi*self.awgCh2Config["freq"]*self.awgTime+pi/180*self.awgCh2Config["phase"])+self.awgCh2Config["off"]
+    def plotOscCh12(self):#plot ch1 & ch2 data
+        self.configOscPlot()
         self.awgCh1Line.setData(self.awgTime, self.awgCh1Data)
         self.awgCh2Line.setData(self.awgTime,self.awgCh2Data)
     
-    def plotZero(self):#no plotting
-        self.awgCh1Data = self.awgCh1Config["amp"]*np.sin(2*pi*self.awgCh1Config["freq"]*self.awgTime+pi/180*self.awgCh1Config["phase"])+self.awgCh1Config["off"]
-        self.awgCh1Data = self.awgCh1Config["amp"]*np.sin(2*pi*self.awgCh1Config["freq"]*self.awgTime+pi/180*self.awgCh1Config["phase"])+self.awgCh1Config["off"]
-        self.awgCh2Data = self.awgCh2Config["amp"]*np.sin(2*pi*self.awgCh2Config["freq"]*self.awgTime+pi/180*self.awgCh2Config["phase"])+self.awgCh2Config["off"]
-        self.awgCh2Data = self.awgCh2Config["amp"]*np.sin(2*pi*self.awgCh2Config["freq"]*self.awgTime+pi/180*self.awgCh2Config["phase"])+self.awgCh2Config["off"]
+    def plotOscZero(self):#no plotting
+        self.configOscPlot()
         self.awgCh1Line.setData(self.zeros, self.zeros)#plot zeros for both channels
         self.awgCh2Line.setData(self.zeros, self.zeros)
+
+    def plotLogic(self):
+        self.configLogicPlot()
+        self.logicCH_StateChanged()
+        for i in range(0,8):
+            if logic_box[i] == 1: 
+                self.logicLine[i].setData(self.time, self.logicWave[i])
+
+    def plotLogicZero(self):
+        self.configLogicPlot()
+        for i in range(0,8):
+            self.logicLine[i].setData(self.zeros, self.zeros)
 
     def update_plot(self):
         #oscChChecked=1 run/stop button clicked, oscChecked=1, 
         if self.oscChStateChanged() == 1 and self.button_was_clicked() and self.oscStateChanged():
-            self.plotCh1()#plot only ch1
+            self.plotOscCh1()#plot only ch1
         #oscChChecked=2 run/stop button clicked, oscChecked=1, 
         elif self.oscChStateChanged() == 2 and self.button_was_clicked() and self.oscStateChanged():
-            self.plotCh2()#plot only ch2
+            self.plotOscCh2()#plot only ch2
         #oscChChecked=3 run/stop button clicked, oscChecked=1, 
         elif self.oscChStateChanged() == 3 and self.button_was_clicked() and self.oscStateChanged():
-            self.plotCh12()#plot both ch1 & ch2
+            self.plotOscCh12()#plot both ch1 & ch2
         #oscChChecked=0 run/stop button clicked, oscChecked=1, 
         else:#don't plot anything
-            self.plotZero()
+            self.plotOscZero()
+        if self.button_was_clicked() and self.logicStateChanged():
+            logic_box = self.logicCH_StateChanged()
+            for i in range(0,8):
+                if logic_box[i] == 1:
+                    self.plotLogic()
+                else:
+                    self.plotLogicZero()
+        else:
+            self.plotLogicZero()
 
     #handles record data button & exports snapshot of plot to file
     def record_data(self):
