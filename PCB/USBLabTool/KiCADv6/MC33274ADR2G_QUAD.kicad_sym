@@ -1,0 +1,236 @@
+
+(kicad_symbol_lib (version 20211014) (generator kicad_symbol_editor)
+  (symbol "MC33274ADR2G" (pin_names (offset 1.016)) (in_bom yes) (on_board yes)
+    (property "Reference" "U" (id 0) (at -15.2685 30.5371 0)
+      (effects (font (size 1.27 1.27)) (justify bottom left))
+    )
+    (property "Value" "MC33274ADR2G" (id 1) (at -15.266 -33.0763 0.0)
+      (effects (font (size 1.27 1.27)) (justify top left))
+    )
+    (property "Footprint" "MC33274ADR2G:SOIC127P600X175-14N" (id 2) (at 0 0 0)
+      (effects (font (size 1.27 1.27)) (justify bottom) hide)
+    )
+    (property "PARTREV" "14" (id 4) (at 0 0 0)
+      (effects (font (size 1.27 1.27)) (justify bottom) hide)
+    )
+    (property "STANDARD" "IPC-7351" (id 5) (at 0 0 0)
+      (effects (font (size 1.27 1.27)) (justify bottom) hide)
+    )
+    (property "MANUFACTURER" "ON Semiconductor" (id 6) (at 0 0 0)
+      (effects (font (size 1.27 1.27)) (justify bottom) hide)
+    )
+    (symbol "MC33274ADR2G_0_0"
+      (polyline
+        (pts (xy -5.08 20.32) (xy -5.08 17.78)) (stroke (width 0.254))
+      )
+      (polyline
+        (pts (xy -5.08 17.78) (xy -5.08 12.7)) (stroke (width 0.254))
+      )
+      (polyline
+        (pts (xy -5.08 12.7) (xy -5.08 10.16)) (stroke (width 0.254))
+      )
+      (polyline
+        (pts (xy -5.08 20.32) (xy 2.54 15.24)) (stroke (width 0.254))
+      )
+      (polyline
+        (pts (xy 2.54 15.24) (xy -5.08 10.16)) (stroke (width 0.254))
+      )
+      (polyline
+        (pts (xy -15.24 17.78) (xy -5.08 17.78)) (stroke (width 0.254))
+      )
+      (polyline
+        (pts (xy -15.24 12.7) (xy -5.08 12.7)) (stroke (width 0.254))
+      )
+      (polyline
+        (pts (xy 2.54 15.24) (xy 15.24 15.24)) (stroke (width 0.254))
+      )
+      (polyline
+        (pts (xy -5.08 7.62) (xy -5.08 5.08)) (stroke (width 0.254))
+      )
+      (polyline
+        (pts (xy -5.08 5.08) (xy -5.08 0.0)) (stroke (width 0.254))
+      )
+      (polyline
+        (pts (xy -5.08 0.0) (xy -5.08 -2.54)) (stroke (width 0.254))
+      )
+      (polyline
+        (pts (xy -5.08 7.62) (xy 2.54 2.54)) (stroke (width 0.254))
+      )
+      (polyline
+        (pts (xy 2.54 2.54) (xy -5.08 -2.54)) (stroke (width 0.254))
+      )
+      (polyline
+        (pts (xy -15.24 5.08) (xy -5.08 5.08)) (stroke (width 0.254))
+      )
+      (polyline
+        (pts (xy -15.24 0.0) (xy -5.08 0.0)) (stroke (width 0.254))
+      )
+      (polyline
+        (pts (xy 2.54 2.54) (xy 15.24 2.54)) (stroke (width 0.254))
+      )
+      (polyline
+        (pts (xy -5.08 -5.08) (xy -5.08 -7.62)) (stroke (width 0.254))
+      )
+      (polyline
+        (pts (xy -5.08 -7.62) (xy -5.08 -12.7)) (stroke (width 0.254))
+      )
+      (polyline
+        (pts (xy -5.08 -12.7) (xy -5.08 -15.24)) (stroke (width 0.254))
+      )
+      (polyline
+        (pts (xy -5.08 -5.08) (xy 2.54 -10.16)) (stroke (width 0.254))
+      )
+      (polyline
+        (pts (xy 2.54 -10.16) (xy -5.08 -15.24)) (stroke (width 0.254))
+      )
+      (polyline
+        (pts (xy -15.24 -7.62) (xy -5.08 -7.62)) (stroke (width 0.254))
+      )
+      (polyline
+        (pts (xy -15.24 -12.7) (xy -5.08 -12.7)) (stroke (width 0.254))
+      )
+      (polyline
+        (pts (xy 2.54 -10.16) (xy 15.24 -10.16)) (stroke (width 0.254))
+      )
+      (polyline
+        (pts (xy -5.08 -17.78) (xy -5.08 -20.32)) (stroke (width 0.254))
+      )
+      (polyline
+        (pts (xy -5.08 -20.32) (xy -5.08 -25.4)) (stroke (width 0.254))
+      )
+      (polyline
+        (pts (xy -5.08 -25.4) (xy -5.08 -27.94)) (stroke (width 0.254))
+      )
+      (polyline
+        (pts (xy -5.08 -17.78) (xy 2.54 -22.86)) (stroke (width 0.254))
+      )
+      (polyline
+        (pts (xy 2.54 -22.86) (xy -5.08 -27.94)) (stroke (width 0.254))
+      )
+      (polyline
+        (pts (xy -15.24 -20.32) (xy -5.08 -20.32)) (stroke (width 0.254))
+      )
+      (polyline
+        (pts (xy -15.24 -25.4) (xy -5.08 -25.4)) (stroke (width 0.254))
+      )
+      (polyline
+        (pts (xy 2.54 -22.86) (xy 15.24 -22.86)) (stroke (width 0.254))
+      )
+      (rectangle (start -15.24 -30.48) (end 15.24 30.48)
+        (stroke (width 0.254)) (fill (type background))
+      )
+      (pin input line (at -20.32 17.78 0) (length 5.08)
+        (name "INPUT_1-"
+          (effects (font (size 1.016 1.016)))
+        )
+        (number "2"
+          (effects (font (size 1.016 1.016)))
+        )
+      )
+      (pin input line (at -20.32 0.0 0) (length 5.08)
+        (name "INPUT_2-"
+          (effects (font (size 1.016 1.016)))
+        )
+        (number "6"
+          (effects (font (size 1.016 1.016)))
+        )
+      )
+      (pin input line (at -20.32 -12.7 0) (length 5.08)
+        (name "INPUT_3-"
+          (effects (font (size 1.016 1.016)))
+        )
+        (number "9"
+          (effects (font (size 1.016 1.016)))
+        )
+      )
+      (pin input line (at -20.32 -20.32 0) (length 5.08)
+        (name "INPUT_4-"
+          (effects (font (size 1.016 1.016)))
+        )
+        (number "13"
+          (effects (font (size 1.016 1.016)))
+        )
+      )
+      (pin input line (at -20.32 12.7 0) (length 5.08)
+        (name "INPUT_1+"
+          (effects (font (size 1.016 1.016)))
+        )
+        (number "3"
+          (effects (font (size 1.016 1.016)))
+        )
+      )
+      (pin input line (at -20.32 5.08 0) (length 5.08)
+        (name "INPUT_2+"
+          (effects (font (size 1.016 1.016)))
+        )
+        (number "5"
+          (effects (font (size 1.016 1.016)))
+        )
+      )
+      (pin input line (at -20.32 -7.62 0) (length 5.08)
+        (name "INPUT_3+"
+          (effects (font (size 1.016 1.016)))
+        )
+        (number "10"
+          (effects (font (size 1.016 1.016)))
+        )
+      )
+      (pin input line (at -20.32 -25.4 0) (length 5.08)
+        (name "INPUT_4+"
+          (effects (font (size 1.016 1.016)))
+        )
+        (number "12"
+          (effects (font (size 1.016 1.016)))
+        )
+      )
+      (pin output line (at 20.32 15.24 180.0) (length 5.08)
+        (name "OUTPUT1"
+          (effects (font (size 1.016 1.016)))
+        )
+        (number "1"
+          (effects (font (size 1.016 1.016)))
+        )
+      )
+      (pin output line (at 20.32 2.54 180.0) (length 5.08)
+        (name "OUTPUT2"
+          (effects (font (size 1.016 1.016)))
+        )
+        (number "7"
+          (effects (font (size 1.016 1.016)))
+        )
+      )
+      (pin output line (at 20.32 -10.16 180.0) (length 5.08)
+        (name "OUTPUT3"
+          (effects (font (size 1.016 1.016)))
+        )
+        (number "8"
+          (effects (font (size 1.016 1.016)))
+        )
+      )
+      (pin output line (at 20.32 -22.86 180.0) (length 5.08)
+        (name "OUTPUT4"
+          (effects (font (size 1.016 1.016)))
+        )
+        (number "14"
+          (effects (font (size 1.016 1.016)))
+        )
+      )
+      (pin power_in line (at 20.32 27.94 180.0) (length 5.08)
+        (name "VCC"
+          (effects (font (size 1.016 1.016)))
+        )
+        (number "4"
+          (effects (font (size 1.016 1.016)))
+        )
+      )
+      (pin power_in line (at 20.32 25.4 180.0) (length 5.08)
+        (name "VEE"
+          (effects (font (size 1.016 1.016)))
+        )
+        (number "11"
+          (effects (font (size 1.016 1.016)))
+        )
+      )
+    )
+  )
+)
