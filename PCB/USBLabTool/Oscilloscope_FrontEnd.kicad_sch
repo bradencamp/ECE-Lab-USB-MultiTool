@@ -7185,18 +7185,6 @@
 		)
 		(uuid "cfd5c33a-4478-447e-9ed5-fe21ea053386")
 	)
-	(text "tie high?"
-		(exclude_from_sim no)
-		(at 143.256 240.03 0)
-		(effects
-			(font
-				(size 1.27 1.27)
-				(thickness 0.254)
-				(bold yes)
-			)
-		)
-		(uuid "d78dcd83-c3d5-4b2a-80f7-b5812690a150")
-	)
 	(text "check this switch"
 		(exclude_from_sim no)
 		(at 182.88 115.062 0)
@@ -7243,7 +7231,7 @@
 			)
 		)
 	)
-	(global_label "attenuate"
+	(global_label "CH1_attenuate"
 		(shape input)
 		(at 46.99 180.34 180)
 		(fields_autoplaced yes)
@@ -7255,7 +7243,7 @@
 		)
 		(uuid "2bb825d2-cb72-4713-ae01-0d8f595f6d5d")
 		(property "Intersheetrefs" "${INTERSHEET_REFS}"
-			(at 35.6264 180.2606 0)
+			(at 30.2769 180.34 0)
 			(effects
 				(font
 					(size 1.27 1.27)
@@ -7265,7 +7253,7 @@
 			)
 		)
 	)
-	(global_label "acdc"
+	(global_label "CH0 ACDC"
 		(shape input)
 		(at 119.38 73.66 180)
 		(fields_autoplaced yes)
@@ -7277,7 +7265,7 @@
 		)
 		(uuid "3359fefb-0066-4b55-a6d9-24afe2842dae")
 		(property "Intersheetrefs" "${INTERSHEET_REFS}"
-			(at 112.4917 73.5806 0)
+			(at 106.7186 73.66 0)
 			(effects
 				(font
 					(size 1.27 1.27)
@@ -7287,7 +7275,7 @@
 			)
 		)
 	)
-	(global_label "acdc"
+	(global_label "CH1 ACDC"
 		(shape input)
 		(at 110.49 185.42 180)
 		(fields_autoplaced yes)
@@ -7299,7 +7287,7 @@
 		)
 		(uuid "37d80d51-9242-4f9f-9109-caf361695692")
 		(property "Intersheetrefs" "${INTERSHEET_REFS}"
-			(at 103.6017 185.3406 0)
+			(at 97.8286 185.42 0)
 			(effects
 				(font
 					(size 1.27 1.27)
@@ -7397,7 +7385,7 @@
 			)
 		)
 	)
-	(global_label "attenuate"
+	(global_label "CH0_attenuate"
 		(shape input)
 		(at 55.88 68.58 180)
 		(fields_autoplaced yes)
@@ -7409,7 +7397,7 @@
 		)
 		(uuid "5f1ebde5-a799-4e4a-a129-921b07f07aaf")
 		(property "Intersheetrefs" "${INTERSHEET_REFS}"
-			(at 44.5164 68.5006 0)
+			(at 39.1669 68.58 0)
 			(effects
 				(font
 					(size 1.27 1.27)
@@ -13036,7 +13024,7 @@
 				(justify right)
 			)
 		)
-		(property "Value" "Chanel 1 input"
+		(property "Value" "Chanel 0 input"
 			(at 27.178 86.106 90)
 			(effects
 				(font
