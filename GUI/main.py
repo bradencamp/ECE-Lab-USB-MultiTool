@@ -6,6 +6,8 @@ import pyqtgraph as pg
 from labeled_field import LabelField 
 import numpy as np
 
+import numpy as np
+
 from random import uniform
 from math import isclose,pi, tau
 #html standard colors
@@ -18,6 +20,8 @@ MINAMP = -5
 MAXAMP = 5
 MINOFF = -10
 MAXOFF = 10
+NUMPOINTS = 300
+NUMDIVS = 10 #based on default we've worked with thus far, scopy uses ~16
 NUMPOINTS = 300
 NUMDIVS = 10 #based on default we've worked with thus far, scopy uses ~16
 
@@ -149,7 +153,9 @@ class MainWindow(QMainWindow):
 
         #AWG frequencies
         ch1Freq = LabelField("Frequency:",[MINFREQUENCY, MAXFREQUENCY],float(1), 3,"Hz", prefixes_frequency,BLANK)
+        ch1Freq = LabelField("Frequency:",[MINFREQUENCY, MAXFREQUENCY],float(1), 3,"Hz", prefixes_frequency,BLANK)
         awgLayout.addWidget(ch1Freq,0,2)
+        ch1Freq.valueChanged.connect(self.set_awgCh1Freq)
         ch1Freq.valueChanged.connect(self.set_awgCh1Freq)
         ch2Freq = LabelField("Frequency:",[MINFREQUENCY, MAXFREQUENCY],float(1000),3, "Hz", prefixes_frequency,BLANK)
         awgLayout.addWidget(ch2Freq,1,2)
@@ -193,7 +199,9 @@ class MainWindow(QMainWindow):
         timeSetting = ColorBox("aqua")
         centerSettings.addWidget(timeSetting,0,0,1,1)
         self.timeDiv = LabelField("Time Base", [1/MAXFREQUENCY,1/MINFREQUENCY],1,3,"s/div",{"u":1e-6,"m":1e-3,"":1},BLANK)
+        self.timeDiv = LabelField("Time Base", [1/MAXFREQUENCY,1/MINFREQUENCY],1,3,"s/div",{"u":1e-6,"m":1e-3,"":1},BLANK)
         centerSettings.addWidget(self.timeDiv,0,0,1,1)
+        self.timeDiv.valueChanged.connect(self.set_time_div)
         self.timeDiv.valueChanged.connect(self.set_time_div)
 
         centerSettings.addWidget(QLabel("Trigger Settings: "),0,1,1,1)
@@ -256,8 +264,12 @@ class MainWindow(QMainWindow):
 
         self.time = np.linspace(0,10,NUMPOINTS)
         self.temperature = np.array([uniform(-1*self.awgCh1Config["amp"], self.awgCh1Config["amp"]) for _ in range(NUMPOINTS)])
+        self.time = np.linspace(0,10,NUMPOINTS)
+        self.temperature = np.array([uniform(-1*self.awgCh1Config["amp"], self.awgCh1Config["amp"]) for _ in range(NUMPOINTS)])
         self.plot_graph.setLabel("left", "Voltage (V)")
         self.plot_graph.setLabel("bottom", "Time (s)",)
+        self.plot_graph.showGrid(x=True, y=True)
+        self.templine = self.plot_graph.plot(self.time, self.temperature,pen = self.oscPen)
         self.plot_graph.showGrid(x=True, y=True)
         self.templine = self.plot_graph.plot(self.time, self.temperature,pen = self.oscPen)
         dataLayout.addWidget(self.plot_graph,1,0,-1,-1)
