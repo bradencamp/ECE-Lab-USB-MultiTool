@@ -7,7 +7,7 @@ from labeled_field import LabelField
 import numpy as np
 
 from random import uniform
-from math import isclose,pi
+from math import isclose,pi, tau
 #html standard colors
 colors = ["Yellow","Teal","Silver","Red","Purple","Olive","Navy","White",
             "Maroon","Lime","Green","Gray","Fuchsia","Blue","Black","Aqua"]
@@ -41,7 +41,7 @@ class MainWindow(QMainWindow):
     
     def __init__(self):
         super(MainWindow, self).__init__()
-        self.awgCh1Config = dict(amp=5, off=0,freq = 1,phase = 0)  # Dictionary with initial values
+        self.awgCh1Config = dict(amp=5, off=0,freq = 1,phase = 0, wave = 0, DC = 0.5)  # Dictionary with initial values
         self.setWindowTitle("My App")
 
         #layout for awg section
@@ -71,14 +71,13 @@ class MainWindow(QMainWindow):
         self.awgPen = pg.mkPen(color=(0, 0, 255), width=5, style=Qt.PenStyle.SolidLine)
         self.awgTime = np.linspace(0,10,NUMPOINTS)
         self.awgData = 5*np.sin(2*pi*self.awgTime)
-        #for i in range(0,10):
-         #   self.awgData[i] = sin(pi/2*self.time[i])
+        
         self.awgLine = self.plot_graph.plot(self.time, self.awgData,pen = self.awgPen)
         self.set_time_div(1.0)
         widget = QWidget()
         widget.setLayout(layout)
         self.setCentralWidget(widget)
-        #self.resize(400,500)
+        
 
     def set_awgCh1Amp(self, amp):
         print("new Amp: ", amp)
@@ -96,6 +95,10 @@ class MainWindow(QMainWindow):
         print("new Phase: ", phase)
         self.awgCh1Config["phase"] = phase 
 
+    def set_awgTypeCh1(self, new):
+        print("New Type: ",new)
+        self.awgCh1Config["wave"] = new
+
     def set_time_div(self, div):
         try:
             self.plotViewBox.setXRange(self.viewRange[0][0],self.viewRange[0][0]+10*div)
@@ -103,6 +106,7 @@ class MainWindow(QMainWindow):
         #TODO throws error if current range is too large in comparision to div
             #ie 10s range, 4us divs
             #happens IN pyqtgraph library, so this try does nothoing
+            #error only happens if we try to autorange with a low div
         #also idealy we do not change the range much, so implement float div->mult correction
         except:
             return
@@ -141,7 +145,7 @@ class MainWindow(QMainWindow):
         ch2WaveSelect.addItems(waves)
         awgLayout.addWidget(ch1WaveSelect,0,1)
         awgLayout.addWidget(ch2WaveSelect,1,1)
-
+        ch1WaveSelect.currentIndexChanged.connect(self.set_awgTypeCh1)
 
         #AWG frequencies
         ch1Freq = LabelField("Frequency:",[MINFREQUENCY, MAXFREQUENCY],float(1), 3,"Hz", prefixes_frequency,BLANK)
@@ -151,24 +155,21 @@ class MainWindow(QMainWindow):
         awgLayout.addWidget(ch2Freq,1,2)
             
         #AWG amplitueds
-        ch1Amp = LabelField("Amplitude:",[MINAMP,MAXAMP],float(5),2,"V", prefixes_voltage,BLANK)#ColorBox(colors[3])
+        ch1Amp = LabelField("Amplitude:",[MINAMP,MAXAMP],float(1),2,"V", prefixes_voltage,BLANK)
         ch1Amp.valueChanged.connect(self.set_awgCh1Amp)
         awgLayout.addWidget(ch1Amp,0,3)
-        ch2Amp = LabelField("Amplitude:",[MINAMP,MAXAMP],float(5),2,"V", prefixes_voltage,BLANK)#ColorBox(colors[4])
+        ch2Amp = LabelField("Amplitude:",[MINAMP,MAXAMP],float(5),2,"V", prefixes_voltage,BLANK)
         awgLayout.addWidget(ch2Amp,1,3)
 
         #AWG offsets
-        ch1Off = LabelField("Offset:" ,[MINAMP, MAXAMP],float(0),2,"V", prefixes_voltage,BLANK)#ColorBox(colors[5])
+        ch1Off = LabelField("Offset:" ,[MINAMP, MAXAMP],float(0),2,"V", prefixes_voltage,BLANK)
         awgLayout.addWidget(ch1Off,0,4)
-        #awgLayout.addWidget(QLabel("Offset (V):"),0,4)
-        ch2Off = LabelField("Offset:" ,[MINAMP, MAXAMP],float(0),2,"V", prefixes_voltage,BLANK)#ColorBox(colors[7])#6 doesn't play nice with black text
+        ch2Off = LabelField("Offset:" ,[MINAMP, MAXAMP],float(0),2,"V", prefixes_voltage,BLANK)
         awgLayout.addWidget(ch2Off,1,4)        
-        #awgLayout.addWidget(QLabel("Offset (V):"),1,4)
         ch1Off.valueChanged.connect(self.set_awgCh1Off)
-        awgPhase = LabelField("Phase:" ,[0, 180],float(0),2,"°", {"":1},BLANK)##ColorBox(colors[8])
+        awgPhase = LabelField("Phase:" ,[0, 180],float(0),2,"°", {"":1},BLANK)
         awgLayout.addWidget(awgPhase,0,5)
         awgPhase.valueChanged.connect(self.set_awgPhase)
-        # awgLayout.addWidget(QLabel("Phase (°):"),0,5)
         awgLayout.addWidget(QLabel("Sync Status:"),1,5)
 
         syncButton = QPushButton("FORCE SYNC")
@@ -207,10 +208,10 @@ class MainWindow(QMainWindow):
 
         logicLayout = QGridLayout()
         logicLayout.addWidget(ColorBox("Fuchsia"),0,0,-1,-1)#background for demonstration. Remove later
-        logicCheck = QCheckBox()#QLabel("Logic Analyzer",alignment = Qt.AlignmentFlag.AlignTop)#QCheckBox("Logic Analyzer")
+        logicCheck = QCheckBox()
         logicLayout.addWidget(logicCheck,0,0)
         logicLayout.addWidget(QLabel("Logic Analyzer"),0,1,alignment = Qt.AlignmentFlag.AlignHCenter)
-        #logicChannelLayout = QGridLayout()
+        
         
         edges = ["Rising Edge","Falling Edge"]
         self.logic_checks = [None,]*8
@@ -222,7 +223,6 @@ class MainWindow(QMainWindow):
             self.logic_edges[i].addItems(edges)
             logicLayout.addWidget(self.logic_checks[i],i+1,0)
             logicLayout.addWidget(self.logic_edges[i],i+1,1)
-        #logicLayout.addLayout(logicChannelLayout,1,0,-1,-1)
         logicLayout.setColumnStretch(0,1)
         logicLayout.setColumnStretch(1,4)
 
@@ -236,17 +236,18 @@ class MainWindow(QMainWindow):
         self.plot_graph.setBackground("w")
         vb = self.plot_graph.plotItem.getViewBox()
         vb.setMouseMode(pg.ViewBox.RectMode)
-        #this line disables a right click menu
+        #below line disables a right click menu
         #self.plot_graph.plotItem.setMenuEnabled(False)
         vb.sigRangeChanged.connect(self.on_range_changed)
         self.viewRange = vb.viewRange()
-        #if we need to completely disable resizing, uncomment below
+        #if we need to completely disable resizing, uncomment below and set both to false
         self.plot_graph.setMouseEnabled(x=False,y=True)
         #if this is commented, autoranging will grow x axis indefinitely
         vb.disableAutoRange(pg.ViewBox.XAxis)
         vb.setDefaultPadding(0.0)#doesn't help 
         self.plotViewBox = vb
-        vb.setXRange(0,10,.01)
+        vb.setLimits(yMax = 20, yMin = -20)
+        vb.setXRange(0,10,.01 )
         self.xAxis = self.plot_graph.plotItem.getAxis("bottom")
         self.xAxis.setTickPen(color = "black", width = 2)
         #set y axis as well
@@ -264,7 +265,7 @@ class MainWindow(QMainWindow):
 
         oscilloLayout = QGridLayout()
         oscilloLayout.addWidget(ColorBox("Olive"),0,0,-1,-1)#background for demonstration. Remove later
-        oscilloCheck = QCheckBox()#QLabel("Logic Analyzer",alignment = Qt.AlignmentFlag.AlignTop)#QCheckBox("Logic Analyzer")
+        oscilloCheck = QCheckBox()
         oscilloLayout.addWidget(oscilloCheck,0,0)
         oscilloLayout.addWidget(QLabel("Oscilloscope"),0,1,alignment = Qt.AlignmentFlag.AlignHCenter)
         
@@ -330,11 +331,30 @@ class MainWindow(QMainWindow):
         return deviceLayout
 
     def update_plot(self):
-        self.temperature = np.roll(self.temperature,-1)
-        self.temperature[-1] = uniform(-1*self.awgCh1Config["amp"], self.awgCh1Config["amp"])
-    
-        self.templine.setData(self.time, self.temperature)
-        self.awgData = self.awgCh1Config["amp"]*np.sin(2*pi*self.awgCh1Config["freq"]*self.awgTime+pi/180*self.awgCh1Config["phase"])+self.awgCh1Config["off"]
+        #TODO edit all numpy funtions to use the out parameter
+        #self.temperature = np.roll(self.temperature,-1)
+        #self.temperature[-1] = uniform(-1*self.awgCh1Config["amp"], self.awgCh1Config["amp"])
+        #self.templine.setData(self.time, self.temperature)
+        #like angular position of awgtime array. To be used for nonsine functions
+        self.omega = np.mod(self.awgTime+self.awgCh1Config["phase"]/360,1/self.awgCh1Config["freq"])*self.awgCh1Config["freq"]
+        #np.fmod(tau*self.awgCh1Config["freq"]*self.awgTime + pi/180*self.awgCh1Config["phase"],2*tau/self.awgCh1Config["freq"])                
+        self.templine.setData(self.awgTime, np.sin(tau*self.awgData))
+        match self.awgCh1Config["wave"]:
+            case 1:#square
+                self.awgData = np.ones(NUMPOINTS)
+                self.awgData[self.omega >= self.awgCh1Config["DC"]] = -1
+            case 2:#triangle 
+                climb = np.where(self.omega < 0.5)
+                fall = np.where(self.omega  >= 0.5)
+                self.awgData[climb] = 1 - 4 * self.omega[climb]
+                self.awgData[fall] = 4 * self.omega[fall] - 3               
+            case 3:#sawtooth
+                self.awgData = 2*self.omega-1
+            case _:#sine
+                self.awgData = np.sin(tau*self.omega)
+        #scale and offset
+        self.awgData = self.awgCh1Config["amp"]*self.awgData + self.awgCh1Config["off"]
+        #self.awgData = self.awgCh1Config["amp"]*np.sin(2*pi*self.awgCh1Config["freq"]*self.awgTime+pi/180*self.awgCh1Config["phase"])+self.awgCh1Config["off"]
         self.awgLine.setData(self.awgTime,self.awgData)
 app = QApplication(sys.argv)
 
