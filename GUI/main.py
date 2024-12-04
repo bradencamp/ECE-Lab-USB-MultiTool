@@ -1,15 +1,17 @@
 import sys
-from PyQt6.QtWidgets import QApplication, QMainWindow, QWidget,QGridLayout,QPushButton,QLabel,QCheckBox,QComboBox    
+from PyQt6.QtWidgets import QApplication, QMainWindow, QWidget,QGridLayout,QPushButton,QLabel,QCheckBox,QComboBox, QTextEdit    
 from PyQt6.QtGui import QPalette, QColor, QPen
 from PyQt6.QtCore import Qt, QTimer
 import pyqtgraph as pg
 from labeled_field import LabelField 
 import numpy as np
-
-import numpy as np
-
+import serial
+import serial.tools.list_ports
 from random import uniform
 from math import isclose,pi, tau
+import os
+
+
 #html standard colors
 colors = ["Yellow","Teal","Silver","Red","Purple","Olive","Navy","White",
             "Maroon","Lime","Green","Gray","Fuchsia","Blue","Black","Aqua"]
@@ -20,8 +22,6 @@ MINAMP = -5
 MAXAMP = 5
 MINOFF = -10
 MAXOFF = 10
-NUMPOINTS = 300
-NUMDIVS = 10 #based on default we've worked with thus far, scopy uses ~16
 NUMPOINTS = 300
 NUMDIVS = 10 #based on default we've worked with thus far, scopy uses ~16
 
@@ -41,6 +41,42 @@ class ColorBox(QWidget):
 #placeholder until other callbacks are written
 def BLANK():
     return
+
+def hexStr2bin(hex:str):
+    match hex:
+        case "1"|"0001":
+            return b'0001'
+        case "2"|"0010":
+            return b'0010'
+        case "3"|"0011":
+            return b'0011'
+        case "4"|"0100":
+            return b'0100'
+        case "5"|"0101":
+            return b'0101'
+        case "6"|"0110":
+            return b'0110'
+        case "7"|"0111":
+            return b'0111'
+        case "8"|"1000":
+            return b'1000'
+        case "9"|"1001":
+            return b'1001'
+        case "A"|"a"|"10"|"1010":
+            return b'1010'
+        case "B"|"b"|"11"|"1011":
+            return b'1011'
+        case "C"|"c"|"12"|"1100":
+            return b'1100'
+        case "D"|"d"|"13"|"1101":
+            return b'1101'
+        case "E"|"e"|"14"|"1110":
+            return b'1110'
+        case "F"|"f"|"15"|"1111":
+            return b'1111'
+        case _:
+            return b'0000'
+
 class MainWindow(QMainWindow):
     
     def __init__(self):
@@ -81,8 +117,65 @@ class MainWindow(QMainWindow):
         widget = QWidget()
         widget.setLayout(layout)
         self.setCentralWidget(widget)
-        
 
+        self.serial = serial.Serial(baudrate=115200)
+        self.portName = None
+        
+    #Device callbacks
+    ###-------------------------------------------------------------------------------------###
+        #TODO: add timeouts to EVERYTHING  
+    def getPorts(self):
+        self.portSelect.clear()
+        self.portSelect.addItem("Refresh Ports")
+        ports = [port.name for port in list(serial.tools.list_ports.comports())]
+        self.portSelect.addItems(ports)
+        self.portSelect.activated.connect(self.port_currentIndexChanged)
+
+    def port_currentIndexChanged(self, index):
+        self.portName = None
+        if index == 0:
+            self.portSelect.disconnect()
+            self.getPorts()
+            
+    def port_disconnect(self):
+        if self.portName != None:
+            self.serial.close()
+            self.portName = None
+            self.connectLabel.setText("Device Status: Disconnected")
+
+    def port_connect(self):
+        if self.portName == None:
+            if self.portSelect.currentIndex() == 0:
+                self.portSelect.disconnect()
+                self.getPorts()
+                return
+            try:
+                self.serial.close()
+                self.portName = self.portSelect.currentText()
+                self.serial.port = self.portName
+                #add the "/dev/" for unix based systems 
+                    #currently untested in our version
+                if os.name == "posix":
+                    self.portName = "/dev/" + self.portName
+                self.serial.open()
+                self.connectLabel.setText("Device Status: Connected")
+            except:
+                self.connectLabel.setText("Device Status: Error")
+                return
+        else:
+            try:
+                bits = hexStr2bin(self.sendline.toPlainText())
+                self.serial.write(bits)
+                buff = self.serial.read(8)
+                self.serial.reset_input_buffer()
+                self.connectLabel.setText(f"Device Status: {buff}")
+                self.serial.reset_input_buffer()
+                self.sendline.clear()
+            except:
+                return
+
+    #AWG UI Callbacks    
+    ###-------------------------------------------------------------------------------------###
     def set_awgCh1Amp(self, amp):
         print("new Amp: ", amp)
         self.awgCh1Config["amp"] = amp
@@ -131,9 +224,11 @@ class MainWindow(QMainWindow):
 
         self.viewRange = ranges
 
+    #Layouts
+    ###-------------------------------------------------------------------------------------###
     def awgLayoutSetup(self):
         awgLayout = QGridLayout()
-        awgLayout.addWidget(ColorBox(colors[0]),0,0, -1,-1)#background for demonstration. Remove later
+        awgLayout.addWidget(ColorBox(QColor("#d2dbe5")),0,0, -1,-1)#background for demonstration. Remove later colors[0]
         #enable channel
             #to be able to use these outside of init, we'll need to prepend self as in "self.ch1En"
         ch1En = QCheckBox("Channel 1")
@@ -149,14 +244,14 @@ class MainWindow(QMainWindow):
         ch2WaveSelect.addItems(waves)
         awgLayout.addWidget(ch1WaveSelect,0,1)
         awgLayout.addWidget(ch2WaveSelect,1,1)
-        ch1WaveSelect.currentIndexChanged.connect(self.set_awgTypeCh1)
+        ch1WaveSelect.activated.connect(self.set_awgTypeCh1)
 
         #AWG frequencies
         ch1Freq = LabelField("Frequency:",[MINFREQUENCY, MAXFREQUENCY],float(1), 3,"Hz", prefixes_frequency,BLANK)
-        ch1Freq = LabelField("Frequency:",[MINFREQUENCY, MAXFREQUENCY],float(1), 3,"Hz", prefixes_frequency,BLANK)
+        #ch1Freq = LabelField("Frequency:",[MINFREQUENCY, MAXFREQUENCY],float(1), 3,"Hz", prefixes_frequency,BLANK) Why are these doubled?
         awgLayout.addWidget(ch1Freq,0,2)
         ch1Freq.valueChanged.connect(self.set_awgCh1Freq)
-        ch1Freq.valueChanged.connect(self.set_awgCh1Freq)
+        #ch1Freq.valueChanged.connect(self.set_awgCh1Freq)
         ch2Freq = LabelField("Frequency:",[MINFREQUENCY, MAXFREQUENCY],float(1000),3, "Hz", prefixes_frequency,BLANK)
         awgLayout.addWidget(ch2Freq,1,2)
             
@@ -190,14 +285,14 @@ class MainWindow(QMainWindow):
 
     def centerLayoutSetup(self):
         centerLayout = QGridLayout()
-        centerLayout.addWidget(ColorBox(colors[1]),0,0, -1,-1)#background for demonstration. Remove later
+        centerLayout.addWidget(ColorBox("#e8ecf0"),0,0, -1,-1)#background for demonstration. Remove later [1]
         runStopButton = QPushButton("RUN/STOP")
         singleButton = QPushButton("SINGLE")
         dataButton = QPushButton("RECORD DATA")
 
         centerSettings = QGridLayout()
-        timeSetting = ColorBox("aqua")
-        centerSettings.addWidget(timeSetting,0,0,1,1)
+        timeSetting = ColorBox("#9fa8da")
+        centerLayout.addWidget(timeSetting,0,0,1,-1)
         self.timeDiv = LabelField("Time Base", [1/MAXFREQUENCY,1/MINFREQUENCY],1,3,"s/div",{"u":1e-6,"m":1e-3,"":1},BLANK)
         self.timeDiv = LabelField("Time Base", [1/MAXFREQUENCY,1/MINFREQUENCY],1,3,"s/div",{"u":1e-6,"m":1e-3,"":1},BLANK)
         centerSettings.addWidget(self.timeDiv,0,0,1,1)
@@ -215,7 +310,7 @@ class MainWindow(QMainWindow):
         centerSettings.addWidget(trigHoldoffSelect,0,3)
 
         logicLayout = QGridLayout()
-        logicLayout.addWidget(ColorBox("Fuchsia"),0,0,-1,-1)#background for demonstration. Remove later
+        logicLayout.addWidget(ColorBox("#c9d4c9"),0,0,-1,-1)#background for demonstration. Remove later
         logicCheck = QCheckBox()
         logicLayout.addWidget(logicCheck,0,0)
         logicLayout.addWidget(QLabel("Logic Analyzer"),0,1,alignment = Qt.AlignmentFlag.AlignHCenter)
@@ -237,7 +332,7 @@ class MainWindow(QMainWindow):
         
 
         dataLayout = QGridLayout()
-        dataLayout.addWidget(ColorBox("lime"),0,0,-1,-1)#background for demonstration. Remove later
+        #dataLayout.addWidget(ColorBox("#d0fcde"),0,0,-1,-1)#background for demonstration. Remove later
         dataLayout.addWidget(QLabel("Live Data"),0,0,1,-1,alignment=Qt.AlignmentFlag.AlignHCenter)
         #maybe make a custom plotwidget, this will work for now
         self.plot_graph = pg.PlotWidget()
@@ -269,14 +364,14 @@ class MainWindow(QMainWindow):
         self.plot_graph.setLabel("left", "Voltage (V)")
         self.plot_graph.setLabel("bottom", "Time (s)",)
         self.plot_graph.showGrid(x=True, y=True)
-        self.templine = self.plot_graph.plot(self.time, self.temperature,pen = self.oscPen)
+        #self.templine = self.plot_graph.plot(self.time, self.temperature,pen = self.oscPen)
         self.plot_graph.showGrid(x=True, y=True)
-        self.templine = self.plot_graph.plot(self.time, self.temperature,pen = self.oscPen)
+        #self.templine = self.plot_graph.plot(self.time, self.temperature,pen = self.oscPen)
         dataLayout.addWidget(self.plot_graph,1,0,-1,-1)
         
 
         oscilloLayout = QGridLayout()
-        oscilloLayout.addWidget(ColorBox("Olive"),0,0,-1,-1)#background for demonstration. Remove later
+        oscilloLayout.addWidget(ColorBox("#cbc6d3"),0,0,-1,-1)#background for demonstration. Remove later
         oscilloCheck = QCheckBox()
         oscilloLayout.addWidget(oscilloCheck,0,0)
         oscilloLayout.addWidget(QLabel("Oscilloscope"),0,1,alignment = Qt.AlignmentFlag.AlignHCenter)
@@ -315,7 +410,8 @@ class MainWindow(QMainWindow):
     def deviceLayoutSetup(self):
         deviceLayout = QGridLayout()
         deviceLayout.addWidget(ColorBox(colors[2]),0,0, -1,-1)#background for demonstration. Remove later
-        deviceLayout.addWidget(QLabel("Device Status"), 0,0,1,1)
+        self.connectLabel = QLabel("Device Status")
+        deviceLayout.addWidget(self.connectLabel, 0,0,1,1)
         #specific colored buttons
         connectButton = QPushButton("CONNECT")
         buttonPalette = connectButton.palette()
@@ -330,27 +426,41 @@ class MainWindow(QMainWindow):
         disconnectButton.setPalette(buttonPalette)
 
 
+        self.sendline = QTextEdit()
+        self.sendline.setFixedSize(50,30)
+        
+        
+        self.portSelect = QComboBox()
+        #self.portSelect.addItems(["Refresh Ports"])
+        deviceLayout.addWidget(self.portSelect,0,1)
+        self.getPorts()
 
-        deviceLayout.addWidget(connectButton,0,1,1,1)
-        deviceLayout.addWidget(disconnectButton,0,2,1,1)
+        disconnectButton.pressed.connect(self.port_disconnect)
+        connectButton.pressed.connect(self.port_connect)
+        
+        deviceLayout.addWidget(connectButton,0,2,1,1)
+        deviceLayout.addWidget(disconnectButton,0,3,1,1)
+        deviceLayout.addWidget(self.sendline,0,4,1,1)
         deviceLayout.addWidget(QPushButton("Wave Drawer"),1,0,1,1)
         #Section for button spacing. Will require fine tuning to look as we want it
-        deviceLayout.setColumnStretch(3,2) 
+        deviceLayout.setColumnStretch(5,2) 
+        deviceLayout.setColumnStretch(3,1) 
         deviceLayout.setColumnStretch(2,1) 
-        deviceLayout.setColumnStretch(1,1) 
         deviceLayout.setColumnStretch(0,1) 
 
         return deviceLayout
 
+    #Periodic uodates 
+    ###-------------------------------------------------------------------------------------###
     def update_plot(self):
         #TODO edit all numpy funtions to use the out parameter
         #self.temperature = np.roll(self.temperature,-1)
         #self.temperature[-1] = uniform(-1*self.awgCh1Config["amp"], self.awgCh1Config["amp"])
         #self.templine.setData(self.time, self.temperature)
         #like angular position of awgtime array. To be used for nonsine functions
-        self.omega = np.mod(self.awgTime+self.awgCh1Config["phase"]/360,1/self.awgCh1Config["freq"])*self.awgCh1Config["freq"]
+        self.omega = np.mod(self.awgTime+self.awgCh1Config["phase"]/(360*self.awgCh1Config["freq"]),1/self.awgCh1Config["freq"])*self.awgCh1Config["freq"]
         #np.fmod(tau*self.awgCh1Config["freq"]*self.awgTime + pi/180*self.awgCh1Config["phase"],2*tau/self.awgCh1Config["freq"])                
-        self.templine.setData(self.awgTime, np.sin(tau*self.awgData))
+            #self.templine.setData(self.awgTime, np.sin(tau*self.awgCh1Config["freq"]*self.awgData))
         match self.awgCh1Config["wave"]:
             case 1:#square
                 self.awgData = np.ones(NUMPOINTS)
