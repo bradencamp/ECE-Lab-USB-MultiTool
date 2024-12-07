@@ -4,7 +4,7 @@ from PyQt6.QtCore import pyqtSignal
 
 
 class LabelField(QWidget):
-    #add a config argument to signal and intit
+    #add a config argument to signal and init
     valueChanged = pyqtSignal(float)
     #properites to ensure that internal field values are always the same as this class
     @property
