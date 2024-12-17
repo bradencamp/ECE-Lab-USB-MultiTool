@@ -91,8 +91,8 @@ class MainWindow(QMainWindow):
     
     def __init__(self):
         super(MainWindow, self).__init__()
-        self.awgCh1Config = dict(amp1=1, off=0,freq = 1,phase = 0, wave = 0, DC = 0.5)  # Dictionary with initial values
-        self.awgCh2Config = dict(amp2=1, off=0,freq = 1,phase = 0, wave = 0, DC = 0.5)  # Dictionary with initial values
+        self.awgCh1Config = dict(amp=1, off=0,freq = 1,phase = 0, wave = 0, DC = 0.5)  # Dictionary with initial values
+        self.awgCh2Config = dict(amp=1, off=0,freq = 1,phase = 0, wave = 0, DC = 0.5)  # Dictionary with initial values
         self.setWindowTitle("My App")
 
         #layout for awg section
@@ -121,12 +121,13 @@ class MainWindow(QMainWindow):
         self.sampRes = 0
         self.awgPen1 = pg.mkPen(color=(0, 0, 255), width=5, style=Qt.PenStyle.SolidLine) #scope ch1 = blue, solid line
         self.awgPen2 = pg.mkPen(color=(255, 0, 0), width=5, style=Qt.PenStyle.DotLine) #scope ch2 = red, dotted line
-        self.awgTime = np.linspace(0,10,NUMPOINTS)
-        self.awgData1 = 5*np.sin(2*pi*self.awgTime) #sine wave ch1
-        self.awgData2 = 5*np.sin(2*pi*self.awgTime) #sine wave ch2
+        self.awgTime1 = np.linspace(0,10,NUMPOINTS)
+        self.awgTime2 = np.linspace(0,10,NUMPOINTS)
+        self.awgData1 = 1*np.sin(2*pi*self.awgTime1) #sine wave ch1
+        self.awgData2 = 1*np.sin(2*pi*self.awgTime2) #sine wave ch2
         
-        self.awgLine1 = self.plot_graph.plot(self.awgTime, self.awgData1,pen = self.awgPen1)
-        self.awgLine2 = self.plot_graph.plot(self.awgTime, self.awgData2, pen = self.awgPen2)
+        self.awgLine1 = self.plot_graph.plot(self.awgTime1, self.awgData1,pen = self.awgPen1)
+        self.awgLine2 = self.plot_graph.plot(self.awgTime2, self.awgData2, pen = self.awgPen2)
         self.set_time_div(1.0) #1v/div
         widget = QWidget()
         widget.setLayout(layout)
@@ -190,9 +191,9 @@ class MainWindow(QMainWindow):
     #AWG UI Callbacks    
     ###-------------------------------------------------------------------------------------###
     #channel 1 configs
-    def set_awgCh1Amp(self, amp1):
-        print("new Amp1: ", amp1)
-        self.awgCh1Config["amp1"] = amp1
+    def set_awgCh1Amp(self, amp):
+        print("new Amp: ", amp)
+        self.awgCh1Config["amp"] = amp
 
     def set_awgCh1Off(self,off):
         print("new Off: ", off)
@@ -211,9 +212,9 @@ class MainWindow(QMainWindow):
         self.awgCh1Config["wave"] = new
     
     #channel 2 configs
-    def set_awgCh2Amp(self, amp2):
-        print("new Amp2: ", amp2)
-        self.awgCh2Config["amp2"] = amp2
+    def set_awgCh2Amp(self, amp):
+        print("new Amp: ", amp)
+        self.awgCh2Config["amp"] = amp
 
     def set_awgCh2Off(self,off):
         print("new Off: ", off)
@@ -250,8 +251,10 @@ class MainWindow(QMainWindow):
             #this happens 
             print("\tx close: ")
         else:
-            self.awgTime = np.linspace(ranges[0][0],ranges[0][1],NUMPOINTS)
-            print("\t{} : {}".format(self.awgTime[0],self.awgTime[-1]))
+            self.awgTime1 = np.linspace(ranges[0][0],ranges[0][1],NUMPOINTS)
+            print("\t{} : {}".format(self.awgTime1[0],self.awgTime1[-1]))
+            self.awgTime2 = np.linspace(ranges[0][0],ranges[0][1],NUMPOINTS)
+            print("\t{} : {}".format(self.awgTime2[0],self.awgTime2[-1]))
             vb.disableAutoRange(pg.ViewBox.XAxis)
 
         self.viewRange = ranges
@@ -398,9 +401,9 @@ class MainWindow(QMainWindow):
         #if this is commented, autoranging will grow x axis indefinitely
         vb.disableAutoRange(pg.ViewBox.XAxis)
         vb.setDefaultPadding(0.0)#doesn't help 
-        self.plotViewBox = vb
         vb.setLimits(yMax = 20, yMin = -20)
         vb.setXRange(0,10,.01 )
+        self.plotViewBox = vb
         self.xAxis = self.plot_graph.plotItem.getAxis("bottom")
         self.xAxis.setTickPen(color = "black", width = 2)
         #set y axis as well
@@ -519,14 +522,14 @@ class MainWindow(QMainWindow):
     #scope channel 1 checkbox handler
     def oscCh1Click(self):
         if (self.oscCh1EN.isChecked()):
-            self.awgLine1.setData(self.awgTime,self.awgData1) #set ch1 waveform data if checked
+            self.awgLine1.setData(self.awgTime1,self.awgData1) #set ch1 waveform data if checked
         else:
             self.awgLine1.setData(self.zeros,self.zeros) #temp solution -> remove wave
 
     #scope chanel 2 checkbox handler
     def oscCh2Click(self):
         if (self.oscCh2EN.isChecked()):
-            self.awgLine2.setData(self.awgTime,self.awgData2) #set ch2 waveform data if checked
+            self.awgLine2.setData(self.awgTime2,self.awgData2) #set ch2 waveform data if checked
         else:
             self.awgLine2.setData(self.zeros,self.zeros)
 
@@ -536,49 +539,53 @@ class MainWindow(QMainWindow):
             self.exportData.export()
             self.dataButton.setChecked(False) #reset button
         
-    def configPlot(self):
+    def configPlotCh1(self):
         #scale and offset
-        self.awgData1 = self.awgCh1Config["amp1"]*self.awgData1 + self.awgCh1Config["off"]
-        self.awgData2 = self.awgCh2Config["amp2"]*self.awgData2 + self.awgCh2Config["off"]
+        self.awgData1 = self.awgCh1Config["amp"]*self.awgData1 + self.awgCh1Config["off"]
+        self.oscCh1Click()
+
+    def configPlotCh2(self):
+        self.awgData2 = self.awgCh2Config["amp"]*self.awgData2 + self.awgCh2Config["off"]
+        self.oscCh2Click()
 
     def squareWaveCh1(self):
-        self.configPlot()
+        self.configPlotCh1()
         self.awgData1 = np.ones(NUMPOINTS)
         self.awgData1[self.omega >= self.awgCh1Config["DC"]] = -1
 
     def triangleWaveCh1(self):
-        self.configPlot()
+        self.configPlotCh1()
         climb1 = np.where(self.omega < 0.5)
         fall1 = np.where(self.omega  >= 0.5)
         self.awgData1[climb1] = 1 - 4 * self.omega[climb1]
         self.awgData1[fall1] = 4 * self.omega[fall1] - 3 
 
     def sawWaveCh1(self):
-        self.configPlot()
+        self.configPlotCh1()
         self.awgData1 = 2*self.omega-1
 
     def sineWaveCh1(self):
-        self.configPlot()
+        self.configPlotCh1()
         self.awgData1 = np.sin(tau*self.omega)
 
     def squareWaveCh2(self):
-        self.configPlot()
+        self.configPlotCh2()
         self.awgData2 = np.ones(NUMPOINTS)
         self.awgData2[self.omega >= self.awgCh2Config["DC"]] = -1
 
     def triangleWaveCh2(self):
-        self.configPlot()
+        self.configPlotCh2()
         climb2 = np.where(self.omega < 0.5)
         fall2 = np.where(self.omega  >= 0.5)
         self.awgData2[climb2] = 1 - 4 * self.omega[climb2]
         self.awgData2[fall2] = 4 * self.omega[fall2] - 3 
 
     def sawWaveCh2(self):
-        self.configPlot()
+        self.configPlotCh2()
         self.awgData2 = 2*self.omega-1
 
     def sineWaveCh2(self):
-        self.configPlot()
+        self.configPlotCh2()
         self.awgData2 = np.sin(tau*self.omega)
 
 
@@ -591,11 +598,11 @@ class MainWindow(QMainWindow):
         #self.temperature[-1] = uniform(-1*self.awgCh1Config["amp"], self.awgCh1Config["amp"])
         #self.templine.setData(self.time, self.temperature)
         #like angular position of awgtime array. To be used for nonsine functions
-        self.omega = np.mod(self.awgTime+self.awgCh1Config["phase"]/(360*self.awgCh1Config["freq"]),1/self.awgCh1Config["freq"])*self.awgCh1Config["freq"]
+        self.omega = np.mod(self.awgTime1+self.awgCh1Config["phase"]/(360*self.awgCh1Config["freq"]),1/self.awgCh1Config["freq"])*self.awgCh1Config["freq"]
         #np.fmod(tau*self.awgCh1Config["freq"]*self.awgTime + pi/180*self.awgCh1Config["phase"],2*tau/self.awgCh1Config["freq"])                
             #self.templine.setData(self.awgTime, np.sin(tau*self.awgCh1Config["freq"]*self.awgData1))
-        self.oscCh1Click()
-        self.oscCh2Click()
+        #self.oscCh1Click()
+        #self.oscCh2Click()
         if (self.oscCh1EN.isChecked()):
             match self.awgCh1Config["wave"]:
                 case 1:#square
