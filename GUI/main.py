@@ -1,9 +1,6 @@
 #TODO merge both versions of main into 1 file, Anna setup/copy over handler functions
     # -> began merging. Backing up current working version to git
-    #TODO Anna continue integrating handler functions into 1 file
-    # note: fix channel 2 awg amplitude input box connection to live waveform.
-    #   currently when user inputs new amp for ch2 there is no change in live  
-    #   waveform. this works for ch1 so not sure why ch2 doesn't work
+
 
 import sys
 from PyQt6.QtWidgets import QApplication, QMainWindow, QWidget,QGridLayout,QPushButton,QLabel,QCheckBox,QComboBox, QTextEdit    
