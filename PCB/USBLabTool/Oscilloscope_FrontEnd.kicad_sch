@@ -11778,7 +11778,7 @@
 				(justify left)
 			)
 		)
-		(property "Footprint" "Package_TO_SOT_SMD:SOT-23"
+		(property "Footprint" "Package_TO_SOT_SMD:SOT-363_SC-70-6_Handsoldering"
 			(at 292.1 63.5 0)
 			(effects
 				(font
@@ -11797,6 +11797,15 @@
 			)
 		)
 		(property "Description" ""
+			(at 304.8 63.5 0)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(hide yes)
+			)
+		)
+		(property "Purpose" ""
 			(at 304.8 63.5 0)
 			(effects
 				(font
@@ -18741,7 +18750,7 @@
 				(justify left)
 			)
 		)
-		(property "Footprint" "Package_TO_SOT_SMD:SOT-23"
+		(property "Footprint" "Package_TO_SOT_SMD:SOT-363_SC-70-6_Handsoldering"
 			(at 281.94 175.26 0)
 			(effects
 				(font
@@ -18760,6 +18769,15 @@
 			)
 		)
 		(property "Description" ""
+			(at 294.64 175.26 0)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(hide yes)
+			)
+		)
+		(property "Purpose" ""
 			(at 294.64 175.26 0)
 			(effects
 				(font

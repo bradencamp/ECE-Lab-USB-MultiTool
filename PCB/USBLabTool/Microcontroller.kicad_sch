@@ -3454,6 +3454,28 @@
 			)
 		)
 	)
+	(global_label "VDDA"
+		(shape input)
+		(at 154.94 29.21 0)
+		(fields_autoplaced yes)
+		(effects
+			(font
+				(size 1.27 1.27)
+			)
+			(justify left)
+		)
+		(uuid "df0d5436-51d4-46c4-809f-bb24447723c0")
+		(property "Intersheetrefs" "${INTERSHEET_REFS}"
+			(at 162.6424 29.21 0)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(justify left)
+				(hide yes)
+			)
+		)
+	)
 	(global_label "ADC2"
 		(shape input)
 		(at 170.18 55.88 0)
