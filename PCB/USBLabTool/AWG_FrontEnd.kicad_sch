@@ -5,173 +5,6 @@
 	(uuid "ac21a78e-8237-4dbe-925d-fc53d85eb1b9")
 	(paper "A4")
 	(lib_symbols
-		(symbol "Connector:Conn_Coaxial"
-			(pin_names
-				(offset 1.016) hide)
-			(exclude_from_sim no)
-			(in_bom yes)
-			(on_board yes)
-			(property "Reference" "J"
-				(at 0.254 3.048 0)
-				(effects
-					(font
-						(size 1.27 1.27)
-					)
-				)
-			)
-			(property "Value" "Conn_Coaxial"
-				(at 2.921 0 90)
-				(effects
-					(font
-						(size 1.27 1.27)
-					)
-				)
-			)
-			(property "Footprint" ""
-				(at 0 0 0)
-				(effects
-					(font
-						(size 1.27 1.27)
-					)
-					(hide yes)
-				)
-			)
-			(property "Datasheet" " ~"
-				(at 0 0 0)
-				(effects
-					(font
-						(size 1.27 1.27)
-					)
-					(hide yes)
-				)
-			)
-			(property "Description" "coaxial connector (BNC, SMA, SMB, SMC, Cinch/RCA, LEMO, ...)"
-				(at 0 0 0)
-				(effects
-					(font
-						(size 1.27 1.27)
-					)
-					(hide yes)
-				)
-			)
-			(property "ki_keywords" "BNC SMA SMB SMC LEMO coaxial connector CINCH RCA"
-				(at 0 0 0)
-				(effects
-					(font
-						(size 1.27 1.27)
-					)
-					(hide yes)
-				)
-			)
-			(property "ki_fp_filters" "*BNC* *SMA* *SMB* *SMC* *Cinch* *LEMO*"
-				(at 0 0 0)
-				(effects
-					(font
-						(size 1.27 1.27)
-					)
-					(hide yes)
-				)
-			)
-			(symbol "Conn_Coaxial_0_1"
-				(arc
-					(start -1.778 -0.508)
-					(mid 0.2311 -1.8066)
-					(end 1.778 0)
-					(stroke
-						(width 0.254)
-						(type default)
-					)
-					(fill
-						(type none)
-					)
-				)
-				(polyline
-					(pts
-						(xy -2.54 0) (xy -0.508 0)
-					)
-					(stroke
-						(width 0)
-						(type default)
-					)
-					(fill
-						(type none)
-					)
-				)
-				(polyline
-					(pts
-						(xy 0 -2.54) (xy 0 -1.778)
-					)
-					(stroke
-						(width 0)
-						(type default)
-					)
-					(fill
-						(type none)
-					)
-				)
-				(circle
-					(center 0 0)
-					(radius 0.508)
-					(stroke
-						(width 0.2032)
-						(type default)
-					)
-					(fill
-						(type none)
-					)
-				)
-				(arc
-					(start 1.778 0)
-					(mid 0.2099 1.8101)
-					(end -1.778 0.508)
-					(stroke
-						(width 0.254)
-						(type default)
-					)
-					(fill
-						(type none)
-					)
-				)
-			)
-			(symbol "Conn_Coaxial_1_1"
-				(pin passive line
-					(at -5.08 0 0)
-					(length 2.54)
-					(name "In"
-						(effects
-							(font
-								(size 1.27 1.27)
-							)
-						)
-					)
-					(number "1"
-						(effects
-							(font
-								(size 1.27 1.27)
-							)
-						)
-					)
-				)
-				(pin passive line
-					(at 0 -5.08 90)
-					(length 2.54)
-					(name "Ext"
-						(effects
-							(font
-								(size 1.27 1.27)
-							)
-						)
-					)
-					(number "2"
-						(effects
-							(font
-								(size 1.27 1.27)
-							)
-						)
-					)
-				)
-			)
-		)
 		(symbol "Connector:TestPoint"
 			(pin_numbers hide)
 			(pin_names
@@ -2556,12 +2389,6 @@
 		(uuid "17c4f3db-91ab-4450-8000-6c6f1bb563d2")
 	)
 	(junction
-		(at 198.12 68.58)
-		(diameter 0)
-		(color 0 0 0 0)
-		(uuid "25b745cb-8102-43b0-a30f-bfb7c6835772")
-	)
-	(junction
 		(at 78.74 86.36)
 		(diameter 0)
 		(color 0 0 0 0)
@@ -2700,12 +2527,6 @@
 		(uuid "add4072a-87e2-4097-b211-2dc9e6020e5e")
 	)
 	(junction
-		(at 198.12 96.52)
-		(diameter 0)
-		(color 0 0 0 0)
-		(uuid "b8a8874e-bf63-4feb-9daa-d5c72ccb772d")
-	)
-	(junction
 		(at 96.52 111.76)
 		(diameter 0)
 		(color 0 0 0 0)
@@ -2795,7 +2616,7 @@
 	)
 	(wire
 		(pts
-			(xy 58.42 45.72) (xy 58.42 48.26)
+			(xy 58.42 45.72) (xy 58.42 46.99)
 		)
 		(stroke
 			(width 0)
@@ -2865,16 +2686,6 @@
 	)
 	(wire
 		(pts
-			(xy 205.74 96.52) (xy 198.12 96.52)
-		)
-		(stroke
-			(width 0)
-			(type default)
-		)
-		(uuid "1ce887af-1292-4775-8d6b-a7631e0f0fb1")
-	)
-	(wire
-		(pts
 			(xy 182.88 43.18) (xy 182.88 55.88)
 		)
 		(stroke
@@ -2935,7 +2746,7 @@
 	)
 	(wire
 		(pts
-			(xy 43.18 20.32) (xy 55.88 20.32)
+			(xy 50.8 20.32) (xy 55.88 20.32)
 		)
 		(stroke
 			(width 0)
@@ -3185,7 +2996,7 @@
 	)
 	(wire
 		(pts
-			(xy 198.12 55.88) (xy 198.12 68.58)
+			(xy 198.12 55.88) (xy 198.12 83.82)
 		)
 		(stroke
 			(width 0)
@@ -3215,6 +3026,16 @@
 	)
 	(wire
 		(pts
+			(xy 58.42 54.61) (xy 58.42 55.88)
+		)
+		(stroke
+			(width 0)
+			(type default)
+		)
+		(uuid "782c9f7c-45ef-4830-80cf-b173193c3cce")
+	)
+	(wire
+		(pts
 			(xy 144.78 86.36) (xy 144.78 96.52)
 		)
 		(stroke
@@ -3235,7 +3056,7 @@
 	)
 	(wire
 		(pts
-			(xy 43.18 78.74) (xy 55.88 78.74)
+			(xy 50.8 78.74) (xy 55.88 78.74)
 		)
 		(stroke
 			(width 0)
@@ -3272,16 +3093,6 @@
 			(type default)
 		)
 		(uuid "86a5faad-b2aa-4c04-9ad8-ad9ef200addb")
-	)
-	(wire
-		(pts
-			(xy 198.12 86.36) (xy 198.12 96.52)
-		)
-		(stroke
-			(width 0)
-			(type default)
-		)
-		(uuid "8704c647-22ee-4da8-a313-bcab81d17df6")
 	)
 	(wire
 		(pts
@@ -3335,7 +3146,7 @@
 	)
 	(wire
 		(pts
-			(xy 198.12 96.52) (xy 198.12 114.3)
+			(xy 198.12 86.36) (xy 198.12 114.3)
 		)
 		(stroke
 			(width 0)
@@ -3485,23 +3296,13 @@
 	)
 	(wire
 		(pts
-			(xy 58.42 104.14) (xy 58.42 106.68)
+			(xy 58.42 104.14) (xy 58.42 105.41)
 		)
 		(stroke
 			(width 0)
 			(type default)
 		)
 		(uuid "d2dc86ae-f64a-4906-adcd-abb904ce8456")
-	)
-	(wire
-		(pts
-			(xy 198.12 68.58) (xy 205.74 68.58)
-		)
-		(stroke
-			(width 0)
-			(type default)
-		)
-		(uuid "d7307b63-0d2e-4f84-a6a2-797f82418ac8")
 	)
 	(wire
 		(pts
@@ -3595,13 +3396,13 @@
 	)
 	(wire
 		(pts
-			(xy 198.12 68.58) (xy 198.12 83.82)
+			(xy 58.42 113.03) (xy 58.42 114.3)
 		)
 		(stroke
 			(width 0)
 			(type default)
 		)
-		(uuid "f0fe06a8-84ab-49a0-a966-051404c27314")
+		(uuid "eff97836-f50d-4a96-ba67-1f655746624f")
 	)
 	(wire
 		(pts
@@ -3820,7 +3621,7 @@
 	)
 	(global_label "TIM1_CH1"
 		(shape input)
-		(at 43.18 20.32 180)
+		(at 50.8 20.32 180)
 		(fields_autoplaced yes)
 		(effects
 			(font
@@ -3830,7 +3631,7 @@
 		)
 		(uuid "0ef13804-1d67-4266-997d-b50e5088f681")
 		(property "Intersheetrefs" "${INTERSHEET_REFS}"
-			(at 31.1839 20.32 0)
+			(at 38.8039 20.32 0)
 			(effects
 				(font
 					(size 1.27 1.27)
@@ -3864,7 +3665,7 @@
 	)
 	(global_label "TIM1_CH2"
 		(shape input)
-		(at 43.18 78.74 180)
+		(at 50.8 78.74 180)
 		(fields_autoplaced yes)
 		(effects
 			(font
@@ -3874,7 +3675,7 @@
 		)
 		(uuid "d38ed171-f829-49d5-9f1f-1af5be9b2786")
 		(property "Intersheetrefs" "${INTERSHEET_REFS}"
-			(at 31.1839 78.74 0)
+			(at 38.8039 78.74 0)
 			(effects
 				(font
 					(size 1.27 1.27)
@@ -4047,7 +3848,7 @@
 	)
 	(symbol
 		(lib_id "Jumper:SolderJumper_2_Open")
-		(at 58.42 110.49 90)
+		(at 58.42 109.22 90)
 		(unit 1)
 		(exclude_from_sim no)
 		(in_bom yes)
@@ -4055,7 +3856,7 @@
 		(dnp no)
 		(uuid "0b8394fe-90ea-42fc-a70f-efd644dcc992")
 		(property "Reference" "JP2"
-			(at 53.34 109.22 90)
+			(at 53.34 107.95 90)
 			(effects
 				(font
 					(size 1.27 1.27)
@@ -4064,7 +3865,7 @@
 			)
 		)
 		(property "Value" "SJ"
-			(at 53.848 111.76 90)
+			(at 53.848 110.49 90)
 			(effects
 				(font
 					(size 1.27 1.27)
@@ -4073,7 +3874,7 @@
 			)
 		)
 		(property "Footprint" "Jumper:SolderJumper-2_P1.3mm_Open_TrianglePad1.0x1.5mm"
-			(at 58.42 110.49 0)
+			(at 58.42 109.22 0)
 			(effects
 				(font
 					(size 1.27 1.27)
@@ -4082,7 +3883,7 @@
 			)
 		)
 		(property "Datasheet" "~"
-			(at 58.42 110.49 0)
+			(at 58.42 109.22 0)
 			(effects
 				(font
 					(size 1.27 1.27)
@@ -4091,7 +3892,7 @@
 			)
 		)
 		(property "Description" ""
-			(at 58.42 110.49 0)
+			(at 58.42 109.22 0)
 			(effects
 				(font
 					(size 1.27 1.27)
@@ -4116,7 +3917,7 @@
 	)
 	(symbol
 		(lib_id "Jumper:SolderJumper_2_Open")
-		(at 58.42 52.07 90)
+		(at 58.42 50.8 90)
 		(unit 1)
 		(exclude_from_sim no)
 		(in_bom yes)
@@ -4124,7 +3925,7 @@
 		(dnp no)
 		(uuid "0debc5f0-af4b-40c1-b317-2639b510ce0a")
 		(property "Reference" "JP1"
-			(at 52.578 49.784 90)
+			(at 52.578 48.514 90)
 			(effects
 				(font
 					(size 1.27 1.27)
@@ -4133,7 +3934,7 @@
 			)
 		)
 		(property "Value" "SJ"
-			(at 52.578 52.324 90)
+			(at 52.578 51.054 90)
 			(effects
 				(font
 					(size 1.27 1.27)
@@ -4142,7 +3943,7 @@
 			)
 		)
 		(property "Footprint" "Jumper:SolderJumper-2_P1.3mm_Open_TrianglePad1.0x1.5mm"
-			(at 58.42 52.07 0)
+			(at 58.42 50.8 0)
 			(effects
 				(font
 					(size 1.27 1.27)
@@ -4151,7 +3952,7 @@
 			)
 		)
 		(property "Datasheet" "~"
-			(at 58.42 52.07 0)
+			(at 58.42 50.8 0)
 			(effects
 				(font
 					(size 1.27 1.27)
@@ -4160,7 +3961,7 @@
 			)
 		)
 		(property "Description" ""
-			(at 58.42 52.07 0)
+			(at 58.42 50.8 0)
 			(effects
 				(font
 					(size 1.27 1.27)
@@ -4178,73 +3979,6 @@
 			(project "USBLabTool"
 				(path "/b5440f7d-90d5-417e-adc2-aa6b11e5424d/51eab4b3-0b2f-418c-9f7c-59af443ff2ad"
 					(reference "JP1")
-					(unit 1)
-				)
-			)
-		)
-	)
-	(symbol
-		(lib_id "Connector:Conn_Coaxial")
-		(at 210.82 96.52 0)
-		(unit 1)
-		(exclude_from_sim no)
-		(in_bom yes)
-		(on_board yes)
-		(dnp no)
-		(uuid "11c321d7-cf47-4d21-8ef0-5babe011b2ad")
-		(property "Reference" "J20"
-			(at 215.9 96.52 0)
-			(effects
-				(font
-					(size 1.27 1.27)
-				)
-			)
-		)
-		(property "Value" "BNC"
-			(at 215.9 99.06 0)
-			(effects
-				(font
-					(size 1.27 1.27)
-				)
-			)
-		)
-		(property "Footprint" "Connector_Coaxial:BNC_Amphenol_B6252HB-NPP3G-50_Horizontal"
-			(at 210.82 96.52 0)
-			(effects
-				(font
-					(size 1.27 1.27)
-				)
-				(hide yes)
-			)
-		)
-		(property "Datasheet" " ~"
-			(at 210.82 96.52 0)
-			(effects
-				(font
-					(size 1.27 1.27)
-				)
-				(hide yes)
-			)
-		)
-		(property "Description" ""
-			(at 210.82 96.52 0)
-			(effects
-				(font
-					(size 1.27 1.27)
-				)
-				(hide yes)
-			)
-		)
-		(pin "1"
-			(uuid "82e7e7f0-d532-40ca-a66b-b6a40ca0d2ec")
-		)
-		(pin "2"
-			(uuid "8f4511ce-c050-48b7-a8bd-d25a5d50061c")
-		)
-		(instances
-			(project "USBLabTool"
-				(path "/b5440f7d-90d5-417e-adc2-aa6b11e5424d/51eab4b3-0b2f-418c-9f7c-59af443ff2ad"
-					(reference "J20")
 					(unit 1)
 				)
 			)
@@ -4610,72 +4344,6 @@
 			(project "USBLabTool"
 				(path "/b5440f7d-90d5-417e-adc2-aa6b11e5424d/51eab4b3-0b2f-418c-9f7c-59af443ff2ad"
 					(reference "R51")
-					(unit 1)
-				)
-			)
-		)
-	)
-	(symbol
-		(lib_id "power:GNDA")
-		(at 210.82 73.66 0)
-		(unit 1)
-		(exclude_from_sim no)
-		(in_bom yes)
-		(on_board yes)
-		(dnp no)
-		(fields_autoplaced yes)
-		(uuid "2af811f8-cd56-4130-9255-0bf405377bd5")
-		(property "Reference" "#PWR067"
-			(at 210.82 80.01 0)
-			(effects
-				(font
-					(size 1.27 1.27)
-				)
-				(hide yes)
-			)
-		)
-		(property "Value" "GNDA"
-			(at 210.82 78.74 0)
-			(effects
-				(font
-					(size 1.27 1.27)
-				)
-			)
-		)
-		(property "Footprint" ""
-			(at 210.82 73.66 0)
-			(effects
-				(font
-					(size 1.27 1.27)
-				)
-				(hide yes)
-			)
-		)
-		(property "Datasheet" ""
-			(at 210.82 73.66 0)
-			(effects
-				(font
-					(size 1.27 1.27)
-				)
-				(hide yes)
-			)
-		)
-		(property "Description" ""
-			(at 210.82 73.66 0)
-			(effects
-				(font
-					(size 1.27 1.27)
-				)
-				(hide yes)
-			)
-		)
-		(pin "1"
-			(uuid "f6b39d48-fe9e-483a-98fa-467b2e8d94e0")
-		)
-		(instances
-			(project "USBLabTool"
-				(path "/b5440f7d-90d5-417e-adc2-aa6b11e5424d/51eab4b3-0b2f-418c-9f7c-59af443ff2ad"
-					(reference "#PWR067")
 					(unit 1)
 				)
 			)
@@ -5562,73 +5230,6 @@
 		)
 	)
 	(symbol
-		(lib_id "Connector:Conn_Coaxial")
-		(at 210.82 68.58 0)
-		(unit 1)
-		(exclude_from_sim no)
-		(in_bom yes)
-		(on_board yes)
-		(dnp no)
-		(uuid "647e649a-dc9e-4b8f-a9a5-24ff9a8f159e")
-		(property "Reference" "J19"
-			(at 215.9 68.58 0)
-			(effects
-				(font
-					(size 1.27 1.27)
-				)
-			)
-		)
-		(property "Value" "BNC"
-			(at 215.9 66.04 0)
-			(effects
-				(font
-					(size 1.27 1.27)
-				)
-			)
-		)
-		(property "Footprint" "Connector_Coaxial:BNC_Amphenol_B6252HB-NPP3G-50_Horizontal"
-			(at 210.82 68.58 0)
-			(effects
-				(font
-					(size 1.27 1.27)
-				)
-				(hide yes)
-			)
-		)
-		(property "Datasheet" " ~"
-			(at 210.82 68.58 0)
-			(effects
-				(font
-					(size 1.27 1.27)
-				)
-				(hide yes)
-			)
-		)
-		(property "Description" ""
-			(at 210.82 68.58 0)
-			(effects
-				(font
-					(size 1.27 1.27)
-				)
-				(hide yes)
-			)
-		)
-		(pin "1"
-			(uuid "2286de07-d952-45a3-8b1f-54cbe30d158c")
-		)
-		(pin "2"
-			(uuid "a821032b-3eea-42ed-ba2b-9a2ece5b203f")
-		)
-		(instances
-			(project "USBLabTool"
-				(path "/b5440f7d-90d5-417e-adc2-aa6b11e5424d/51eab4b3-0b2f-418c-9f7c-59af443ff2ad"
-					(reference "J19")
-					(unit 1)
-				)
-			)
-		)
-	)
-	(symbol
 		(lib_id "Device:Opamp_Quad")
 		(at 175.26 114.3 0)
 		(mirror x)
@@ -5890,8 +5491,8 @@
 				(hide yes)
 			)
 		)
-		(property "Value" "GND"
-			(at 212.598 90.424 0)
+		(property "Value" "GNDA"
+			(at 213.36 90.424 0)
 			(effects
 				(font
 					(size 1.27 1.27)
@@ -6348,7 +5949,7 @@
 	)
 	(symbol
 		(lib_id "power:-12V")
-		(at 200.66 134.62 180)
+		(at 185.42 29.21 180)
 		(unit 1)
 		(exclude_from_sim no)
 		(in_bom yes)
@@ -6356,7 +5957,7 @@
 		(dnp no)
 		(uuid "9c53f525-d5a2-4569-ab5f-342a64da8696")
 		(property "Reference" "#PWR063"
-			(at 200.66 137.16 0)
+			(at 185.42 31.75 0)
 			(effects
 				(font
 					(size 1.27 1.27)
@@ -6365,7 +5966,7 @@
 			)
 		)
 		(property "Value" "-12V"
-			(at 200.406 138.938 0)
+			(at 185.166 33.528 0)
 			(effects
 				(font
 					(size 1.27 1.27)
@@ -6373,7 +5974,7 @@
 			)
 		)
 		(property "Footprint" ""
-			(at 200.66 134.62 0)
+			(at 185.42 29.21 0)
 			(effects
 				(font
 					(size 1.27 1.27)
@@ -6382,7 +5983,7 @@
 			)
 		)
 		(property "Datasheet" ""
-			(at 200.66 134.62 0)
+			(at 185.42 29.21 0)
 			(effects
 				(font
 					(size 1.27 1.27)
@@ -6391,7 +5992,7 @@
 			)
 		)
 		(property "Description" ""
-			(at 200.66 134.62 0)
+			(at 185.42 29.21 0)
 			(effects
 				(font
 					(size 1.27 1.27)
@@ -7233,7 +6834,7 @@
 	)
 	(symbol
 		(lib_id "power:+12V")
-		(at 187.96 134.62 0)
+		(at 172.72 29.21 0)
 		(unit 1)
 		(exclude_from_sim no)
 		(in_bom yes)
@@ -7241,7 +6842,7 @@
 		(dnp no)
 		(uuid "c114ad60-c568-4e69-90ae-1b7d33cf05c8")
 		(property "Reference" "#PWR062"
-			(at 187.96 138.43 0)
+			(at 172.72 33.02 0)
 			(effects
 				(font
 					(size 1.27 1.27)
@@ -7250,7 +6851,7 @@
 			)
 		)
 		(property "Value" "+12V"
-			(at 187.96 130.302 0)
+			(at 172.72 24.892 0)
 			(effects
 				(font
 					(size 1.27 1.27)
@@ -7258,7 +6859,7 @@
 			)
 		)
 		(property "Footprint" ""
-			(at 187.96 134.62 0)
+			(at 172.72 29.21 0)
 			(effects
 				(font
 					(size 1.27 1.27)
@@ -7267,7 +6868,7 @@
 			)
 		)
 		(property "Datasheet" ""
-			(at 187.96 134.62 0)
+			(at 172.72 29.21 0)
 			(effects
 				(font
 					(size 1.27 1.27)
@@ -7276,7 +6877,7 @@
 			)
 		)
 		(property "Description" ""
-			(at 187.96 134.62 0)
+			(at 172.72 29.21 0)
 			(effects
 				(font
 					(size 1.27 1.27)
@@ -7625,7 +7226,7 @@
 	)
 	(symbol
 		(lib_id "Connector_Generic:Conn_02x01")
-		(at 193.04 134.62 0)
+		(at 177.8 29.21 0)
 		(unit 1)
 		(exclude_from_sim no)
 		(in_bom yes)
@@ -7634,7 +7235,7 @@
 		(fields_autoplaced yes)
 		(uuid "d070107d-1fb9-44e5-ac6a-278fd36f78df")
 		(property "Reference" "J17"
-			(at 194.31 129.54 0)
+			(at 179.07 24.13 0)
 			(effects
 				(font
 					(size 1.27 1.27)
@@ -7642,7 +7243,7 @@
 			)
 		)
 		(property "Value" "2x01"
-			(at 194.31 132.08 0)
+			(at 179.07 26.67 0)
 			(effects
 				(font
 					(size 1.27 1.27)
@@ -7650,7 +7251,7 @@
 			)
 		)
 		(property "Footprint" "Connector_PinHeader_2.54mm:PinHeader_2x01_P2.54mm_Vertical"
-			(at 193.04 134.62 0)
+			(at 177.8 29.21 0)
 			(effects
 				(font
 					(size 1.27 1.27)
@@ -7659,7 +7260,7 @@
 			)
 		)
 		(property "Datasheet" "~"
-			(at 193.04 134.62 0)
+			(at 177.8 29.21 0)
 			(effects
 				(font
 					(size 1.27 1.27)
@@ -7668,7 +7269,7 @@
 			)
 		)
 		(property "Description" ""
-			(at 193.04 134.62 0)
+			(at 177.8 29.21 0)
 			(effects
 				(font
 					(size 1.27 1.27)
@@ -7686,72 +7287,6 @@
 			(project "USBLabTool"
 				(path "/b5440f7d-90d5-417e-adc2-aa6b11e5424d/51eab4b3-0b2f-418c-9f7c-59af443ff2ad"
 					(reference "J17")
-					(unit 1)
-				)
-			)
-		)
-	)
-	(symbol
-		(lib_id "power:GNDA")
-		(at 210.82 101.6 0)
-		(unit 1)
-		(exclude_from_sim no)
-		(in_bom yes)
-		(on_board yes)
-		(dnp no)
-		(fields_autoplaced yes)
-		(uuid "d2115e1c-2e83-4134-b199-e70c5e8e9b31")
-		(property "Reference" "#PWR069"
-			(at 210.82 107.95 0)
-			(effects
-				(font
-					(size 1.27 1.27)
-				)
-				(hide yes)
-			)
-		)
-		(property "Value" "GNDA"
-			(at 210.82 106.68 0)
-			(effects
-				(font
-					(size 1.27 1.27)
-				)
-			)
-		)
-		(property "Footprint" ""
-			(at 210.82 101.6 0)
-			(effects
-				(font
-					(size 1.27 1.27)
-				)
-				(hide yes)
-			)
-		)
-		(property "Datasheet" ""
-			(at 210.82 101.6 0)
-			(effects
-				(font
-					(size 1.27 1.27)
-				)
-				(hide yes)
-			)
-		)
-		(property "Description" ""
-			(at 210.82 101.6 0)
-			(effects
-				(font
-					(size 1.27 1.27)
-				)
-				(hide yes)
-			)
-		)
-		(pin "1"
-			(uuid "57da43d1-ff14-4744-8e71-b90d52fa0c4d")
-		)
-		(instances
-			(project "USBLabTool"
-				(path "/b5440f7d-90d5-417e-adc2-aa6b11e5424d/51eab4b3-0b2f-418c-9f7c-59af443ff2ad"
-					(reference "#PWR069")
 					(unit 1)
 				)
 			)
