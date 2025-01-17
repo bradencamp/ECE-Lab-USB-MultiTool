@@ -10345,7 +10345,7 @@
 				(hide yes)
 			)
 		)
-		(property "Value" "12V_PWR_FLAG"
+		(property "Value" "+12VA_PWR_FLAG"
 			(at 93.98 82.5499 90)
 			(effects
 				(font
@@ -16215,7 +16215,7 @@
 				(hide yes)
 			)
 		)
-		(property "Value" "-12V_PWR_FLAG"
+		(property "Value" "-12VA_PWR_FLAG"
 			(at 93.98 110.4899 90)
 			(effects
 				(font
