@@ -8013,7 +8013,7 @@
 				(hide yes)
 			)
 		)
-		(property "Value" "+3.3V"
+		(property "Value" "+3.3VA"
 			(at 311.15 54.229 0)
 			(effects
 				(font
@@ -14462,7 +14462,7 @@
 		(fields_autoplaced yes)
 		(uuid "927920d2-e9b2-4e7c-8d44-44885cc47e0e")
 		(property "Reference" "J16"
-			(at 324.866 62.2299 0)
+			(at 325.12 62.2299 0)
 			(effects
 				(font
 					(size 1.27 1.27)
@@ -14470,8 +14470,8 @@
 				(justify left)
 			)
 		)
-		(property "Value" "+3.3 V"
-			(at 324.866 64.7699 0)
+		(property "Value" "+3.3VA"
+			(at 325.12 64.7699 0)
 			(effects
 				(font
 					(size 1.27 1.27)
