@@ -9008,7 +9008,6 @@
 					(size 1.27 1.27)
 				)
 				(justify left)
-				(hide yes)
 			)
 		)
 		(property "Value" "270n"
@@ -10829,7 +10828,7 @@
 				(hide yes)
 			)
 		)
-		(property "Value" "-12V"
+		(property "Value" "-12VA"
 			(at 35.814 44.958 0)
 			(effects
 				(font
@@ -13898,7 +13897,7 @@
 				(hide yes)
 			)
 		)
-		(property "Value" "+12V"
+		(property "Value" "+12VA"
 			(at 43.942 19.812 0)
 			(effects
 				(font
@@ -16067,7 +16066,6 @@
 		(in_bom yes)
 		(on_board yes)
 		(dnp no)
-		(fields_autoplaced yes)
 		(uuid "fb618a6d-c43a-4b93-abe5-d52f0ecb448f")
 		(property "Reference" "#PWR071"
 			(at 85.09 130.81 0)
@@ -16078,12 +16076,13 @@
 				(hide yes)
 			)
 		)
-		(property "Value" "+12V"
-			(at 85.09 121.92 0)
+		(property "Value" "+12VA"
+			(at 79.502 122.936 0)
 			(effects
 				(font
 					(size 1.27 1.27)
 				)
+				(justify left)
 			)
 		)
 		(property "Footprint" ""
