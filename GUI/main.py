@@ -1,5 +1,18 @@
-#TODO merge both versions of main into 1 file, Anna setup/copy over handler functions
-    # -> began merging. Backing up current working version to git
+#
+# TODO 
+# - [?] Spacing?
+# - [?] AWG checkboxes TODO: (does awg or scope have priority?)
+# - [x] AWG waveform plot types
+# - [/] AWG frequencies NOTE: works for ch1, TODO ch2
+# - [x] AWG amplitudes
+# - [x] AWG offsets
+# - [ ] Time base
+# - [x] Run/Stop button
+# - [?] Single run button TODO: (single period? single data capture? etc)
+# - [x] Record Data button
+# - [x] Scope checkboxes
+# - [ ] Scope ranges
+# - [ ] Trigger stuff
 
 
 import sys
@@ -120,8 +133,12 @@ class MainWindow(QMainWindow):
         self.awgPen2 = pg.mkPen(color=(255, 0, 0), width=5, style=Qt.PenStyle.DotLine) #scope ch2 = red, dotted line
         self.awgTime1 = np.linspace(0,10,NUMPOINTS)
         self.awgTime2 = np.linspace(0,10,NUMPOINTS)
-        self.awgData1 = 1*np.sin(2*pi*self.awgTime1) #sine wave ch1
-        self.awgData2 = 1*np.sin(2*pi*self.awgTime2) #sine wave ch2
+
+#        self.awgData1 = 1*np.sin(2*pi*self.awgTime1) #sine wave ch1
+        self.awgData1 = 1*np.sin(2*pi*self.awgCh1Config["freq"]*self.awgTime1+pi/180*self.awgCh1Config["phase"]) #sine wave ch1
+
+#        self.awgData2 = 1*np.sin(2*pi*self.awgTime2) #sine wave ch2
+        self.awgData2 = 1*np.sin(2*pi*self.awgCh2Config["freq"]*self.awgTime2 +pi/180*self.awgCh1Config["phase"]) #sine wave ch2
         
         self.awgLine1 = self.plot_graph.plot(self.awgTime1, self.awgData1,pen = self.awgPen1)
         self.awgLine2 = self.plot_graph.plot(self.awgTime2, self.awgData2, pen = self.awgPen2)
@@ -287,8 +304,9 @@ class MainWindow(QMainWindow):
         #ch1Freq = LabelField("Frequency:",[MINFREQUENCY, MAXFREQUENCY],float(1), 3,"Hz", prefixes_frequency,BLANK)
         awgLayout.addWidget(ch1Freq,0,2)
         ch1Freq.valueChanged.connect(self.set_awgCh1Freq)
+        
         #ch2Freq.valueChanged.connect(self.set_awgCh1Freq)
-        ch2Freq = LabelField("Frequency:",[MINFREQUENCY, MAXFREQUENCY],float(1000),3, "Hz", prefixes_frequency,BLANK)
+        ch2Freq = LabelField("Frequency:",[MINFREQUENCY, MAXFREQUENCY],float(1),3,"Hz", prefixes_frequency,BLANK)
         awgLayout.addWidget(ch2Freq,1,2)
         ch2Freq.valueChanged.connect(self.set_awgCh2Freq)
             
@@ -426,13 +444,14 @@ class MainWindow(QMainWindow):
 
         oscilloLayout = QGridLayout()
         oscilloLayout.addWidget(ColorBox("#d2dbe5"),0,0,-1,-1)#background for demonstration. Remove later
-        oscilloCheck = QCheckBox()
-        oscilloCheck.setChecked(True)#default scope checkbox checked -> scope on
-        oscilloLayout.addWidget(oscilloCheck,0,0)
+        self.oscilloCheck = QCheckBox()
+        self.oscilloCheck.setChecked(True)#default scope checkbox checked -> scope on
+        self.oscilloCheck.stateChanged.connect(self.oscClick) #main scope checkbox handler
+        oscilloLayout.addWidget(self.oscilloCheck,0,0)
         oscilloLayout.addWidget(QLabel("Oscilloscope"),0,1,alignment = Qt.AlignmentFlag.AlignHCenter)
         
         self.oscCh1EN = QCheckBox("CH1")
-        self.oscCh1EN.setChecked(True) #default scope channel 1 to on
+        self.oscCh1EN.setChecked(True) #default scope channel 1 on
         self.oscCh1EN.stateChanged.connect(self.oscCh1Click) #checkbox handler
         self.oscCh1Trig = QComboBox()
         self.oscCh1Trig.setPlaceholderText('Trigger Type')
@@ -440,7 +459,7 @@ class MainWindow(QMainWindow):
         self.oscCh1VDiv = LabelField("Range",[1e-6,20],1.0,2,"V/Div",{"u":1e-6,"m":1e-3,"":1},BLANK)
 
         self.oscCh2EN = QCheckBox("CH2")
-        self.oscCh2EN.setChecked(True) #default scope channel 2 to on
+        self.oscCh2EN.setChecked(True) #default scope channel 2 on
         self.oscCh2EN.stateChanged.connect(self.oscCh2Click) #checkbox handler
         self.oscCh2Trig = QComboBox()
         self.oscCh2Trig.setPlaceholderText('Trigger Type')
@@ -515,17 +534,25 @@ class MainWindow(QMainWindow):
 
     #Handler Methods
     ###-------------------------------------------------------------------------------------###
+    #scope main checkbox handler
+    def oscClick(self):
+        if self.oscilloCheck.isChecked(): #if checked -> check ch1 & ch2 checkboxes
+            self.oscCh1Click()
+            self.oscCh2Click()
+        else: #temp solution -> plot zeros to remove waveforms
+            self.oscCh1EN.setChecked(False)
+            self.oscCh2EN.setChecked(False)
 
     #scope channel 1 checkbox handler
     def oscCh1Click(self):
-        if (self.oscCh1EN.isChecked()):
+        if self.oscCh1EN.isChecked():
             self.awgLine1.setData(self.awgTime1,self.awgData1) #set ch1 waveform data if checked
         else:
             self.awgLine1.setData(self.zeros,self.zeros) #temp solution -> remove wave
 
     #scope chanel 2 checkbox handler
     def oscCh2Click(self):
-        if (self.oscCh2EN.isChecked()):
+        if self.oscCh2EN.isChecked():
             self.awgLine2.setData(self.awgTime2,self.awgData2) #set ch2 waveform data if checked
         else:
             self.awgLine2.setData(self.zeros,self.zeros)
@@ -535,7 +562,8 @@ class MainWindow(QMainWindow):
         if self.dataButton.isChecked():#recordData clicked 
             self.exportData.export()
             self.dataButton.setChecked(False) #reset button
-        
+
+    #configure plots    
     def configPlotCh1(self):
         #scale and offset
         self.awgData1 = self.awgCh1Config["amp"]*self.awgData1 + self.awgCh1Config["off"]
@@ -545,6 +573,7 @@ class MainWindow(QMainWindow):
         self.awgData2 = self.awgCh2Config["amp"]*self.awgData2 + self.awgCh2Config["off"]
         self.oscCh2Click()
 
+    #configure waveforms
     def squareWaveCh1(self):
         self.configPlotCh1()
         self.awgData1 = np.ones(NUMPOINTS)
@@ -600,27 +629,32 @@ class MainWindow(QMainWindow):
             #self.templine.setData(self.awgTime, np.sin(tau*self.awgCh1Config["freq"]*self.awgData1))
         #self.oscCh1Click()
         #self.oscCh2Click()
-        if (self.oscCh1EN.isChecked()):
-            match self.awgCh1Config["wave"]:
-                case 1:#square
-                    self.squareWaveCh1()
-                case 2:#triangle 
-                    self.triangleWaveCh1()             
-                case 3:#sawtooth
-                #self.awgData1 = 2*self.omega-1
-                    self.sawWaveCh1()
-                case _:#sine
-                    self.sineWaveCh1()
-        if (self.oscCh2EN.isChecked()):
-            match self.awgCh2Config["wave"]:
-                case 1:#square
-                    self.squareWaveCh2()
-                case 2:#triangle 
-                    self.triangleWaveCh2()             
-                case 3:#sawtooth
-                    self.sawWaveCh2()
-                case _:#sine
-                    self.sineWaveCh2()
+        if not self.runStopButton.isChecked():
+            self.awgLine1.setData(self.zeros,self.zeros)
+            self.awgLine2.setData(self.zeros,self.zeros)
+        else:            
+            if self.oscCh1EN.isChecked():
+                match self.awgCh1Config["wave"]:
+                    case 1:#square
+                        self.squareWaveCh1()
+                    case 2:#triangle 
+                        self.triangleWaveCh1()             
+                    case 3:#sawtooth
+                        #self.awgData1 = 2*self.omega-1
+                        self.sawWaveCh1()
+                    case _:#sine
+                        self.sineWaveCh1()
+            if self.oscCh2EN.isChecked():
+                match self.awgCh2Config["wave"]:
+                    case 1:#square
+                        self.squareWaveCh2()
+                    case 2:#triangle 
+                        self.triangleWaveCh2()             
+                    case 3:#sawtooth
+                        self.sawWaveCh2()
+                    case _:#sine
+                        self.sineWaveCh2()
+            
 
 
 app = QApplication(sys.argv)
