@@ -16076,8 +16076,8 @@
 				(hide yes)
 			)
 		)
-		(property "Value" "+12VA"
-			(at 79.502 122.936 0)
+		(property "Value" "+5V"
+			(at 83.058 123.19 0)
 			(effects
 				(font
 					(size 1.27 1.27)
