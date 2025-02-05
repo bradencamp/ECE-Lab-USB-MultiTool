@@ -77,6 +77,42 @@ def hexStr2bin(hex:str):
         case _:
             return b'0000'
 
+
+def hexStr2bin(hex:str):
+    match hex:
+        case "1"|"0001":
+            return b'0001'
+        case "2"|"0010":
+            return b'0010'
+        case "3"|"0011":
+            return b'0011'
+        case "4"|"0100":
+            return b'0100'
+        case "5"|"0101":
+            return b'0101'
+        case "6"|"0110":
+            return b'0110'
+        case "7"|"0111":
+            return b'0111'
+        case "8"|"1000":
+            return b'1000'
+        case "9"|"1001":
+            return b'1001'
+        case "A"|"a"|"10"|"1010":
+            return b'1010'
+        case "B"|"b"|"11"|"1011":
+            return b'1011'
+        case "C"|"c"|"12"|"1100":
+            return b'1100'
+        case "D"|"d"|"13"|"1101":
+            return b'1101'
+        case "E"|"e"|"14"|"1110":
+            return b'1110'
+        case "F"|"f"|"15"|"1111":
+            return b'1111'
+        case _:
+            return b'0000'
+
 class MainWindow(QMainWindow):
     
     def __init__(self):
@@ -441,6 +477,21 @@ class MainWindow(QMainWindow):
         deviceLayout.addWidget(connectButton,0,2,1,1)
         deviceLayout.addWidget(disconnectButton,0,3,1,1)
         deviceLayout.addWidget(self.sendline,0,4,1,1)
+        self.sendline = QTextEdit()
+        self.sendline.setFixedSize(50,30)
+        
+        
+        self.portSelect = QComboBox()
+        #self.portSelect.addItems(["Refresh Ports"])
+        deviceLayout.addWidget(self.portSelect,0,1)
+        self.getPorts()
+
+        disconnectButton.pressed.connect(self.port_disconnect)
+        connectButton.pressed.connect(self.port_connect)
+        
+        deviceLayout.addWidget(connectButton,0,2,1,1)
+        deviceLayout.addWidget(disconnectButton,0,3,1,1)
+        deviceLayout.addWidget(self.sendline,0,4,1,1)
         deviceLayout.addWidget(QPushButton("Wave Drawer"),1,0,1,1)
         #Section for button spacing. Will require fine tuning to look as we want it
         deviceLayout.setColumnStretch(5,2) 
@@ -458,9 +509,9 @@ class MainWindow(QMainWindow):
         #self.temperature[-1] = uniform(-1*self.awgCh1Config["amp"], self.awgCh1Config["amp"])
         #self.templine.setData(self.time, self.temperature)
         #like angular position of awgtime array. To be used for nonsine functions
-        self.omega = np.mod(self.awgTime+self.awgCh1Config["phase"]/(360*self.awgCh1Config["freq"]),1/self.awgCh1Config["freq"])*self.awgCh1Config["freq"]
+        self.omega = np.mod(self.awgTime+self.awgCh1Config["phase"]/((360*self.awgCh1Config["freq"])*self.awgCh1Config["freq"]),1/self.awgCh1Config["freq"])*self.awgCh1Config["freq"]
         #np.fmod(tau*self.awgCh1Config["freq"]*self.awgTime + pi/180*self.awgCh1Config["phase"],2*tau/self.awgCh1Config["freq"])                
-            #self.templine.setData(self.awgTime, np.sin(tau*self.awgCh1Config["freq"]*self.awgData))
+            #    #self.templine.setData(self.awgTime, np.sin(tau*self.awgCh1Config["freq"]*self.awgCh1Config["freq"]*self.awgData))
         match self.awgCh1Config["wave"]:
             case 1:#square
                 self.awgData = np.ones(NUMPOINTS)
