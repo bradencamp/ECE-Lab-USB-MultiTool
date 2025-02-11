@@ -594,6 +594,14 @@
     [
       "eb849fef-899c-46da-8ce0-ed0caaa370cf",
       "Power_Supply"
+    ],
+    [
+      "37e12e55-0596-42de-ac66-6f566cb1a838",
+      "USB_USER"
+    ],
+    [
+      "aa999f39-94b4-4cca-8c56-5837c15e3dce",
+      "ST_LINK USB"
     ]
   ],
   "text_variables": {}
