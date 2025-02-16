@@ -174,44 +174,6 @@
 		)
 	)
 	(sheet
-		(at 298.45 84.455)
-		(size 76.835 24.765)
-		(fields_autoplaced yes)
-		(stroke
-			(width 0.1524)
-			(type solid)
-		)
-		(fill
-			(color 0 0 0 0.0000)
-		)
-		(uuid "aa999f39-94b4-4cca-8c56-5837c15e3dce")
-		(property "Sheetname" "ST_LINK USB"
-			(at 298.45 83.7434 0)
-			(effects
-				(font
-					(size 1.27 1.27)
-				)
-				(justify left bottom)
-			)
-		)
-		(property "Sheetfile" "ST_LINK USB.kicad_sch"
-			(at 298.45 109.8046 0)
-			(effects
-				(font
-					(size 1.27 1.27)
-				)
-				(justify left top)
-			)
-		)
-		(instances
-			(project "USBLabTool"
-				(path "/b5440f7d-90d5-417e-adc2-aa6b11e5424d"
-					(page "7")
-				)
-			)
-		)
-	)
-	(sheet
 		(at 158.75 83.82)
 		(size 111.76 22.86)
 		(fields_autoplaced yes)

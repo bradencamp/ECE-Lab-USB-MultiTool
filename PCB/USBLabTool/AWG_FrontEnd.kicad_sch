@@ -7493,7 +7493,7 @@
 		(dnp no)
 		(fields_autoplaced yes)
 		(uuid "18f0138c-140b-470c-94c7-623ece873e82")
-		(property "Reference" "#PWR061"
+		(property "Reference" "#PWR062"
 			(at 152.4 43.18 0)
 			(effects
 				(font
@@ -7544,7 +7544,7 @@
 		(instances
 			(project "USBLabTool"
 				(path "/b5440f7d-90d5-417e-adc2-aa6b11e5424d/51eab4b3-0b2f-418c-9f7c-59af443ff2ad"
-					(reference "#PWR061")
+					(reference "#PWR062")
 					(unit 1)
 				)
 			)
@@ -7727,7 +7727,7 @@
 			)
 			(project ""
 				(path "/b5440f7d-90d5-417e-adc2-aa6b11e5424d/51eab4b3-0b2f-418c-9f7c-59af443ff2ad"
-					(reference "U12")
+					(reference "U11")
 					(unit 1)
 				)
 			)
@@ -8049,7 +8049,7 @@
 		(dnp no)
 		(fields_autoplaced yes)
 		(uuid "4f5f4836-2caa-4513-92c0-28f3941598ab")
-		(property "Reference" "U12"
+		(property "Reference" "U11"
 			(at 119.38 33.02 0)
 			(effects
 				(font
@@ -8143,7 +8143,7 @@
 		(instances
 			(project "USBLabTool"
 				(path "/b5440f7d-90d5-417e-adc2-aa6b11e5424d/51eab4b3-0b2f-418c-9f7c-59af443ff2ad"
-					(reference "U12")
+					(reference "U11")
 					(unit 2)
 				)
 			)
@@ -8812,7 +8812,7 @@
 			)
 			(project "USBLabTool"
 				(path "/b5440f7d-90d5-417e-adc2-aa6b11e5424d/51eab4b3-0b2f-418c-9f7c-59af443ff2ad"
-					(reference "#PWR068")
+					(reference "#PWR067")
 					(unit 1)
 				)
 			)
@@ -10189,7 +10189,7 @@
 		(dnp no)
 		(fields_autoplaced yes)
 		(uuid "c2441ffd-5a19-429e-9a31-17ca29040765")
-		(property "Reference" "#PWR062"
+		(property "Reference" "#PWR061"
 			(at 149.86 101.6 0)
 			(effects
 				(font
@@ -10240,7 +10240,7 @@
 		(instances
 			(project "USBLabTool"
 				(path "/b5440f7d-90d5-417e-adc2-aa6b11e5424d/51eab4b3-0b2f-418c-9f7c-59af443ff2ad"
-					(reference "#PWR062")
+					(reference "#PWR061")
 					(unit 1)
 				)
 			)
