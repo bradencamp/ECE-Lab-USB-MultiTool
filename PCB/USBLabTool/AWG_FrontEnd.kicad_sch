@@ -6720,6 +6720,16 @@
 		)
 		(uuid "ffb14a36-b690-4b8d-a00b-57ee77793da9")
 	)
+	(text "Will change this later on when connect them to a 20 pins\n"
+		(exclude_from_sim no)
+		(at 226.822 71.882 0)
+		(effects
+			(font
+				(size 1.27 1.27)
+			)
+		)
+		(uuid "1c902935-9602-46f4-a9de-dd14bdad5992")
+	)
 	(text "AWG CHAN 0"
 		(exclude_from_sim no)
 		(at 13.462 29.718 0)
@@ -6907,6 +6917,28 @@
 			)
 		)
 	)
+	(global_label "DAC1_OUT1"
+		(shape input)
+		(at 198.12 76.2 0)
+		(fields_autoplaced yes)
+		(effects
+			(font
+				(size 1.27 1.27)
+			)
+			(justify left)
+		)
+		(uuid "2886de95-8959-4225-8ad1-62d0c3df2c0e")
+		(property "Intersheetrefs" "${INTERSHEET_REFS}"
+			(at 211.749 76.2 0)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(justify left)
+				(hide yes)
+			)
+		)
+	)
 	(global_label "GAIN_C1"
 		(shape input)
 		(at 99.06 99.06 180)
@@ -6969,6 +7001,28 @@
 					(size 1.27 1.27)
 				)
 				(justify right)
+				(hide yes)
+			)
+		)
+	)
+	(global_label "ADC2_INP7"
+		(shape input)
+		(at 198.12 95.25 0)
+		(fields_autoplaced yes)
+		(effects
+			(font
+				(size 1.27 1.27)
+			)
+			(justify left)
+		)
+		(uuid "fc4655e1-a4ae-466d-9ef7-514cddca03cd")
+		(property "Intersheetrefs" "${INTERSHEET_REFS}"
+			(at 211.3257 95.25 0)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(justify left)
 				(hide yes)
 			)
 		)
