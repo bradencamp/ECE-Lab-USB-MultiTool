@@ -1,4 +1,4 @@
-#
+# 
 # TODO 
 # - [?] Spacing?
 # - [?] AWG checkboxes TODO: (does awg or scope have priority?)
@@ -134,10 +134,10 @@ class MainWindow(QMainWindow):
         self.awgTime1 = np.linspace(0,10,NUMPOINTS)
         self.awgTime2 = np.linspace(0,10,NUMPOINTS)
 
-#        self.awgData1 = 1*np.sin(2*pi*self.awgTime1) #sine wave ch1
+        #self.awgData1 = 1*np.sin(2*pi*self.awgTime1) #sine wave ch1
         self.awgData1 = 1*np.sin(2*pi*self.awgCh1Config["freq"]*self.awgTime1+pi/180*self.awgCh1Config["phase"]) #sine wave ch1
 
-#        self.awgData2 = 1*np.sin(2*pi*self.awgTime2) #sine wave ch2
+        #self.awgData2 = 1*np.sin(2*pi*self.awgTime2) #sine wave ch2
         self.awgData2 = 1*np.sin(2*pi*self.awgCh2Config["freq"]*self.awgTime2 +pi/180*self.awgCh1Config["phase"]) #sine wave ch2
         
         self.awgLine1 = self.plot_graph.plot(self.awgTime1, self.awgData1,pen = self.awgPen1)
@@ -281,9 +281,9 @@ class MainWindow(QMainWindow):
         #enable channel
             #to be able to use these outside of init, we'll need to prepend self as in "self.ch1En"
         ch1En = QCheckBox("Channel 1")
-        ch1En.setChecked(True) #default awg channel 1 to on
+        #ch1En.setChecked(True) #default awg channel 1 to on
         ch2En = QCheckBox("Channel 2")
-        ch2En.setChecked(True) #default awg channel 2 to on
+        #ch2En.setChecked(True) #default awg channel 2 to on
         awgLayout.addWidget(ch1En,0,0)
         awgLayout.addWidget(ch2En,1,0)
 
@@ -346,6 +346,7 @@ class MainWindow(QMainWindow):
         self.runStopButton = QPushButton("RUN/STOP")
         self.runStopButton.setCheckable(True)
         self.runStopButton.setChecked(False) #default to not clicked/running
+        self.runStopButton.clicked.connect(self.runStopClick)
         singleButton = QPushButton("SINGLE")
         self.dataButton = QPushButton("RECORD DATA")
         self.dataButton.setCheckable(True)
@@ -445,13 +446,13 @@ class MainWindow(QMainWindow):
         oscilloLayout = QGridLayout()
         oscilloLayout.addWidget(ColorBox("#d2dbe5"),0,0,-1,-1)#background for demonstration. Remove later
         self.oscilloCheck = QCheckBox()
-        self.oscilloCheck.setChecked(True)#default scope checkbox checked -> scope on
+        self.oscilloCheck.setChecked(False) #default scope checkbox unchecked -> scope off
         self.oscilloCheck.stateChanged.connect(self.oscClick) #main scope checkbox handler
         oscilloLayout.addWidget(self.oscilloCheck,0,0)
         oscilloLayout.addWidget(QLabel("Oscilloscope"),0,1,alignment = Qt.AlignmentFlag.AlignHCenter)
         
         self.oscCh1EN = QCheckBox("CH1")
-        self.oscCh1EN.setChecked(True) #default scope channel 1 on
+        self.oscCh1EN.setChecked(False) #default scope channel 1 off
         self.oscCh1EN.stateChanged.connect(self.oscCh1Click) #checkbox handler
         self.oscCh1Trig = QComboBox()
         self.oscCh1Trig.setPlaceholderText('Trigger Type')
@@ -459,7 +460,7 @@ class MainWindow(QMainWindow):
         self.oscCh1VDiv = LabelField("Range",[1e-6,20],1.0,2,"V/Div",{"u":1e-6,"m":1e-3,"":1},BLANK)
 
         self.oscCh2EN = QCheckBox("CH2")
-        self.oscCh2EN.setChecked(True) #default scope channel 2 on
+        self.oscCh2EN.setChecked(False) #default scope channel 2 off
         self.oscCh2EN.stateChanged.connect(self.oscCh2Click) #checkbox handler
         self.oscCh2Trig = QComboBox()
         self.oscCh2Trig.setPlaceholderText('Trigger Type')
@@ -534,28 +535,35 @@ class MainWindow(QMainWindow):
 
     #Handler Methods
     ###-------------------------------------------------------------------------------------###
+    def runStopClick(self):
+        if self.runStopButton.isChecked():
+            self.runStopButton.setText("STOP")
+        else:
+            self.runStopButton.setText("RUN")
+
     #scope main checkbox handler
     def oscClick(self):
-        if self.oscilloCheck.isChecked(): #if checked -> check ch1 & ch2 checkboxes
+        '''if self.oscilloCheck.isChecked(): #if checked -> check ch1 & ch2 checkboxes
             self.oscCh1Click()
-            self.oscCh2Click()
-        else: #temp solution -> plot zeros to remove waveforms
+            self.oscCh2Click()'''
+        if not self.oscilloCheck.isChecked(): #temp solution -> plot zeros to remove waveforms
             self.oscCh1EN.setChecked(False)
             self.oscCh2EN.setChecked(False)
 
     #scope channel 1 checkbox handler
     def oscCh1Click(self):
-        if self.oscCh1EN.isChecked():
-            self.awgLine1.setData(self.awgTime1,self.awgData1) #set ch1 waveform data if checked
-        else:
+        '''if self.oscCh1EN.isChecked():
+            self.awgLine1.setData(self.awgTime1,self.awgData1) #set ch1 waveform data if checked'''
+        if not self.oscCh1EN.isChecked():
             self.awgLine1.setData(self.zeros,self.zeros) #temp solution -> remove wave
 
     #scope chanel 2 checkbox handler
     def oscCh2Click(self):
-        if self.oscCh2EN.isChecked():
-            self.awgLine2.setData(self.awgTime2,self.awgData2) #set ch2 waveform data if checked
-        else:
-            self.awgLine2.setData(self.zeros,self.zeros)
+        '''if self.oscCh2EN.isChecked():
+            self.awgLine2.setData(self.awgTime2,self.awgData2) #set ch2 waveform data if checked'''
+        if not self.oscCh2EN.isChecked():
+            self.awgLine2.clear()
+
 
     #handles record data button & exports snapshot of plot to file
     def record_data(self):
@@ -563,66 +571,49 @@ class MainWindow(QMainWindow):
             self.exportData.export()
             self.dataButton.setChecked(False) #reset button
 
-    #configure plots    
-    def configPlotCh1(self):
+    def graphOscCh1(self):
+        match self.awgCh1Config["wave"]:
+            case 1:#square
+                self.awgData1 = np.ones(NUMPOINTS)
+                self.awgData1[self.omega >= self.awgCh1Config["DC"]] = -1
+            case 2:#triangle 
+                climb = np.where(self.omega < 0.5)
+                fall = np.where(self.omega  >= 0.5)
+                self.awgData1[climb] = 1 - 4 * self.omega[climb]
+                self.awgData1[fall] = 4 * self.omega[fall] - 3               
+            case 3:#sawtooth
+                self.awgData1 = 2*self.omega-1
+            case _:#sine
+                self.awgData1 = np.sin(tau*self.omega)
         #scale and offset
         self.awgData1 = self.awgCh1Config["amp"]*self.awgData1 + self.awgCh1Config["off"]
-        self.oscCh1Click()
+        #self.awgData = self.awgCh1Config["amp"]*np.sin(2*pi*self.awgCh1Config["freq"]*self.awgTime+pi/180*self.awgCh1Config["phase"])+self.awgCh1Config["off"]
+        self.awgLine1.setData(self.awgTime1,self.awgData1)
 
-    def configPlotCh2(self):
+    def graphOscCh2(self):
+        match self.awgCh2Config["wave"]:
+            case 1:#square
+                self.awgData2 = np.ones(NUMPOINTS)
+                self.awgData2[self.omega >= self.awgCh2Config["DC"]] = -1
+            case 2:#triangle 
+                climb = np.where(self.omega < 0.5)
+                fall = np.where(self.omega  >= 0.5)
+                self.awgData2[climb] = 1 - 4 * self.omega[climb]
+                self.awgData2[fall] = 4 * self.omega[fall] - 3               
+            case 3:#sawtooth
+                self.awgData2 = 2*self.omega-1
+            case _:#sine
+                self.awgData2 = np.sin(tau*self.omega)
+        #scale and offset
         self.awgData2 = self.awgCh2Config["amp"]*self.awgData2 + self.awgCh2Config["off"]
-        self.oscCh2Click()
-
-    #configure waveforms
-    def squareWaveCh1(self):
-        self.configPlotCh1()
-        self.awgData1 = np.ones(NUMPOINTS)
-        self.awgData1[self.omega >= self.awgCh1Config["DC"]] = -1
-
-    def triangleWaveCh1(self):
-        self.configPlotCh1()
-        climb1 = np.where(self.omega < 0.5)
-        fall1 = np.where(self.omega  >= 0.5)
-        self.awgData1[climb1] = 1 - 4 * self.omega[climb1]
-        self.awgData1[fall1] = 4 * self.omega[fall1] - 3 
-
-    def sawWaveCh1(self):
-        self.configPlotCh1()
-        self.awgData1 = 2*self.omega-1
-
-    def sineWaveCh1(self):
-        self.configPlotCh1()
-        self.awgData1 = np.sin(tau*self.omega)
-
-    def squareWaveCh2(self):
-        self.configPlotCh2()
-        self.awgData2 = np.ones(NUMPOINTS)
-        self.awgData2[self.omega >= self.awgCh2Config["DC"]] = -1
-
-    def triangleWaveCh2(self):
-        self.configPlotCh2()
-        climb2 = np.where(self.omega < 0.5)
-        fall2 = np.where(self.omega  >= 0.5)
-        self.awgData2[climb2] = 1 - 4 * self.omega[climb2]
-        self.awgData2[fall2] = 4 * self.omega[fall2] - 3 
-
-    def sawWaveCh2(self):
-        self.configPlotCh2()
-        self.awgData2 = 2*self.omega-1
-
-    def sineWaveCh2(self):
-        self.configPlotCh2()
-        self.awgData2 = np.sin(tau*self.omega)
-
+        self.awgLine2.setData(self.awgTime2,self.awgData2)
 
 
     #Periodic updates 
     ###-------------------------------------------------------------------------------------###
     def update_plot(self):
         #TODO edit all numpy funtions to use the out parameter
-        #self.temperature = np.roll(self.temperature,-1)
-        #self.temperature[-1] = uniform(-1*self.awgCh1Config["amp"], self.awgCh1Config["amp"])
-        #self.templine.setData(self.time, self.temperature)
+
         #like angular position of awgtime array. To be used for nonsine functions
         self.omega = np.mod(self.awgTime1+self.awgCh1Config["phase"]/(360*self.awgCh1Config["freq"]),1/self.awgCh1Config["freq"])*self.awgCh1Config["freq"]
         #np.fmod(tau*self.awgCh1Config["freq"]*self.awgTime + pi/180*self.awgCh1Config["phase"],2*tau/self.awgCh1Config["freq"])                
@@ -632,28 +623,16 @@ class MainWindow(QMainWindow):
         if not self.runStopButton.isChecked():
             self.awgLine1.setData(self.zeros,self.zeros)
             self.awgLine2.setData(self.zeros,self.zeros)
-        else:            
-            if self.oscCh1EN.isChecked():
-                match self.awgCh1Config["wave"]:
-                    case 1:#square
-                        self.squareWaveCh1()
-                    case 2:#triangle 
-                        self.triangleWaveCh1()             
-                    case 3:#sawtooth
-                        #self.awgData1 = 2*self.omega-1
-                        self.sawWaveCh1()
-                    case _:#sine
-                        self.sineWaveCh1()
-            if self.oscCh2EN.isChecked():
-                match self.awgCh2Config["wave"]:
-                    case 1:#square
-                        self.squareWaveCh2()
-                    case 2:#triangle 
-                        self.triangleWaveCh2()             
-                    case 3:#sawtooth
-                        self.sawWaveCh2()
-                    case _:#sine
-                        self.sineWaveCh2()
+        else:      
+            if self.oscilloCheck.isChecked():      
+                if self.oscCh1EN.isChecked():
+                    self.graphOscCh1()
+
+                if self.oscCh2EN.isChecked():
+                    self.graphOscCh2()
+            else:
+                self.awgLine1.clear()
+                self.awgLine2.clear()
             
 
 
