@@ -4494,6 +4494,28 @@
 			)
 		)
 	)
+	(global_label "DEBUG_JTCK_SWCLK"
+		(shape input)
+		(at 109.22 92.71 0)
+		(fields_autoplaced yes)
+		(effects
+			(font
+				(size 1.27 1.27)
+			)
+			(justify left)
+		)
+		(uuid "2c41dfcf-1a14-4ebf-87d9-74482d1824a1")
+		(property "Intersheetrefs" "${INTERSHEET_REFS}"
+			(at 131.1341 92.71 0)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(justify left)
+				(hide yes)
+			)
+		)
+	)
 	(global_label "RCC_OSC_IN"
 		(shape input)
 		(at 181.61 80.01 270)
@@ -4890,6 +4912,28 @@
 			)
 		)
 	)
+	(global_label "DEBUG_JTMS-SWDI0"
+		(shape input)
+		(at 109.22 90.17 0)
+		(fields_autoplaced yes)
+		(effects
+			(font
+				(size 1.27 1.27)
+			)
+			(justify left)
+		)
+		(uuid "c7289b32-8f5d-49f5-bf1b-8098d3d49ace")
+		(property "Intersheetrefs" "${INTERSHEET_REFS}"
+			(at 131.376 90.17 0)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(justify left)
+				(hide yes)
+			)
+		)
+	)
 	(global_label "+3.3V"
 		(shape input)
 		(at 91.44 49.53 90)
@@ -5066,6 +5110,50 @@
 			)
 		)
 	)
+	(global_label "DEBUG_JTDI"
+		(shape input)
+		(at 109.22 95.25 0)
+		(fields_autoplaced yes)
+		(effects
+			(font
+				(size 1.27 1.27)
+			)
+			(justify left)
+		)
+		(uuid "ee7fbe94-0738-4f44-8992-5440896e9646")
+		(property "Intersheetrefs" "${INTERSHEET_REFS}"
+			(at 123.2723 95.25 0)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(justify left)
+				(hide yes)
+			)
+		)
+	)
+	(global_label "DEBUG_JTD-SW0"
+		(shape input)
+		(at 109.22 107.95 0)
+		(fields_autoplaced yes)
+		(effects
+			(font
+				(size 1.27 1.27)
+			)
+			(justify left)
+		)
+		(uuid "eff4f893-c2ca-4bf6-bfdc-0fa3567e5abb")
+		(property "Intersheetrefs" "${INTERSHEET_REFS}"
+			(at 128.1103 107.95 0)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(justify left)
+				(hide yes)
+			)
+		)
+	)
 	(global_label "RCC_OSC_IN"
 		(shape input)
 		(at 55.88 74.93 180)
@@ -5101,6 +5189,28 @@
 		(uuid "f476797b-3070-429e-8664-73c65266fdc0")
 		(property "Intersheetrefs" "${INTERSHEET_REFS}"
 			(at 123.1512 125.73 0)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(justify left)
+				(hide yes)
+			)
+		)
+	)
+	(global_label "DEBUG_JTRST"
+		(shape input)
+		(at 109.22 110.49 0)
+		(fields_autoplaced yes)
+		(effects
+			(font
+				(size 1.27 1.27)
+			)
+			(justify left)
+		)
+		(uuid "f4a62c91-9615-46fc-ba14-7c58c3ef89cc")
+		(property "Intersheetrefs" "${INTERSHEET_REFS}"
+			(at 124.8446 110.49 0)
 			(effects
 				(font
 					(size 1.27 1.27)
