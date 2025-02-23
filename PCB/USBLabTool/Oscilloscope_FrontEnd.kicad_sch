@@ -11320,6 +11320,28 @@
 			)
 		)
 	)
+	(global_label "P_CH0_IN"
+		(shape input)
+		(at 39.37 88.9 180)
+		(fields_autoplaced yes)
+		(effects
+			(font
+				(size 1.27 1.27)
+			)
+			(justify right)
+		)
+		(uuid "04356b2b-5246-4158-b9e5-e5b6a6b0d376")
+		(property "Intersheetrefs" "${INTERSHEET_REFS}"
+			(at 27.4343 88.9 0)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(justify right)
+				(hide yes)
+			)
+		)
+	)
 	(global_label "CH1_attenuate"
 		(shape input)
 		(at 46.99 180.34 180)
@@ -11602,6 +11624,28 @@
 					(size 1.27 1.27)
 				)
 				(justify left)
+				(hide yes)
+			)
+		)
+	)
+	(global_label "P_CH1_IN"
+		(shape input)
+		(at 31.75 200.66 180)
+		(fields_autoplaced yes)
+		(effects
+			(font
+				(size 1.27 1.27)
+			)
+			(justify right)
+		)
+		(uuid "e8c29783-d1b4-41c9-a0c6-b0cf8ae3483f")
+		(property "Intersheetrefs" "${INTERSHEET_REFS}"
+			(at 19.8143 200.66 0)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(justify right)
 				(hide yes)
 			)
 		)
@@ -16893,78 +16937,6 @@
 		)
 	)
 	(symbol
-		(lib_id "Connector_Generic:Conn_01x01")
-		(at 39.37 83.82 90)
-		(unit 1)
-		(exclude_from_sim no)
-		(in_bom yes)
-		(on_board yes)
-		(dnp no)
-		(uuid "778ad4f4-47c5-40d2-9f90-0fc1441b9a2a")
-		(property "Reference" "J1"
-			(at 34.036 83.566 90)
-			(effects
-				(font
-					(size 1.27 1.27)
-				)
-				(justify right)
-			)
-		)
-		(property "Value" "Chanel 0 input"
-			(at 27.178 86.106 90)
-			(effects
-				(font
-					(size 1.27 1.27)
-				)
-				(justify right)
-			)
-		)
-		(property "Footprint" "Connector_PinHeader_2.54mm:PinHeader_1x01_P2.54mm_Vertical"
-			(at 39.37 83.82 0)
-			(effects
-				(font
-					(size 1.27 1.27)
-				)
-				(hide yes)
-			)
-		)
-		(property "Datasheet" "~"
-			(at 39.37 83.82 0)
-			(effects
-				(font
-					(size 1.27 1.27)
-				)
-				(hide yes)
-			)
-		)
-		(property "Description" ""
-			(at 39.37 83.82 0)
-			(effects
-				(font
-					(size 1.27 1.27)
-				)
-				(hide yes)
-			)
-		)
-		(pin "1"
-			(uuid "4b5000b7-ca25-4fb6-a71b-d58249de6ba3")
-		)
-		(instances
-			(project "Oscilloscope_FrontEnd"
-				(path "/8154ece5-3057-47b0-ace6-3a152b9b167f"
-					(reference "J1")
-					(unit 1)
-				)
-			)
-			(project ""
-				(path "/b5440f7d-90d5-417e-adc2-aa6b11e5424d/4269701b-4537-45be-98a2-a1633b405066"
-					(reference "J2")
-					(unit 1)
-				)
-			)
-		)
-	)
-	(symbol
 		(lib_id "Device:R")
 		(at 191.77 97.79 90)
 		(unit 1)
@@ -20273,78 +20245,6 @@
 			(project "USBLabTool"
 				(path "/b5440f7d-90d5-417e-adc2-aa6b11e5424d/4269701b-4537-45be-98a2-a1633b405066"
 					(reference "#PWR033")
-					(unit 1)
-				)
-			)
-		)
-	)
-	(symbol
-		(lib_id "Connector_Generic:Conn_01x01")
-		(at 31.75 195.58 90)
-		(unit 1)
-		(exclude_from_sim no)
-		(in_bom yes)
-		(on_board yes)
-		(dnp no)
-		(uuid "c2d63e93-ebe7-438a-961a-147ff5beb7af")
-		(property "Reference" "J2"
-			(at 26.416 195.326 90)
-			(effects
-				(font
-					(size 1.27 1.27)
-				)
-				(justify right)
-			)
-		)
-		(property "Value" "Chanel 1 input"
-			(at 19.558 197.866 90)
-			(effects
-				(font
-					(size 1.27 1.27)
-				)
-				(justify right)
-			)
-		)
-		(property "Footprint" "Connector_PinHeader_2.54mm:PinHeader_1x01_P2.54mm_Vertical"
-			(at 31.75 195.58 0)
-			(effects
-				(font
-					(size 1.27 1.27)
-				)
-				(hide yes)
-			)
-		)
-		(property "Datasheet" "~"
-			(at 31.75 195.58 0)
-			(effects
-				(font
-					(size 1.27 1.27)
-				)
-				(hide yes)
-			)
-		)
-		(property "Description" ""
-			(at 31.75 195.58 0)
-			(effects
-				(font
-					(size 1.27 1.27)
-				)
-				(hide yes)
-			)
-		)
-		(pin "1"
-			(uuid "4197565e-aa74-4857-9ae2-50b760a6c2d7")
-		)
-		(instances
-			(project "Oscilloscope_FrontEnd"
-				(path "/8154ece5-3057-47b0-ace6-3a152b9b167f"
-					(reference "J2")
-					(unit 1)
-				)
-			)
-			(project ""
-				(path "/b5440f7d-90d5-417e-adc2-aa6b11e5424d/4269701b-4537-45be-98a2-a1633b405066"
-					(reference "J1")
 					(unit 1)
 				)
 			)
