@@ -6550,7 +6550,7 @@
 				)
 			)
 		)
-		(property "Footprint" "PCM_Package_TO_SOT_SMD_AKL:SOT-23-6"
+		(property "Footprint" "userfp:SOT95P280X145-6N"
 			(at 195.58 144.78 0)
 			(effects
 				(font
@@ -6862,7 +6862,7 @@
 				)
 			)
 		)
-		(property "Footprint" "footprintsgit:CONN RCP USB3.1 TYPEC 24P SMD RA-632723300011"
+		(property "Footprint" "userfp:CONN RCP USB3.1 TYPEC 24P SMD RA-632723300011"
 			(at 238.76 95.25 0)
 			(effects
 				(font
@@ -7185,7 +7185,7 @@
 				(justify left)
 			)
 		)
-		(property "Footprint" "footprintsgit:TVS_ESDA25P35-1U1M"
+		(property "Footprint" "userfp:TVS_ESDA25P35-1U1M"
 			(at 269.24 106.68 0)
 			(effects
 				(font

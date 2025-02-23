@@ -12154,7 +12154,7 @@
 				(justify left)
 			)
 		)
-		(property "Footprint" "footprints:IND_TAIYO_NRH2410_TAY"
+		(property "Footprint" "userfp:IND_TAIYO_NRH2410_TAY"
 			(at 49.53 76.2 0)
 			(effects
 				(font
@@ -12232,7 +12232,7 @@
 				(justify left)
 			)
 		)
-		(property "Footprint" "footprints:IND_TAIYO_NRH2410_TAY"
+		(property "Footprint" "userfp:IND_TAIYO_NRH2410_TAY"
 			(at 49.53 114.3 0)
 			(effects
 				(font

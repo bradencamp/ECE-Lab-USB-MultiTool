@@ -5965,7 +5965,7 @@
 				(justify left)
 			)
 		)
-		(property "Footprint" "SparkFun-Clock:Crystal_SMD_3.2x1.5mm"
+		(property "Footprint" "Crystal:Crystal_SMD_MicroCrystal_CC7V-T1A-2Pin_3.2x1.5mm_HandSoldering"
 			(at 185.42 129.54 0)
 			(effects
 				(font
@@ -6110,7 +6110,7 @@
 				(justify left)
 			)
 		)
-		(property "Footprint" "SparkFun-Switch:Push_PTH_RA_8-020_h7.5mm"
+		(property "Footprint" "Button_Switch_THT:SW_PUSH_6mm_H7.3mm"
 			(at 233.68 204.47 0)
 			(effects
 				(font
@@ -6345,7 +6345,7 @@
 				)
 			)
 		)
-		(property "Footprint" "footprintsgit:NX2016SA_NDK"
+		(property "Footprint" "userfp:NX2016SA_NDK"
 			(at 184.15 64.77 0)
 			(effects
 				(font

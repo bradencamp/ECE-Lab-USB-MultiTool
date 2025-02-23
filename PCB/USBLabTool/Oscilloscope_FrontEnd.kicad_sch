@@ -11171,7 +11171,7 @@
 	)
 	(wire
 		(pts
-			(xy 153.67 107.95) (xy 157.48 107.95)
+			(xy 154.94 107.95) (xy 157.48 107.95)
 		)
 		(stroke
 			(width 0)
@@ -11242,16 +11242,6 @@
 		)
 		(uuid "0ee32e0f-15c5-4f8b-9f34-50093e81dd9d")
 	)
-	(text "it's active low for the switch so ground the E\n"
-		(exclude_from_sim no)
-		(at 145.288 132.08 0)
-		(effects
-			(font
-				(size 1.27 1.27)
-			)
-		)
-		(uuid "78bf18ca-2226-46da-ac91-200f4d860dba")
-	)
 	(text "SCOPE CHAN 0\n"
 		(exclude_from_sim no)
 		(at 25.4 40.894 0)
@@ -11283,18 +11273,6 @@
 			(justify left bottom)
 		)
 		(uuid "b66b43a0-8258-44e1-bff8-7273c838b35d")
-	)
-	(text "tie high?"
-		(exclude_from_sim no)
-		(at 152.146 128.27 0)
-		(effects
-			(font
-				(size 1.27 1.27)
-				(thickness 0.254)
-				(bold yes)
-			)
-		)
-		(uuid "cfd5c33a-4478-447e-9ed5-fe21ea053386")
 	)
 	(text "check this switch"
 		(exclude_from_sim no)
@@ -11520,7 +11498,7 @@
 	)
 	(global_label "CH0_amp_-1"
 		(shape input)
-		(at 153.67 107.95 180)
+		(at 154.94 107.95 180)
 		(fields_autoplaced yes)
 		(effects
 			(font
@@ -11530,7 +11508,7 @@
 		)
 		(uuid "83b1fe60-a8df-4485-aefb-6d4d64495a30")
 		(property "Intersheetrefs" "${INTERSHEET_REFS}"
-			(at 138.1664 107.95 0)
+			(at 139.4364 107.95 0)
 			(effects
 				(font
 					(size 1.27 1.27)
@@ -13012,7 +12990,7 @@
 				(justify right)
 			)
 		)
-		(property "Footprint" "footprints:GDT_SH_LTF"
+		(property "Footprint" "userfp:GDT_SH_LTF"
 			(at 54.356 96.774 90)
 			(effects
 				(font
@@ -21996,7 +21974,7 @@
 				(justify right)
 			)
 		)
-		(property "Footprint" "footprints:GDT_SH_LTF"
+		(property "Footprint" "userfp:GDT_SH_LTF"
 			(at 45.466 207.264 90)
 			(effects
 				(font

@@ -6787,7 +6787,6 @@
 	)
 	(label "C0_OUT_G"
 		(at 111.76 55.88 0)
-		(fields_autoplaced yes)
 		(effects
 			(font
 				(size 1.27 1.27)
@@ -6798,7 +6797,6 @@
 	)
 	(label "C0_V_OFF"
 		(at 88.9 27.94 180)
-		(fields_autoplaced yes)
 		(effects
 			(font
 				(size 1.27 1.27)
@@ -6809,7 +6807,6 @@
 	)
 	(label "C1_V_OFF"
 		(at 96.52 86.36 180)
-		(fields_autoplaced yes)
 		(effects
 			(font
 				(size 1.27 1.27)
@@ -6820,7 +6817,6 @@
 	)
 	(label "C1_OUT_GO"
 		(at 195.58 114.3 180)
-		(fields_autoplaced yes)
 		(effects
 			(font
 				(size 1.27 1.27)
@@ -6831,7 +6827,6 @@
 	)
 	(label "C0_OUT_GO"
 		(at 195.58 55.88 180)
-		(fields_autoplaced yes)
 		(effects
 			(font
 				(size 1.27 1.27)
@@ -6842,7 +6837,6 @@
 	)
 	(label "C1_IN"
 		(at 48.26 114.3 0)
-		(fields_autoplaced yes)
 		(effects
 			(font
 				(size 1.27 1.27)
@@ -6853,7 +6847,6 @@
 	)
 	(label "C1_FB"
 		(at 96.52 104.14 0)
-		(fields_autoplaced yes)
 		(effects
 			(font
 				(size 1.27 1.27)
@@ -6864,7 +6857,6 @@
 	)
 	(label "C1_OUT_G"
 		(at 111.76 114.3 0)
-		(fields_autoplaced yes)
 		(effects
 			(font
 				(size 1.27 1.27)
@@ -6875,7 +6867,6 @@
 	)
 	(label "C0_IN"
 		(at 48.26 55.88 0)
-		(fields_autoplaced yes)
 		(effects
 			(font
 				(size 1.27 1.27)
@@ -6886,7 +6877,6 @@
 	)
 	(label "C0_FB"
 		(at 96.52 45.72 0)
-		(fields_autoplaced yes)
 		(effects
 			(font
 				(size 1.27 1.27)
