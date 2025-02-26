@@ -7026,7 +7026,7 @@
 				)
 			)
 		)
-		(property "Footprint" "userfp:CONN RCP USB3.1 TYPEC 24P SMD RA-632723300011"
+		(property "Footprint" "Connector_USB:USB_C_Receptacle_Amphenol_12401548E4-2A"
 			(at 238.76 95.25 0)
 			(effects
 				(font
