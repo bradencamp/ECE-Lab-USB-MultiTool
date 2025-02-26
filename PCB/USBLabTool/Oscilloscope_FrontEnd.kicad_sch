@@ -11518,7 +11518,7 @@
 			)
 		)
 	)
-	(global_label "CH0_amp_-1"
+	(global_label "CH0_amp_1"
 		(shape input)
 		(at 154.94 107.95 180)
 		(fields_autoplaced yes)
@@ -11530,7 +11530,7 @@
 		)
 		(uuid "83b1fe60-a8df-4485-aefb-6d4d64495a30")
 		(property "Intersheetrefs" "${INTERSHEET_REFS}"
-			(at 139.4364 107.95 0)
+			(at 141.0088 107.95 0)
 			(effects
 				(font
 					(size 1.27 1.27)
