@@ -1374,102 +1374,6 @@
 				)
 			)
 		)
-		(symbol "GND_1"
-			(power)
-			(pin_names
-				(offset 0)
-			)
-			(exclude_from_sim no)
-			(in_bom yes)
-			(on_board yes)
-			(property "Reference" "#PWR"
-				(at 0 -6.35 0)
-				(effects
-					(font
-						(size 1.27 1.27)
-					)
-					(hide yes)
-				)
-			)
-			(property "Value" "GND"
-				(at 0 -3.81 0)
-				(effects
-					(font
-						(size 1.27 1.27)
-					)
-				)
-			)
-			(property "Footprint" ""
-				(at 0 0 0)
-				(effects
-					(font
-						(size 1.27 1.27)
-					)
-					(hide yes)
-				)
-			)
-			(property "Datasheet" ""
-				(at 0 0 0)
-				(effects
-					(font
-						(size 1.27 1.27)
-					)
-					(hide yes)
-				)
-			)
-			(property "Description" "Power symbol creates a global label with name \"GND\" , ground"
-				(at 0 0 0)
-				(effects
-					(font
-						(size 1.27 1.27)
-					)
-					(hide yes)
-				)
-			)
-			(property "ki_keywords" "global power"
-				(at 0 0 0)
-				(effects
-					(font
-						(size 1.27 1.27)
-					)
-					(hide yes)
-				)
-			)
-			(symbol "GND_1_0_1"
-				(polyline
-					(pts
-						(xy 0 0) (xy 0 -1.27) (xy 1.27 -1.27) (xy 0 -2.54) (xy -1.27 -1.27) (xy 0 -1.27)
-					)
-					(stroke
-						(width 0)
-						(type default)
-					)
-					(fill
-						(type none)
-					)
-				)
-			)
-			(symbol "GND_1_1_1"
-				(pin power_in line
-					(at 0 0 270)
-					(length 0) hide
-					(name "GND"
-						(effects
-							(font
-								(size 1.27 1.27)
-							)
-						)
-					)
-					(number "1"
-						(effects
-							(font
-								(size 1.27 1.27)
-							)
-						)
-					)
-				)
-			)
-		)
 		(symbol "Jumper:SolderJumper_2_Open"
 			(pin_names
 				(offset 0) hide)
@@ -5655,6 +5559,12 @@
 		(uuid "17c4f3db-91ab-4450-8000-6c6f1bb563d2")
 	)
 	(junction
+		(at 224.79 80.01)
+		(diameter 0)
+		(color 0 0 0 0)
+		(uuid "274a9b62-23d5-4f2d-9404-9cd80a13c226")
+	)
+	(junction
 		(at 78.74 86.36)
 		(diameter 0)
 		(color 0 0 0 0)
@@ -5821,12 +5731,6 @@
 		(diameter 0)
 		(color 0 0 0 0)
 		(uuid "eb92246c-6771-491b-a3af-aaeec7343e4d")
-	)
-	(junction
-		(at 210.82 86.36)
-		(diameter 0)
-		(color 0 0 0 0)
-		(uuid "f66dc43e-ee7a-4f8b-a103-6d8fdc2978c2")
 	)
 	(junction
 		(at 147.32 114.3)
@@ -6262,16 +6166,6 @@
 	)
 	(wire
 		(pts
-			(xy 198.12 55.88) (xy 198.12 83.82)
-		)
-		(stroke
-			(width 0)
-			(type default)
-		)
-		(uuid "7366dfb9-1ef3-4460-8ec4-c826898aec4c")
-	)
-	(wire
-		(pts
 			(xy 48.26 55.88) (xy 58.42 55.88)
 		)
 		(stroke
@@ -6362,16 +6256,6 @@
 	)
 	(wire
 		(pts
-			(xy 210.82 86.36) (xy 210.82 83.82)
-		)
-		(stroke
-			(width 0)
-			(type default)
-		)
-		(uuid "8a660c8a-bb63-4786-86ef-3c528604e7d4")
-	)
-	(wire
-		(pts
 			(xy 147.32 50.8) (xy 147.32 55.88)
 		)
 		(stroke
@@ -6412,7 +6296,7 @@
 	)
 	(wire
 		(pts
-			(xy 198.12 86.36) (xy 198.12 114.3)
+			(xy 198.12 87.63) (xy 198.12 114.3)
 		)
 		(stroke
 			(width 0)
@@ -6519,6 +6403,16 @@
 			(type default)
 		)
 		(uuid "c31f11fa-4a51-44ec-9ff2-ac7e8bd30ceb")
+	)
+	(wire
+		(pts
+			(xy 198.12 55.88) (xy 198.12 69.85)
+		)
+		(stroke
+			(width 0)
+			(type default)
+		)
+		(uuid "c42293c3-07ca-4b71-9650-642c5e26d5d3")
 	)
 	(wire
 		(pts
@@ -6642,6 +6536,16 @@
 	)
 	(wire
 		(pts
+			(xy 224.79 80.01) (xy 224.79 77.47)
+		)
+		(stroke
+			(width 0)
+			(type default)
+		)
+		(uuid "e1de87f5-f905-46c7-ace8-f61fa705f14f")
+	)
+	(wire
+		(pts
 			(xy 58.42 45.72) (xy 63.5 45.72)
 		)
 		(stroke
@@ -6720,16 +6624,6 @@
 		)
 		(uuid "ffb14a36-b690-4b8d-a00b-57ee77793da9")
 	)
-	(text "Will change this later on when connect them to a 20 pins\n"
-		(exclude_from_sim no)
-		(at 226.822 71.882 0)
-		(effects
-			(font
-				(size 1.27 1.27)
-			)
-		)
-		(uuid "1c902935-9602-46f4-a9de-dd14bdad5992")
-	)
 	(text "AWG CHAN 0"
 		(exclude_from_sim no)
 		(at 13.462 29.718 0)
@@ -6787,6 +6681,7 @@
 	)
 	(label "C0_OUT_G"
 		(at 111.76 55.88 0)
+		(fields_autoplaced yes)
 		(effects
 			(font
 				(size 1.27 1.27)
@@ -6797,6 +6692,7 @@
 	)
 	(label "C0_V_OFF"
 		(at 88.9 27.94 180)
+		(fields_autoplaced yes)
 		(effects
 			(font
 				(size 1.27 1.27)
@@ -6807,6 +6703,7 @@
 	)
 	(label "C1_V_OFF"
 		(at 96.52 86.36 180)
+		(fields_autoplaced yes)
 		(effects
 			(font
 				(size 1.27 1.27)
@@ -6817,6 +6714,7 @@
 	)
 	(label "C1_OUT_GO"
 		(at 195.58 114.3 180)
+		(fields_autoplaced yes)
 		(effects
 			(font
 				(size 1.27 1.27)
@@ -6827,6 +6725,7 @@
 	)
 	(label "C0_OUT_GO"
 		(at 195.58 55.88 180)
+		(fields_autoplaced yes)
 		(effects
 			(font
 				(size 1.27 1.27)
@@ -6837,6 +6736,7 @@
 	)
 	(label "C1_IN"
 		(at 48.26 114.3 0)
+		(fields_autoplaced yes)
 		(effects
 			(font
 				(size 1.27 1.27)
@@ -6847,6 +6747,7 @@
 	)
 	(label "C1_FB"
 		(at 96.52 104.14 0)
+		(fields_autoplaced yes)
 		(effects
 			(font
 				(size 1.27 1.27)
@@ -6857,6 +6758,7 @@
 	)
 	(label "C1_OUT_G"
 		(at 111.76 114.3 0)
+		(fields_autoplaced yes)
 		(effects
 			(font
 				(size 1.27 1.27)
@@ -6867,6 +6769,7 @@
 	)
 	(label "C0_IN"
 		(at 48.26 55.88 0)
+		(fields_autoplaced yes)
 		(effects
 			(font
 				(size 1.27 1.27)
@@ -6877,6 +6780,7 @@
 	)
 	(label "C0_FB"
 		(at 96.52 45.72 0)
+		(fields_autoplaced yes)
 		(effects
 			(font
 				(size 1.27 1.27)
@@ -6909,7 +6813,7 @@
 	)
 	(global_label "DAC1_OUT1"
 		(shape input)
-		(at 198.12 76.2 0)
+		(at 198.12 69.85 0)
 		(fields_autoplaced yes)
 		(effects
 			(font
@@ -6919,7 +6823,7 @@
 		)
 		(uuid "2886de95-8959-4225-8ad1-62d0c3df2c0e")
 		(property "Intersheetrefs" "${INTERSHEET_REFS}"
-			(at 211.749 76.2 0)
+			(at 211.749 69.85 0)
 			(effects
 				(font
 					(size 1.27 1.27)
@@ -6931,7 +6835,7 @@
 	)
 	(global_label "DAC1_OUT2"
 		(shape input)
-		(at 198.12 93.98 0)
+		(at 198.12 87.63 0)
 		(fields_autoplaced yes)
 		(effects
 			(font
@@ -6941,7 +6845,7 @@
 		)
 		(uuid "5df6537d-7b01-41d5-b0b5-73c27987b7ae")
 		(property "Intersheetrefs" "${INTERSHEET_REFS}"
-			(at 211.749 93.98 0)
+			(at 211.749 87.63 0)
 			(effects
 				(font
 					(size 1.27 1.27)
@@ -8790,79 +8694,6 @@
 		)
 	)
 	(symbol
-		(lib_name "GND_1")
-		(lib_id "power:GND")
-		(at 210.82 86.36 0)
-		(unit 1)
-		(exclude_from_sim no)
-		(in_bom yes)
-		(on_board yes)
-		(dnp no)
-		(uuid "7e0bef05-862f-45b8-a561-3bbab5b1dc4f")
-		(property "Reference" "#PWR065"
-			(at 210.82 92.71 0)
-			(effects
-				(font
-					(size 1.27 1.27)
-				)
-				(hide yes)
-			)
-		)
-		(property "Value" "GNDA"
-			(at 213.36 90.424 0)
-			(effects
-				(font
-					(size 1.27 1.27)
-				)
-				(justify right)
-			)
-		)
-		(property "Footprint" ""
-			(at 210.82 86.36 0)
-			(effects
-				(font
-					(size 1.27 1.27)
-				)
-				(hide yes)
-			)
-		)
-		(property "Datasheet" ""
-			(at 210.82 86.36 0)
-			(effects
-				(font
-					(size 1.27 1.27)
-				)
-				(hide yes)
-			)
-		)
-		(property "Description" ""
-			(at 210.82 86.36 0)
-			(effects
-				(font
-					(size 1.27 1.27)
-				)
-				(hide yes)
-			)
-		)
-		(pin "1"
-			(uuid "af28f671-4358-40ab-a5f2-2337c5c43417")
-		)
-		(instances
-			(project ""
-				(path "/ac21a78e-8237-4dbe-925d-fc53d85eb1b9"
-					(reference "#PWR065")
-					(unit 1)
-				)
-			)
-			(project "USBLabTool"
-				(path "/b5440f7d-90d5-417e-adc2-aa6b11e5424d/51eab4b3-0b2f-418c-9f7c-59af443ff2ad"
-					(reference "#PWR067")
-					(unit 1)
-				)
-			)
-		)
-	)
-	(symbol
 		(lib_id "power:GNDA")
 		(at 55.88 38.1 0)
 		(unit 1)
@@ -8923,6 +8754,72 @@
 			(project "USBLabTool"
 				(path "/b5440f7d-90d5-417e-adc2-aa6b11e5424d/51eab4b3-0b2f-418c-9f7c-59af443ff2ad"
 					(reference "#PWR055")
+					(unit 1)
+				)
+			)
+		)
+	)
+	(symbol
+		(lib_id "power:GND")
+		(at 224.79 80.01 0)
+		(unit 1)
+		(exclude_from_sim no)
+		(in_bom yes)
+		(on_board yes)
+		(dnp no)
+		(uuid "827e6a27-07ed-46a6-8385-dc2d02f098ac")
+		(property "Reference" "#PWR0157"
+			(at 224.79 86.36 0)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(hide yes)
+			)
+		)
+		(property "Value" "GND"
+			(at 226.568 84.074 0)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(justify right)
+			)
+		)
+		(property "Footprint" ""
+			(at 224.79 80.01 0)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(hide yes)
+			)
+		)
+		(property "Datasheet" ""
+			(at 224.79 80.01 0)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(hide yes)
+			)
+		)
+		(property "Description" ""
+			(at 224.79 80.01 0)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(hide yes)
+			)
+		)
+		(pin "1"
+			(uuid "c3b081f1-fbcf-4d95-883e-893978012cca")
+		)
+		(instances
+			(project "USBLabTool"
+				(path "/b5440f7d-90d5-417e-adc2-aa6b11e5424d/51eab4b3-0b2f-418c-9f7c-59af443ff2ad"
+					(reference "#PWR0157")
 					(unit 1)
 				)
 			)
@@ -10881,6 +10778,80 @@
 		)
 	)
 	(symbol
+		(lib_id "Connector_Generic:Conn_02x02_Counter_Clockwise")
+		(at 217.17 77.47 0)
+		(unit 1)
+		(exclude_from_sim no)
+		(in_bom yes)
+		(on_board yes)
+		(dnp no)
+		(uuid "f22c14a5-b08e-4183-8e93-22860707da6a")
+		(property "Reference" "J2"
+			(at 218.44 74.168 0)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+			)
+		)
+		(property "Value" "02x02"
+			(at 218.44 74.168 0)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(hide yes)
+			)
+		)
+		(property "Footprint" "awg_fp_lib:2x02"
+			(at 217.17 77.47 0)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(hide yes)
+			)
+		)
+		(property "Datasheet" "~"
+			(at 217.17 77.47 0)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(hide yes)
+			)
+		)
+		(property "Description" ""
+			(at 217.17 77.47 0)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(hide yes)
+			)
+		)
+		(pin "1"
+			(uuid "2de010e6-a348-414f-94d4-1cf2ea5404da")
+		)
+		(pin "2"
+			(uuid "a4762e97-3881-4536-8354-11b8935b8bf0")
+		)
+		(pin "3"
+			(uuid "57d0b5fc-0665-443d-8f85-202a314d8bb7")
+		)
+		(pin "4"
+			(uuid "21ec3d4b-303a-4ef0-bf85-21afda03d22d")
+		)
+		(instances
+			(project "USBLabTool"
+				(path "/b5440f7d-90d5-417e-adc2-aa6b11e5424d/51eab4b3-0b2f-418c-9f7c-59af443ff2ad"
+					(reference "J2")
+					(unit 1)
+				)
+			)
+		)
+	)
+	(symbol
 		(lib_id "Device:R")
 		(at 151.13 114.3 90)
 		(unit 1)
@@ -10942,80 +10913,6 @@
 			(project "USBLabTool"
 				(path "/b5440f7d-90d5-417e-adc2-aa6b11e5424d/51eab4b3-0b2f-418c-9f7c-59af443ff2ad"
 					(reference "R46")
-					(unit 1)
-				)
-			)
-		)
-	)
-	(symbol
-		(lib_id "Connector_Generic:Conn_02x02_Counter_Clockwise")
-		(at 203.2 83.82 0)
-		(unit 1)
-		(exclude_from_sim no)
-		(in_bom yes)
-		(on_board yes)
-		(dnp no)
-		(uuid "fc299779-6319-4922-aeb9-67bbcaf18b26")
-		(property "Reference" "J18"
-			(at 204.47 80.518 0)
-			(effects
-				(font
-					(size 1.27 1.27)
-				)
-			)
-		)
-		(property "Value" "02x02"
-			(at 204.47 80.518 0)
-			(effects
-				(font
-					(size 1.27 1.27)
-				)
-				(hide yes)
-			)
-		)
-		(property "Footprint" "Connector_PinHeader_2.54mm:PinHeader_2x02_P2.54mm_Vertical"
-			(at 203.2 83.82 0)
-			(effects
-				(font
-					(size 1.27 1.27)
-				)
-				(hide yes)
-			)
-		)
-		(property "Datasheet" "~"
-			(at 203.2 83.82 0)
-			(effects
-				(font
-					(size 1.27 1.27)
-				)
-				(hide yes)
-			)
-		)
-		(property "Description" ""
-			(at 203.2 83.82 0)
-			(effects
-				(font
-					(size 1.27 1.27)
-				)
-				(hide yes)
-			)
-		)
-		(pin "1"
-			(uuid "50f94825-0a17-48b1-898c-d52f9a7a8463")
-		)
-		(pin "2"
-			(uuid "83f63c7e-8381-4430-a6a0-ed108f62ed4b")
-		)
-		(pin "3"
-			(uuid "4f0b4753-f80e-4db3-a4fb-f07b857e03e8")
-		)
-		(pin "4"
-			(uuid "570d384d-a7e1-401f-818a-8544a0564985")
-		)
-		(instances
-			(project "USBLabTool"
-				(path "/b5440f7d-90d5-417e-adc2-aa6b11e5424d/51eab4b3-0b2f-418c-9f7c-59af443ff2ad"
-					(reference "J18")
 					(unit 1)
 				)
 			)
