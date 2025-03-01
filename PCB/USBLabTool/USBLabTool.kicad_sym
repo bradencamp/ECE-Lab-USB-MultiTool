@@ -641,7 +641,7 @@
 		(symbol "ST1L05APU33R_0_1"
 			(polyline
 				(pts
-					(xy 7.62 -5.08) (xy 19.05 -5.08)
+					(xy 7.62 -5.08) (xy 20.32 -5.08)
 				)
 				(stroke
 					(width 0.127)
@@ -665,7 +665,7 @@
 			)
 			(polyline
 				(pts
-					(xy 19.05 -5.08) (xy 19.05 5.08)
+					(xy 20.32 -5.08) (xy 20.32 5.08)
 				)
 				(stroke
 					(width 0.127)
@@ -677,7 +677,7 @@
 			)
 			(polyline
 				(pts
-					(xy 19.05 5.08) (xy 7.62 5.08)
+					(xy 20.32 5.08) (xy 7.62 5.08)
 				)
 				(stroke
 					(width 0.127)
@@ -742,7 +742,7 @@
 				)
 			)
 			(pin no_connect line
-				(at 26.67 -2.54 180)
+				(at 27.94 -2.54 180)
 				(length 7.62)
 				(name "NC"
 					(effects
@@ -760,7 +760,7 @@
 				)
 			)
 			(pin no_connect line
-				(at 26.67 0 180)
+				(at 27.94 0 180)
 				(length 7.62)
 				(name "NC"
 					(effects
@@ -778,7 +778,7 @@
 				)
 			)
 			(pin power_out line
-				(at 26.67 2.54 180)
+				(at 27.94 2.54 180)
 				(length 7.62)
 				(name "GND"
 					(effects
@@ -788,6 +788,26 @@
 					)
 				)
 				(number "6"
+					(effects
+						(font
+							(size 1.27 1.27)
+						)
+					)
+				)
+			)
+		)
+		(symbol "ST1L05APU33R_1_1"
+			(pin power_out line
+				(at 13.97 -12.7 90)
+				(length 7.62)
+				(name "GND"
+					(effects
+						(font
+							(size 1.27 1.27)
+						)
+					)
+				)
+				(number "7"
 					(effects
 						(font
 							(size 1.27 1.27)
