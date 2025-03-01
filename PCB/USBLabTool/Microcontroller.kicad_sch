@@ -5186,31 +5186,32 @@
 				)
 			)
 		)
-		(symbol "SparkFun-Switch:SPST_Push_PTH_RA_h7.5mm"
+		(symbol "Switch:SW_Push"
 			(pin_numbers hide)
 			(pin_names
-				(offset 0) hide)
+				(offset 1.016) hide)
 			(exclude_from_sim no)
 			(in_bom yes)
 			(on_board yes)
 			(property "Reference" "SW"
+				(at 1.27 2.54 0)
+				(effects
+					(font
+						(size 1.27 1.27)
+					)
+					(justify left)
+				)
+			)
+			(property "Value" "SW_Push"
+				(at 0 -1.524 0)
+				(effects
+					(font
+						(size 1.27 1.27)
+					)
+				)
+			)
+			(property "Footprint" ""
 				(at 0 5.08 0)
-				(effects
-					(font
-						(size 1.27 1.27)
-					)
-				)
-			)
-			(property "Value" "PTH_RA_h7.5mm"
-				(at 0 -2.54 0)
-				(effects
-					(font
-						(size 1.27 1.27)
-					)
-				)
-			)
-			(property "Footprint" "SparkFun-Switch:Push_PTH_RA_8-020_h7.5mm"
-				(at 0 -5.08 0)
 				(effects
 					(font
 						(size 1.27 1.27)
@@ -5219,7 +5220,7 @@
 				)
 			)
 			(property "Datasheet" "~"
-				(at 0 -10.16 0)
+				(at 0 5.08 0)
 				(effects
 					(font
 						(size 1.27 1.27)
@@ -5227,34 +5228,7 @@
 					(hide yes)
 				)
 			)
-			(property "Description" "Single Pole Single Throw (SPST) switch"
-				(at 0 -15.24 0)
-				(effects
-					(font
-						(size 1.27 1.27)
-					)
-					(hide yes)
-				)
-			)
-			(property "PROD_ID" "SWCH-13896"
-				(at 0 -7.62 0)
-				(effects
-					(font
-						(size 1.27 1.27)
-					)
-					(hide yes)
-				)
-			)
-			(property "Mfg Part#" "8-020 TS H = 7.5mm"
-				(at 0 -12.7 0)
-				(effects
-					(font
-						(size 1.27 1.27)
-					)
-					(hide yes)
-				)
-			)
-			(property "ki_keywords" "SparkFun Momentary push switch lever button"
+			(property "Description" "Push button switch, generic, two pins"
 				(at 0 0 0)
 				(effects
 					(font
@@ -5263,7 +5237,16 @@
 					(hide yes)
 				)
 			)
-			(symbol "SPST_Push_PTH_RA_h7.5mm_0_1"
+			(property "ki_keywords" "switch normally-open pushbutton push-button"
+				(at 0 0 0)
+				(effects
+					(font
+						(size 1.27 1.27)
+					)
+					(hide yes)
+				)
+			)
+			(symbol "SW_Push_0_1"
 				(circle
 					(center -2.032 0)
 					(radius 0.508)
@@ -5310,8 +5293,6 @@
 						(type none)
 					)
 				)
-			)
-			(symbol "SPST_Push_PTH_RA_h7.5mm_1_1"
 				(pin passive line
 					(at -5.08 0 0)
 					(length 2.54)
@@ -5341,42 +5322,6 @@
 						)
 					)
 					(number "2"
-						(effects
-							(font
-								(size 1.27 1.27)
-							)
-						)
-					)
-				)
-				(pin passive line
-					(at -5.08 2.54 0)
-					(length 2.54) hide
-					(name "M1"
-						(effects
-							(font
-								(size 1.27 1.27)
-							)
-						)
-					)
-					(number "M1"
-						(effects
-							(font
-								(size 1.27 1.27)
-							)
-						)
-					)
-				)
-				(pin passive line
-					(at 5.08 2.54 180)
-					(length 2.54) hide
-					(name "M2"
-						(effects
-							(font
-								(size 1.27 1.27)
-							)
-						)
-					)
-					(number "M2"
 						(effects
 							(font
 								(size 1.27 1.27)
@@ -6066,16 +6011,16 @@
 		(uuid "2d846d38-8b79-4a05-87c4-a89f92543767")
 	)
 	(junction
+		(at 173.99 182.88)
+		(diameter 0)
+		(color 0 0 0 0)
+		(uuid "2fa5b8ef-fbf2-4454-9668-deffa156e0d4")
+	)
+	(junction
 		(at 81.28 49.53)
 		(diameter 0)
 		(color 0 0 0 0)
 		(uuid "4016ce62-6edb-4516-a349-e7706950a755")
-	)
-	(junction
-		(at 185.42 228.6)
-		(diameter 0)
-		(color 0 0 0 0)
-		(uuid "41b82cbc-33e6-46af-9b62-312e52310286")
 	)
 	(junction
 		(at 52.07 166.37)
@@ -6108,40 +6053,28 @@
 		(uuid "6db6e2a9-c20d-49b9-bcf9-9667a29c76fd")
 	)
 	(junction
-		(at 238.76 198.12)
-		(diameter 0)
-		(color 0 0 0 0)
-		(uuid "841ca213-f226-4bb7-a2ac-1943b82c2de2")
-	)
-	(junction
 		(at 76.2 49.53)
 		(diameter 0)
 		(color 0 0 0 0)
 		(uuid "88846139-ce2b-40fc-b0e8-1bb7cae58b66")
 	)
 	(junction
-		(at 195.58 184.15)
+		(at 185.42 182.88)
 		(diameter 0)
 		(color 0 0 0 0)
 		(uuid "af7436a0-be2d-470d-a28a-c871c29710cf")
 	)
 	(junction
-		(at 195.58 228.6)
+		(at 185.42 227.33)
 		(diameter 0)
 		(color 0 0 0 0)
 		(uuid "b56cc595-9b47-45ca-917d-315267df8258")
 	)
 	(junction
-		(at 238.76 212.09)
+		(at 173.99 227.33)
 		(diameter 0)
 		(color 0 0 0 0)
-		(uuid "bdf29435-7299-46f2-b15e-318221051422")
-	)
-	(junction
-		(at 165.1 184.15)
-		(diameter 0)
-		(color 0 0 0 0)
-		(uuid "fadd792d-4fce-4792-a21e-d79e28814adf")
+		(uuid "c91c534f-a493-420a-b305-496ccaef3e5a")
 	)
 	(junction
 		(at 175.26 80.01)
@@ -6265,7 +6198,7 @@
 	)
 	(wire
 		(pts
-			(xy 292.1 91.44) (xy 273.05 91.44)
+			(xy 289.56 91.44) (xy 273.05 91.44)
 		)
 		(stroke
 			(width 0)
@@ -6305,6 +6238,16 @@
 	)
 	(wire
 		(pts
+			(xy 173.99 182.88) (xy 185.42 182.88)
+		)
+		(stroke
+			(width 0)
+			(type default)
+		)
+		(uuid "0d15d9bd-05ad-448c-b624-a6ca48e6da19")
+	)
+	(wire
+		(pts
 			(xy 83.82 49.53) (xy 86.36 49.53)
 		)
 		(stroke
@@ -6312,16 +6255,6 @@
 			(type default)
 		)
 		(uuid "0e141634-76f1-4300-95ba-fc7e4fccd8b7")
-	)
-	(wire
-		(pts
-			(xy 238.76 198.12) (xy 241.3 198.12)
-		)
-		(stroke
-			(width 0)
-			(type default)
-		)
-		(uuid "172c0fff-4771-445a-ad86-7a2ac33caea0")
 	)
 	(wire
 		(pts
@@ -6355,17 +6288,7 @@
 	)
 	(wire
 		(pts
-			(xy 241.3 212.09) (xy 241.3 209.55)
-		)
-		(stroke
-			(width 0)
-			(type default)
-		)
-		(uuid "31562017-57fd-4971-967a-7117271af0d6")
-	)
-	(wire
-		(pts
-			(xy 195.58 184.15) (xy 238.76 184.15)
+			(xy 185.42 182.88) (xy 214.63 182.88)
 		)
 		(stroke
 			(width 0)
@@ -6375,17 +6298,7 @@
 	)
 	(wire
 		(pts
-			(xy 238.76 198.12) (xy 238.76 199.39)
-		)
-		(stroke
-			(width 0)
-			(type default)
-		)
-		(uuid "3ff102f2-6056-4549-8be9-12cd140f22a1")
-	)
-	(wire
-		(pts
-			(xy 242.57 91.44) (xy 260.35 91.44)
+			(xy 243.84 91.44) (xy 260.35 91.44)
 		)
 		(stroke
 			(width 0)
@@ -6425,7 +6338,7 @@
 	)
 	(wire
 		(pts
-			(xy 195.58 187.96) (xy 195.58 184.15)
+			(xy 185.42 186.69) (xy 185.42 182.88)
 		)
 		(stroke
 			(width 0)
@@ -6442,6 +6355,16 @@
 			(type default)
 		)
 		(uuid "5cbb02d3-4345-43ce-a3e6-e1cea3dc843d")
+	)
+	(wire
+		(pts
+			(xy 173.99 227.33) (xy 185.42 227.33)
+		)
+		(stroke
+			(width 0)
+			(type default)
+		)
+		(uuid "5d504b8d-bd55-420b-b2f4-f991b781e66b")
 	)
 	(wire
 		(pts
@@ -6465,7 +6388,7 @@
 	)
 	(wire
 		(pts
-			(xy 238.76 184.15) (xy 238.76 198.12)
+			(xy 214.63 182.88) (xy 214.63 198.12)
 		)
 		(stroke
 			(width 0)
@@ -6505,17 +6428,7 @@
 	)
 	(wire
 		(pts
-			(xy 165.1 184.15) (xy 195.58 184.15)
-		)
-		(stroke
-			(width 0)
-			(type default)
-		)
-		(uuid "700637d9-9243-40d0-9a5d-06982c5e6aca")
-	)
-	(wire
-		(pts
-			(xy 238.76 228.6) (xy 238.76 212.09)
+			(xy 214.63 208.28) (xy 214.63 227.33)
 		)
 		(stroke
 			(width 0)
@@ -6542,6 +6455,16 @@
 			(type default)
 		)
 		(uuid "7f9b62a4-5acb-466d-99bc-9da86d876679")
+	)
+	(wire
+		(pts
+			(xy 173.99 207.01) (xy 173.99 227.33)
+		)
+		(stroke
+			(width 0)
+			(type default)
+		)
+		(uuid "8196fb39-3b40-4501-a713-49bf89616897")
 	)
 	(wire
 		(pts
@@ -6575,7 +6498,7 @@
 	)
 	(wire
 		(pts
-			(xy 149.86 184.15) (xy 165.1 184.15)
+			(xy 171.45 182.88) (xy 173.99 182.88)
 		)
 		(stroke
 			(width 0)
@@ -6585,17 +6508,17 @@
 	)
 	(wire
 		(pts
-			(xy 241.3 198.12) (xy 241.3 199.39)
+			(xy 213.36 64.77) (xy 209.55 64.77)
 		)
 		(stroke
 			(width 0)
 			(type default)
 		)
-		(uuid "9159f51d-5755-495e-aa23-51884b92c9d9")
+		(uuid "9158678a-5e35-4eef-b05b-7019a833c5d9")
 	)
 	(wire
 		(pts
-			(xy 195.58 228.6) (xy 238.76 228.6)
+			(xy 185.42 227.33) (xy 214.63 227.33)
 		)
 		(stroke
 			(width 0)
@@ -6625,16 +6548,6 @@
 	)
 	(wire
 		(pts
-			(xy 165.1 208.28) (xy 165.1 228.6)
-		)
-		(stroke
-			(width 0)
-			(type default)
-		)
-		(uuid "a18dbb9a-01a0-4d0f-82ce-43c7de0deb54")
-	)
-	(wire
-		(pts
 			(xy 205.74 80.01) (xy 210.82 80.01)
 		)
 		(stroke
@@ -6645,26 +6558,6 @@
 	)
 	(wire
 		(pts
-			(xy 185.42 228.6) (xy 195.58 228.6)
-		)
-		(stroke
-			(width 0)
-			(type default)
-		)
-		(uuid "b90a144a-c895-4da1-8bc2-f79724450899")
-	)
-	(wire
-		(pts
-			(xy 238.76 212.09) (xy 238.76 209.55)
-		)
-		(stroke
-			(width 0)
-			(type default)
-		)
-		(uuid "c57ea285-01d9-4697-9ecb-a85609efcf99")
-	)
-	(wire
-		(pts
 			(xy 44.45 62.23) (xy 48.26 62.23)
 		)
 		(stroke
@@ -6672,16 +6565,6 @@
 			(type default)
 		)
 		(uuid "c59c4e77-74d1-4ce6-ae00-9e933e6de483")
-	)
-	(wire
-		(pts
-			(xy 165.1 228.6) (xy 185.42 228.6)
-		)
-		(stroke
-			(width 0)
-			(type default)
-		)
-		(uuid "c700dd2a-d8f4-47f1-ad43-595058d260df")
 	)
 	(wire
 		(pts
@@ -6855,16 +6738,6 @@
 	)
 	(wire
 		(pts
-			(xy 238.76 212.09) (xy 241.3 212.09)
-		)
-		(stroke
-			(width 0)
-			(type default)
-		)
-		(uuid "f00bba5a-882f-4fa7-b49d-e48c89c10b56")
-	)
-	(wire
-		(pts
 			(xy 76.2 49.53) (xy 73.66 49.53)
 		)
 		(stroke
@@ -6905,7 +6778,7 @@
 	)
 	(wire
 		(pts
-			(xy 165.1 184.15) (xy 165.1 200.66)
+			(xy 173.99 182.88) (xy 173.99 199.39)
 		)
 		(stroke
 			(width 0)
@@ -7768,7 +7641,7 @@
 	)
 	(global_label "NRST"
 		(shape input)
-		(at 149.86 184.15 180)
+		(at 171.45 182.88 180)
 		(fields_autoplaced yes)
 		(effects
 			(font
@@ -7778,7 +7651,7 @@
 		)
 		(uuid "66aa9fa0-f863-4c3d-8636-df2bd8311938")
 		(property "Intersheetrefs" "${INTERSHEET_REFS}"
-			(at 142.0972 184.15 0)
+			(at 163.6872 182.88 0)
 			(effects
 				(font
 					(size 1.27 1.27)
@@ -8285,28 +8158,6 @@
 		(uuid "a6fdd541-7376-4cc5-87c0-804bc87a892e")
 		(property "Intersheetrefs" "${INTERSHEET_REFS}"
 			(at 121.3976 163.83 0)
-			(effects
-				(font
-					(size 1.27 1.27)
-				)
-				(justify left)
-				(hide yes)
-			)
-		)
-	)
-	(global_label "NRST"
-		(shape input)
-		(at 176.53 184.15 90)
-		(fields_autoplaced yes)
-		(effects
-			(font
-				(size 1.27 1.27)
-			)
-			(justify left)
-		)
-		(uuid "ac054979-7e83-4836-97ce-13b12bf78811")
-		(property "Intersheetrefs" "${INTERSHEET_REFS}"
-			(at 176.53 176.3872 90)
 			(effects
 				(font
 					(size 1.27 1.27)
@@ -8889,9 +8740,79 @@
 		)
 	)
 	(symbol
+		(lib_id "Switch:SW_Push")
+		(at 214.63 203.2 270)
+		(unit 1)
+		(exclude_from_sim no)
+		(in_bom yes)
+		(on_board yes)
+		(dnp no)
+		(fields_autoplaced yes)
+		(uuid "00515aa1-3d5e-4d7a-aa61-ac8982e3358a")
+		(property "Reference" "SW1"
+			(at 218.44 201.9299 90)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(justify left)
+			)
+		)
+		(property "Value" "SW_Push"
+			(at 218.44 204.4699 90)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(justify left)
+			)
+		)
+		(property "Footprint" "Button_Switch_THT:SW_PUSH_6mm_H7.3mm"
+			(at 219.71 203.2 0)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(hide yes)
+			)
+		)
+		(property "Datasheet" "~"
+			(at 219.71 203.2 0)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(hide yes)
+			)
+		)
+		(property "Description" "Push button switch, generic, two pins"
+			(at 214.63 203.2 0)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(hide yes)
+			)
+		)
+		(pin "2"
+			(uuid "59ad1ee5-bb3b-4609-a7ce-12764c6f76e6")
+		)
+		(pin "1"
+			(uuid "0a945328-1ca1-4b9b-a1b7-197915719a7a")
+		)
+		(instances
+			(project ""
+				(path "/b5440f7d-90d5-417e-adc2-aa6b11e5424d/829c33f0-6f08-4314-9594-5cabd02fe19e"
+					(reference "SW1")
+					(unit 1)
+				)
+			)
+		)
+	)
+	(symbol
 		(lib_id "power:GND")
-		(at 209.55 64.77 0)
-		(mirror x)
+		(at 213.36 64.77 0)
+		(mirror y)
 		(unit 1)
 		(exclude_from_sim no)
 		(in_bom yes)
@@ -8899,7 +8820,7 @@
 		(dnp no)
 		(uuid "04818c08-f8d5-4c3c-9a19-54674acd3017")
 		(property "Reference" "#PWR074"
-			(at 209.55 58.42 0)
+			(at 213.36 71.12 0)
 			(effects
 				(font
 					(size 1.27 1.27)
@@ -8908,7 +8829,7 @@
 			)
 		)
 		(property "Value" "GND"
-			(at 205.74 62.23 0)
+			(at 217.17 67.31 0)
 			(effects
 				(font
 					(size 1.27 1.27)
@@ -8916,7 +8837,7 @@
 			)
 		)
 		(property "Footprint" ""
-			(at 209.55 64.77 0)
+			(at 213.36 64.77 0)
 			(effects
 				(font
 					(size 1.27 1.27)
@@ -8925,7 +8846,7 @@
 			)
 		)
 		(property "Datasheet" ""
-			(at 209.55 64.77 0)
+			(at 213.36 64.77 0)
 			(effects
 				(font
 					(size 1.27 1.27)
@@ -8934,7 +8855,7 @@
 			)
 		)
 		(property "Description" ""
-			(at 209.55 64.77 0)
+			(at 213.36 64.77 0)
 			(effects
 				(font
 					(size 1.27 1.27)
@@ -8949,6 +8870,12 @@
 			(project "USBLabTool"
 				(path "/b5440f7d-90d5-417e-adc2-aa6b11e5424d/829c33f0-6f08-4314-9594-5cabd02fe19e"
 					(reference "#PWR074")
+					(unit 1)
+				)
+			)
+			(project "Microcontroller"
+				(path "/e12382c2-8aa7-4ccc-aa2c-06f19c183060"
+					(reference "#PWR?")
 					(unit 1)
 				)
 			)
@@ -9095,6 +9022,12 @@
 					(unit 1)
 				)
 			)
+			(project "Microcontroller"
+				(path "/e12382c2-8aa7-4ccc-aa2c-06f19c183060"
+					(reference "J?")
+					(unit 1)
+				)
+			)
 		)
 	)
 	(symbol
@@ -9174,6 +9107,12 @@
 					(unit 1)
 				)
 			)
+			(project "Microcontroller"
+				(path "/e12382c2-8aa7-4ccc-aa2c-06f19c183060"
+					(reference "Y?")
+					(unit 1)
+				)
+			)
 		)
 	)
 	(symbol
@@ -9240,106 +9179,9 @@
 					(unit 1)
 				)
 			)
-		)
-	)
-	(symbol
-		(lib_id "SparkFun-Switch:SPST_Push_PTH_RA_h7.5mm")
-		(at 238.76 204.47 270)
-		(unit 1)
-		(exclude_from_sim no)
-		(in_bom yes)
-		(on_board yes)
-		(dnp no)
-		(fields_autoplaced yes)
-		(uuid "15cab390-f459-4740-9518-6b2f4de95c13")
-		(property "Reference" "SW2"
-			(at 242.57 203.1999 90)
-			(effects
-				(font
-					(size 1.27 1.27)
-				)
-				(justify left)
-			)
-		)
-		(property "Value" "PTH_RA_h7.5mm"
-			(at 242.57 205.7399 90)
-			(effects
-				(font
-					(size 1.27 1.27)
-				)
-				(justify left)
-			)
-		)
-		(property "Footprint" "SparkFun-Switch:Push_SMD_6.2x6.2mm"
-			(at 233.68 204.47 0)
-			(effects
-				(font
-					(size 1.27 1.27)
-				)
-				(hide yes)
-			)
-		)
-		(property "Datasheet" "~"
-			(at 228.6 204.47 0)
-			(effects
-				(font
-					(size 1.27 1.27)
-				)
-				(hide yes)
-			)
-		)
-		(property "Description" "Single Pole Single Throw (SPST) switch"
-			(at 223.52 204.47 0)
-			(effects
-				(font
-					(size 1.27 1.27)
-				)
-				(hide yes)
-			)
-		)
-		(property "PROD_ID" "SWCH-13896"
-			(at 231.14 204.47 0)
-			(effects
-				(font
-					(size 1.27 1.27)
-				)
-				(hide yes)
-			)
-		)
-		(property "Mfg Part#" "8-020 TS H = 7.5mm"
-			(at 226.06 204.47 0)
-			(effects
-				(font
-					(size 1.27 1.27)
-				)
-				(hide yes)
-			)
-		)
-		(property "Purpose" ""
-			(at 238.76 204.47 0)
-			(effects
-				(font
-					(size 1.27 1.27)
-				)
-				(hide yes)
-			)
-		)
-		(pin "1"
-			(uuid "b3d33a20-8718-4f3c-baed-2349e07848d3")
-		)
-		(pin "2"
-			(uuid "d3795945-098e-49d5-b4c1-e0664e8bd261")
-		)
-		(pin "M1"
-			(uuid "b42a0e9e-2138-4b8a-a9bc-fdee37a37a65")
-		)
-		(pin "M2"
-			(uuid "1918569d-a253-4b2c-94d7-18b3e63ce60a")
-		)
-		(instances
-			(project ""
-				(path "/b5440f7d-90d5-417e-adc2-aa6b11e5424d/829c33f0-6f08-4314-9594-5cabd02fe19e"
-					(reference "SW2")
+			(project "Microcontroller"
+				(path "/e12382c2-8aa7-4ccc-aa2c-06f19c183060"
+					(reference "#PWR?")
 					(unit 1)
 				)
 			)
@@ -9406,6 +9248,12 @@
 			(project "USBLabTool"
 				(path "/b5440f7d-90d5-417e-adc2-aa6b11e5424d/829c33f0-6f08-4314-9594-5cabd02fe19e"
 					(reference "#PWR0163")
+					(unit 1)
+				)
+			)
+			(project "Microcontroller"
+				(path "/e12382c2-8aa7-4ccc-aa2c-06f19c183060"
+					(reference "#PWR?")
 					(unit 1)
 				)
 			)
@@ -9487,21 +9335,26 @@
 					(unit 1)
 				)
 			)
+			(project "Microcontroller"
+				(path "/e12382c2-8aa7-4ccc-aa2c-06f19c183060"
+					(reference "C?")
+					(unit 1)
+				)
+			)
 		)
 	)
 	(symbol
 		(lib_name "GND_1")
 		(lib_id "power:GND")
-		(at 242.57 91.44 270)
+		(at 243.84 91.44 0)
 		(unit 1)
 		(exclude_from_sim no)
 		(in_bom yes)
 		(on_board yes)
 		(dnp no)
-		(fields_autoplaced yes)
 		(uuid "2eb4a4ca-cb9e-45a7-b37e-0f4f8a49cde6")
 		(property "Reference" "#PWR0144"
-			(at 236.22 91.44 0)
+			(at 243.84 97.79 0)
 			(effects
 				(font
 					(size 1.27 1.27)
@@ -9510,15 +9363,16 @@
 			)
 		)
 		(property "Value" "GND"
-			(at 241.3 87.63 90)
+			(at 237.744 92.964 0)
 			(effects
 				(font
 					(size 1.27 1.27)
 				)
+				(justify left)
 			)
 		)
 		(property "Footprint" ""
-			(at 242.57 91.44 0)
+			(at 243.84 91.44 0)
 			(effects
 				(font
 					(size 1.27 1.27)
@@ -9527,7 +9381,7 @@
 			)
 		)
 		(property "Datasheet" ""
-			(at 242.57 91.44 0)
+			(at 243.84 91.44 0)
 			(effects
 				(font
 					(size 1.27 1.27)
@@ -9536,7 +9390,7 @@
 			)
 		)
 		(property "Description" "Power symbol creates a global label with name \"GND\" , ground"
-			(at 242.57 91.44 0)
+			(at 243.84 91.44 0)
 			(effects
 				(font
 					(size 1.27 1.27)
@@ -9551,6 +9405,12 @@
 			(project "USBLabTool"
 				(path "/b5440f7d-90d5-417e-adc2-aa6b11e5424d/829c33f0-6f08-4314-9594-5cabd02fe19e"
 					(reference "#PWR0144")
+					(unit 1)
+				)
+			)
+			(project "Microcontroller"
+				(path "/e12382c2-8aa7-4ccc-aa2c-06f19c183060"
+					(reference "#PWR?")
 					(unit 1)
 				)
 			)
@@ -9616,6 +9476,12 @@
 			(project "USBLabTool"
 				(path "/b5440f7d-90d5-417e-adc2-aa6b11e5424d/829c33f0-6f08-4314-9594-5cabd02fe19e"
 					(reference "#PWR073")
+					(unit 1)
+				)
+			)
+			(project "Microcontroller"
+				(path "/e12382c2-8aa7-4ccc-aa2c-06f19c183060"
+					(reference "#PWR?")
 					(unit 1)
 				)
 			)
@@ -9704,6 +9570,12 @@
 					(unit 1)
 				)
 			)
+			(project "Microcontroller"
+				(path "/e12382c2-8aa7-4ccc-aa2c-06f19c183060"
+					(reference "XTAL?")
+					(unit 1)
+				)
+			)
 		)
 	)
 	(symbol
@@ -9770,11 +9642,17 @@
 					(unit 1)
 				)
 			)
+			(project "Microcontroller"
+				(path "/e12382c2-8aa7-4ccc-aa2c-06f19c183060"
+					(reference "#PWR?")
+					(unit 1)
+				)
+			)
 		)
 	)
 	(symbol
 		(lib_id "power:GND")
-		(at 185.42 228.6 0)
+		(at 173.99 227.33 0)
 		(unit 1)
 		(exclude_from_sim no)
 		(in_bom yes)
@@ -9782,7 +9660,7 @@
 		(dnp no)
 		(uuid "4bea86cd-27b0-418f-b48d-073e847b5276")
 		(property "Reference" "#PWR0143"
-			(at 185.42 234.95 0)
+			(at 173.99 233.68 0)
 			(effects
 				(font
 					(size 1.27 1.27)
@@ -9791,7 +9669,7 @@
 			)
 		)
 		(property "Value" "GND"
-			(at 181.61 231.14 0)
+			(at 170.18 229.87 0)
 			(effects
 				(font
 					(size 1.27 1.27)
@@ -9799,7 +9677,7 @@
 			)
 		)
 		(property "Footprint" ""
-			(at 185.42 228.6 0)
+			(at 173.99 227.33 0)
 			(effects
 				(font
 					(size 1.27 1.27)
@@ -9808,7 +9686,7 @@
 			)
 		)
 		(property "Datasheet" ""
-			(at 185.42 228.6 0)
+			(at 173.99 227.33 0)
 			(effects
 				(font
 					(size 1.27 1.27)
@@ -9817,7 +9695,7 @@
 			)
 		)
 		(property "Description" ""
-			(at 185.42 228.6 0)
+			(at 173.99 227.33 0)
 			(effects
 				(font
 					(size 1.27 1.27)
@@ -9832,6 +9710,12 @@
 			(project "USBLabTool"
 				(path "/b5440f7d-90d5-417e-adc2-aa6b11e5424d/829c33f0-6f08-4314-9594-5cabd02fe19e"
 					(reference "#PWR0143")
+					(unit 1)
+				)
+			)
+			(project "Microcontroller"
+				(path "/e12382c2-8aa7-4ccc-aa2c-06f19c183060"
+					(reference "#PWR?")
 					(unit 1)
 				)
 			)
@@ -9901,6 +9785,12 @@
 					(unit 1)
 				)
 			)
+			(project "Microcontroller"
+				(path "/e12382c2-8aa7-4ccc-aa2c-06f19c183060"
+					(reference "#PWR?")
+					(unit 1)
+				)
+			)
 		)
 	)
 	(symbol
@@ -9964,6 +9854,12 @@
 			(project "USBLabTool"
 				(path "/b5440f7d-90d5-417e-adc2-aa6b11e5424d/829c33f0-6f08-4314-9594-5cabd02fe19e"
 					(reference "#FLG016")
+					(unit 1)
+				)
+			)
+			(project "Microcontroller"
+				(path "/e12382c2-8aa7-4ccc-aa2c-06f19c183060"
+					(reference "#FLG?")
 					(unit 1)
 				)
 			)
@@ -10332,6 +10228,12 @@
 					(unit 1)
 				)
 			)
+			(project "Microcontroller"
+				(path "/e12382c2-8aa7-4ccc-aa2c-06f19c183060"
+					(reference "U?")
+					(unit 1)
+				)
+			)
 		)
 	)
 	(symbol
@@ -10394,6 +10296,12 @@
 			(project "USBLabTool"
 				(path "/b5440f7d-90d5-417e-adc2-aa6b11e5424d/829c33f0-6f08-4314-9594-5cabd02fe19e"
 					(reference "#PWR068")
+					(unit 1)
+				)
+			)
+			(project "Microcontroller"
+				(path "/e12382c2-8aa7-4ccc-aa2c-06f19c183060"
+					(reference "#PWR?")
 					(unit 1)
 				)
 			)
@@ -10462,6 +10370,12 @@
 					(unit 1)
 				)
 			)
+			(project "Microcontroller"
+				(path "/e12382c2-8aa7-4ccc-aa2c-06f19c183060"
+					(reference "#PWR?")
+					(unit 1)
+				)
+			)
 		)
 	)
 	(symbol
@@ -10524,6 +10438,12 @@
 			(project "USBLabTool"
 				(path "/b5440f7d-90d5-417e-adc2-aa6b11e5424d/829c33f0-6f08-4314-9594-5cabd02fe19e"
 					(reference "#PWR070")
+					(unit 1)
+				)
+			)
+			(project "Microcontroller"
+				(path "/e12382c2-8aa7-4ccc-aa2c-06f19c183060"
+					(reference "#PWR?")
 					(unit 1)
 				)
 			)
@@ -10605,6 +10525,12 @@
 					(unit 1)
 				)
 			)
+			(project "Microcontroller"
+				(path "/e12382c2-8aa7-4ccc-aa2c-06f19c183060"
+					(reference "C?")
+					(unit 1)
+				)
+			)
 		)
 	)
 	(symbol
@@ -10668,6 +10594,12 @@
 			(project "USBLabTool"
 				(path "/b5440f7d-90d5-417e-adc2-aa6b11e5424d/829c33f0-6f08-4314-9594-5cabd02fe19e"
 					(reference "#PWR0158")
+					(unit 1)
+				)
+			)
+			(project "Microcontroller"
+				(path "/e12382c2-8aa7-4ccc-aa2c-06f19c183060"
+					(reference "#PWR?")
 					(unit 1)
 				)
 			)
@@ -10747,20 +10679,26 @@
 					(unit 1)
 				)
 			)
+			(project "Microcontroller"
+				(path "/e12382c2-8aa7-4ccc-aa2c-06f19c183060"
+					(reference "R?")
+					(unit 1)
+				)
+			)
 		)
 	)
 	(symbol
 		(lib_id "Device:C")
-		(at 165.1 204.47 0)
+		(at 173.99 203.2 0)
+		(mirror y)
 		(unit 1)
 		(exclude_from_sim no)
 		(in_bom yes)
 		(on_board yes)
 		(dnp no)
-		(fields_autoplaced yes)
 		(uuid "9a026c7b-68fc-4db5-8483-c2d83ba010d8")
 		(property "Reference" "C75"
-			(at 168.91 203.1999 0)
+			(at 170.18 201.9299 0)
 			(effects
 				(font
 					(size 1.27 1.27)
@@ -10769,7 +10707,7 @@
 			)
 		)
 		(property "Value" "100n"
-			(at 168.91 205.7399 0)
+			(at 170.18 204.4699 0)
 			(effects
 				(font
 					(size 1.27 1.27)
@@ -10778,7 +10716,7 @@
 			)
 		)
 		(property "Footprint" "Capacitor_SMD:C_0603_1608Metric_Pad1.08x0.95mm_HandSolder"
-			(at 166.0652 208.28 0)
+			(at 173.0248 207.01 0)
 			(effects
 				(font
 					(size 1.27 1.27)
@@ -10787,7 +10725,7 @@
 			)
 		)
 		(property "Datasheet" "~"
-			(at 165.1 204.47 0)
+			(at 173.99 203.2 0)
 			(effects
 				(font
 					(size 1.27 1.27)
@@ -10796,7 +10734,7 @@
 			)
 		)
 		(property "Description" ""
-			(at 165.1 204.47 0)
+			(at 173.99 203.2 0)
 			(effects
 				(font
 					(size 1.27 1.27)
@@ -10805,7 +10743,7 @@
 			)
 		)
 		(property "External REF" ""
-			(at 165.1 204.47 0)
+			(at 173.99 203.2 0)
 			(effects
 				(font
 					(size 1.27 1.27)
@@ -10814,7 +10752,7 @@
 			)
 		)
 		(property "Mouser REF" ""
-			(at 165.1 204.47 0)
+			(at 173.99 203.2 0)
 			(effects
 				(font
 					(size 1.27 1.27)
@@ -10832,6 +10770,12 @@
 			(project "USBLabTool"
 				(path "/b5440f7d-90d5-417e-adc2-aa6b11e5424d/829c33f0-6f08-4314-9594-5cabd02fe19e"
 					(reference "C75")
+					(unit 1)
+				)
+			)
+			(project "Microcontroller"
+				(path "/e12382c2-8aa7-4ccc-aa2c-06f19c183060"
+					(reference "C?")
 					(unit 1)
 				)
 			)
@@ -10910,6 +10854,12 @@
 			(project "USBLabTool"
 				(path "/b5440f7d-90d5-417e-adc2-aa6b11e5424d/829c33f0-6f08-4314-9594-5cabd02fe19e"
 					(reference "C32")
+					(unit 1)
+				)
+			)
+			(project "Microcontroller"
+				(path "/e12382c2-8aa7-4ccc-aa2c-06f19c183060"
+					(reference "C?")
 					(unit 1)
 				)
 			)
@@ -11002,6 +10952,12 @@
 					(unit 1)
 				)
 			)
+			(project "Microcontroller"
+				(path "/e12382c2-8aa7-4ccc-aa2c-06f19c183060"
+					(reference "J?")
+					(unit 1)
+				)
+			)
 		)
 	)
 	(symbol
@@ -11065,6 +11021,12 @@
 			(project "USBLabTool"
 				(path "/b5440f7d-90d5-417e-adc2-aa6b11e5424d/829c33f0-6f08-4314-9594-5cabd02fe19e"
 					(reference "#PWR076")
+					(unit 1)
+				)
+			)
+			(project "Microcontroller"
+				(path "/e12382c2-8aa7-4ccc-aa2c-06f19c183060"
+					(reference "#PWR?")
 					(unit 1)
 				)
 			)
@@ -11146,6 +11108,12 @@
 					(unit 1)
 				)
 			)
+			(project "Microcontroller"
+				(path "/e12382c2-8aa7-4ccc-aa2c-06f19c183060"
+					(reference "C?")
+					(unit 1)
+				)
+			)
 		)
 	)
 	(symbol
@@ -11209,6 +11177,12 @@
 			(project "USBLabTool"
 				(path "/b5440f7d-90d5-417e-adc2-aa6b11e5424d/829c33f0-6f08-4314-9594-5cabd02fe19e"
 					(reference "#PWR071")
+					(unit 1)
+				)
+			)
+			(project "Microcontroller"
+				(path "/e12382c2-8aa7-4ccc-aa2c-06f19c183060"
+					(reference "#PWR?")
 					(unit 1)
 				)
 			)
@@ -11297,6 +11271,12 @@
 					(unit 1)
 				)
 			)
+			(project "Microcontroller"
+				(path "/e12382c2-8aa7-4ccc-aa2c-06f19c183060"
+					(reference "R?")
+					(unit 1)
+				)
+			)
 		)
 	)
 	(symbol
@@ -11363,6 +11343,12 @@
 					(unit 1)
 				)
 			)
+			(project "Microcontroller"
+				(path "/e12382c2-8aa7-4ccc-aa2c-06f19c183060"
+					(reference "#PWR?")
+					(unit 1)
+				)
+			)
 		)
 	)
 	(symbol
@@ -11425,6 +11411,12 @@
 			(project "USBLabTool"
 				(path "/b5440f7d-90d5-417e-adc2-aa6b11e5424d/829c33f0-6f08-4314-9594-5cabd02fe19e"
 					(reference "#PWR0149")
+					(unit 1)
+				)
+			)
+			(project "Microcontroller"
+				(path "/e12382c2-8aa7-4ccc-aa2c-06f19c183060"
+					(reference "#PWR?")
 					(unit 1)
 				)
 			)
@@ -11494,6 +11486,12 @@
 					(unit 1)
 				)
 			)
+			(project "Microcontroller"
+				(path "/e12382c2-8aa7-4ccc-aa2c-06f19c183060"
+					(reference "#PWR?")
+					(unit 1)
+				)
+			)
 		)
 	)
 	(symbol
@@ -11560,6 +11558,12 @@
 					(unit 1)
 				)
 			)
+			(project "Microcontroller"
+				(path "/e12382c2-8aa7-4ccc-aa2c-06f19c183060"
+					(reference "#PWR?")
+					(unit 1)
+				)
+			)
 		)
 	)
 	(symbol
@@ -11623,6 +11627,12 @@
 			(project ""
 				(path "/b5440f7d-90d5-417e-adc2-aa6b11e5424d/829c33f0-6f08-4314-9594-5cabd02fe19e"
 					(reference "#PWR0159")
+					(unit 1)
+				)
+			)
+			(project "Microcontroller"
+				(path "/e12382c2-8aa7-4ccc-aa2c-06f19c183060"
+					(reference "#PWR?")
 					(unit 1)
 				)
 			)
@@ -11711,6 +11721,12 @@
 					(unit 1)
 				)
 			)
+			(project "Microcontroller"
+				(path "/e12382c2-8aa7-4ccc-aa2c-06f19c183060"
+					(reference "R?")
+					(unit 1)
+				)
+			)
 		)
 	)
 	(symbol
@@ -11774,6 +11790,12 @@
 			(project "USBLabTool"
 				(path "/b5440f7d-90d5-417e-adc2-aa6b11e5424d/829c33f0-6f08-4314-9594-5cabd02fe19e"
 					(reference "#PWR0161")
+					(unit 1)
+				)
+			)
+			(project "Microcontroller"
+				(path "/e12382c2-8aa7-4ccc-aa2c-06f19c183060"
+					(reference "#PWR?")
 					(unit 1)
 				)
 			)
@@ -11855,11 +11877,17 @@
 					(unit 1)
 				)
 			)
+			(project "Microcontroller"
+				(path "/e12382c2-8aa7-4ccc-aa2c-06f19c183060"
+					(reference "C?")
+					(unit 1)
+				)
+			)
 		)
 	)
 	(symbol
 		(lib_id "ESDALC6V1-1U2:ESDALC6V1-1U2")
-		(at 195.58 187.96 270)
+		(at 185.42 186.69 270)
 		(unit 1)
 		(exclude_from_sim no)
 		(in_bom yes)
@@ -11868,7 +11896,7 @@
 		(fields_autoplaced yes)
 		(uuid "e3cb9c42-77b0-442a-b800-ea3cd7144aad")
 		(property "Reference" "CR2"
-			(at 201.93 207.0099 90)
+			(at 191.77 205.7399 90)
 			(effects
 				(font
 					(size 1.524 1.524)
@@ -11877,7 +11905,7 @@
 			)
 		)
 		(property "Value" "ESDALC6V1-1U2"
-			(at 201.93 209.5499 90)
+			(at 191.77 208.2799 90)
 			(effects
 				(font
 					(size 1.524 1.524)
@@ -11886,7 +11914,7 @@
 			)
 		)
 		(property "Footprint" "DIODE_ESDALC6V1-1U2_STM"
-			(at 195.58 187.96 0)
+			(at 185.42 186.69 0)
 			(effects
 				(font
 					(size 1.27 1.27)
@@ -11896,7 +11924,7 @@
 			)
 		)
 		(property "Datasheet" "ESDALC6V1-1U2"
-			(at 195.58 187.96 0)
+			(at 185.42 186.69 0)
 			(effects
 				(font
 					(size 1.27 1.27)
@@ -11906,7 +11934,7 @@
 			)
 		)
 		(property "Description" ""
-			(at 195.58 187.96 0)
+			(at 185.42 186.69 0)
 			(effects
 				(font
 					(size 1.27 1.27)
@@ -11927,20 +11955,25 @@
 					(unit 1)
 				)
 			)
+			(project "Microcontroller"
+				(path "/e12382c2-8aa7-4ccc-aa2c-06f19c183060"
+					(reference "CR?")
+					(unit 1)
+				)
+			)
 		)
 	)
 	(symbol
 		(lib_id "power:GNDA")
-		(at 292.1 91.44 90)
+		(at 289.56 91.44 0)
 		(unit 1)
 		(exclude_from_sim no)
 		(in_bom yes)
 		(on_board yes)
 		(dnp no)
-		(fields_autoplaced yes)
 		(uuid "f52a30d7-231d-4c07-ae5c-45c9a0b74fc0")
 		(property "Reference" "#PWR0146"
-			(at 298.45 91.44 0)
+			(at 289.56 97.79 0)
 			(effects
 				(font
 					(size 1.27 1.27)
@@ -11949,16 +11982,16 @@
 			)
 		)
 		(property "Value" "GNDA"
-			(at 295.91 91.4399 90)
+			(at 291.338 93.218 0)
 			(effects
 				(font
 					(size 1.27 1.27)
 				)
-				(justify right)
+				(justify left)
 			)
 		)
 		(property "Footprint" ""
-			(at 292.1 91.44 0)
+			(at 289.56 91.44 0)
 			(effects
 				(font
 					(size 1.27 1.27)
@@ -11967,7 +12000,7 @@
 			)
 		)
 		(property "Datasheet" ""
-			(at 292.1 91.44 0)
+			(at 289.56 91.44 0)
 			(effects
 				(font
 					(size 1.27 1.27)
@@ -11976,7 +12009,7 @@
 			)
 		)
 		(property "Description" "Power symbol creates a global label with name \"GNDA\" , analog ground"
-			(at 292.1 91.44 0)
+			(at 289.56 91.44 0)
 			(effects
 				(font
 					(size 1.27 1.27)
@@ -11991,6 +12024,12 @@
 			(project "USBLabTool"
 				(path "/b5440f7d-90d5-417e-adc2-aa6b11e5424d/829c33f0-6f08-4314-9594-5cabd02fe19e"
 					(reference "#PWR0146")
+					(unit 1)
+				)
+			)
+			(project "Microcontroller"
+				(path "/e12382c2-8aa7-4ccc-aa2c-06f19c183060"
+					(reference "#PWR?")
 					(unit 1)
 				)
 			)
@@ -12072,6 +12111,12 @@
 					(unit 1)
 				)
 			)
+			(project "Microcontroller"
+				(path "/e12382c2-8aa7-4ccc-aa2c-06f19c183060"
+					(reference "C?")
+					(unit 1)
+				)
+			)
 		)
 	)
 	(symbol
@@ -12134,6 +12179,12 @@
 			(project "USBLabTool"
 				(path "/b5440f7d-90d5-417e-adc2-aa6b11e5424d/829c33f0-6f08-4314-9594-5cabd02fe19e"
 					(reference "#FLG015")
+					(unit 1)
+				)
+			)
+			(project "Microcontroller"
+				(path "/e12382c2-8aa7-4ccc-aa2c-06f19c183060"
+					(reference "#FLG?")
 					(unit 1)
 				)
 			)
