@@ -5409,6 +5409,243 @@
 				)
 			)
 		)
+		(symbol "USBLabTool:ST1L05APU33R"
+			(pin_names
+				(offset 0.254)
+			)
+			(exclude_from_sim no)
+			(in_bom yes)
+			(on_board yes)
+			(property "Reference" "U"
+				(at 13.716 9.398 0)
+				(effects
+					(font
+						(size 1.524 1.524)
+					)
+				)
+			)
+			(property "Value" "ST1L05APU33R"
+				(at 13.716 6.858 0)
+				(effects
+					(font
+						(size 1.524 1.524)
+					)
+				)
+			)
+			(property "Footprint" "DFN_5APU33R_STM"
+				(at 0 0 0)
+				(effects
+					(font
+						(size 1.27 1.27)
+						(italic yes)
+					)
+					(hide yes)
+				)
+			)
+			(property "Datasheet" "ST1L05APU33R"
+				(at 0 0 0)
+				(effects
+					(font
+						(size 1.27 1.27)
+						(italic yes)
+					)
+					(hide yes)
+				)
+			)
+			(property "Description" ""
+				(at 0 2.54 0)
+				(effects
+					(font
+						(size 1.27 1.27)
+					)
+					(hide yes)
+				)
+			)
+			(property "ki_locked" ""
+				(at 0 0 0)
+				(effects
+					(font
+						(size 1.27 1.27)
+					)
+				)
+			)
+			(property "ki_keywords" "ST1L05APU33R"
+				(at 0 0 0)
+				(effects
+					(font
+						(size 1.27 1.27)
+					)
+					(hide yes)
+				)
+			)
+			(property "ki_fp_filters" "DFN_5APU33R_STM DFN_5APU33R_STM-M DFN_5APU33R_STM-L"
+				(at 0 0 0)
+				(effects
+					(font
+						(size 1.27 1.27)
+					)
+					(hide yes)
+				)
+			)
+			(symbol "ST1L05APU33R_0_1"
+				(polyline
+					(pts
+						(xy 7.62 -5.08) (xy 19.05 -5.08)
+					)
+					(stroke
+						(width 0.127)
+						(type default)
+					)
+					(fill
+						(type none)
+					)
+				)
+				(polyline
+					(pts
+						(xy 7.62 5.08) (xy 7.62 -5.08)
+					)
+					(stroke
+						(width 0.127)
+						(type default)
+					)
+					(fill
+						(type none)
+					)
+				)
+				(polyline
+					(pts
+						(xy 19.05 -5.08) (xy 19.05 5.08)
+					)
+					(stroke
+						(width 0.127)
+						(type default)
+					)
+					(fill
+						(type none)
+					)
+				)
+				(polyline
+					(pts
+						(xy 19.05 5.08) (xy 7.62 5.08)
+					)
+					(stroke
+						(width 0.127)
+						(type default)
+					)
+					(fill
+						(type none)
+					)
+				)
+				(pin no_connect line
+					(at 0 2.54 0)
+					(length 7.62)
+					(name "NC"
+						(effects
+							(font
+								(size 1.27 1.27)
+							)
+						)
+					)
+					(number "1"
+						(effects
+							(font
+								(size 1.27 1.27)
+							)
+						)
+					)
+				)
+				(pin bidirectional line
+					(at 0 0 0)
+					(length 7.62)
+					(name "V0"
+						(effects
+							(font
+								(size 1.27 1.27)
+							)
+						)
+					)
+					(number "2"
+						(effects
+							(font
+								(size 1.27 1.27)
+							)
+						)
+					)
+				)
+				(pin unspecified line
+					(at 0 -2.54 0)
+					(length 7.62)
+					(name "V1"
+						(effects
+							(font
+								(size 1.27 1.27)
+							)
+						)
+					)
+					(number "3"
+						(effects
+							(font
+								(size 1.27 1.27)
+							)
+						)
+					)
+				)
+				(pin no_connect line
+					(at 26.67 -2.54 180)
+					(length 7.62)
+					(name "NC"
+						(effects
+							(font
+								(size 1.27 1.27)
+							)
+						)
+					)
+					(number "4"
+						(effects
+							(font
+								(size 1.27 1.27)
+							)
+						)
+					)
+				)
+				(pin no_connect line
+					(at 26.67 0 180)
+					(length 7.62)
+					(name "NC"
+						(effects
+							(font
+								(size 1.27 1.27)
+							)
+						)
+					)
+					(number "5"
+						(effects
+							(font
+								(size 1.27 1.27)
+							)
+						)
+					)
+				)
+				(pin power_out line
+					(at 26.67 2.54 180)
+					(length 7.62)
+					(name "GND"
+						(effects
+							(font
+								(size 1.27 1.27)
+							)
+						)
+					)
+					(number "6"
+						(effects
+							(font
+								(size 1.27 1.27)
+							)
+						)
+					)
+				)
+			)
+		)
 		(symbol "awg_lib:DG403"
 			(exclude_from_sim no)
 			(in_bom yes)
@@ -7482,12 +7719,6 @@
 		(uuid "b4fa6d14-e533-4765-b6b5-55eda8506d03")
 	)
 	(junction
-		(at 190.5 96.52)
-		(diameter 0)
-		(color 0 0 0 0)
-		(uuid "b79666d7-21c2-497f-a792-fd48db6261e6")
-	)
-	(junction
 		(at 62.23 100.33)
 		(diameter 0)
 		(color 0 0 0 0)
@@ -7989,16 +8220,6 @@
 	)
 	(wire
 		(pts
-			(xy 190.5 93.98) (xy 190.5 96.52)
-		)
-		(stroke
-			(width 0)
-			(type default)
-		)
-		(uuid "582d56c1-f3ea-4d07-b577-30b5f96a0c35")
-	)
-	(wire
-		(pts
 			(xy 62.23 115.57) (xy 62.23 110.49)
 		)
 		(stroke
@@ -8369,16 +8590,6 @@
 	)
 	(wire
 		(pts
-			(xy 186.69 96.52) (xy 190.5 96.52)
-		)
-		(stroke
-			(width 0)
-			(type default)
-		)
-		(uuid "a2b66def-5e0e-44b3-a347-650a831cf7dd")
-	)
-	(wire
-		(pts
 			(xy 213.36 48.1076) (xy 213.36 45.72)
 		)
 		(stroke
@@ -8609,6 +8820,16 @@
 	)
 	(wire
 		(pts
+			(xy 172.72 93.98) (xy 176.53 93.98)
+		)
+		(stroke
+			(width 0)
+			(type default)
+		)
+		(uuid "cefe8bf0-09c4-4338-949a-0a8b48557bc0")
+	)
+	(wire
+		(pts
 			(xy 49.53 80.01) (xy 49.53 82.55)
 		)
 		(stroke
@@ -8616,16 +8837,6 @@
 			(type default)
 		)
 		(uuid "cf17b260-a340-4a90-beda-7429d086647d")
-	)
-	(wire
-		(pts
-			(xy 186.69 93.98) (xy 190.5 93.98)
-		)
-		(stroke
-			(width 0)
-			(type default)
-		)
-		(uuid "cfc6351a-9cba-4ea7-b023-9b27a2bb4a0e")
 	)
 	(wire
 		(pts
@@ -8686,16 +8897,6 @@
 			(type default)
 		)
 		(uuid "d720d23a-f541-437d-b49d-a90cf5c24b4e")
-	)
-	(wire
-		(pts
-			(xy 190.5 96.52) (xy 208.28 96.52)
-		)
-		(stroke
-			(width 0)
-			(type default)
-		)
-		(uuid "d97c40ef-5b3e-4d4a-abd1-f042792a2a2e")
 	)
 	(wire
 		(pts
@@ -8806,16 +9007,6 @@
 			(type default)
 		)
 		(uuid "e9eb5ae1-aee0-4596-9acf-146bcc8a6ec0")
-	)
-	(wire
-		(pts
-			(xy 208.28 96.52) (xy 208.28 102.87)
-		)
-		(stroke
-			(width 0)
-			(type default)
-		)
-		(uuid "ea6dddff-7bc8-4aae-8ac1-5ddd4324091e")
 	)
 	(wire
 		(pts
@@ -9503,6 +9694,73 @@
 			(project "USBLabTool"
 				(path "/b5440f7d-90d5-417e-adc2-aa6b11e5424d/eb849fef-899c-46da-8ce0-ed0caaa370cf"
 					(reference "#PWR0102")
+					(unit 1)
+				)
+			)
+		)
+	)
+	(symbol
+		(lib_name "GND_10")
+		(lib_id "power:GND")
+		(at 176.53 93.98 0)
+		(unit 1)
+		(exclude_from_sim no)
+		(in_bom yes)
+		(on_board yes)
+		(dnp no)
+		(fields_autoplaced yes)
+		(uuid "140ff6cb-61ba-4224-ba13-ee89875e5f2e")
+		(property "Reference" "#PWR0112"
+			(at 176.53 100.33 0)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(hide yes)
+			)
+		)
+		(property "Value" "GND"
+			(at 176.53 99.06 0)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+			)
+		)
+		(property "Footprint" ""
+			(at 176.53 93.98 0)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(hide yes)
+			)
+		)
+		(property "Datasheet" ""
+			(at 176.53 93.98 0)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(hide yes)
+			)
+		)
+		(property "Description" ""
+			(at 176.53 93.98 0)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(hide yes)
+			)
+		)
+		(pin "1"
+			(uuid "83a9394c-49d2-42e8-99f2-cb7be774fa36")
+		)
+		(instances
+			(project "USBLabTool"
+				(path "/b5440f7d-90d5-417e-adc2-aa6b11e5424d/eb849fef-899c-46da-8ce0-ed0caaa370cf"
+					(reference "#PWR0112")
 					(unit 1)
 				)
 			)
@@ -11895,6 +12153,88 @@
 		)
 	)
 	(symbol
+		(lib_id "USBLabTool:ST1L05APU33R")
+		(at 146.05 96.52 0)
+		(unit 1)
+		(exclude_from_sim no)
+		(in_bom yes)
+		(on_board yes)
+		(dnp no)
+		(fields_autoplaced yes)
+		(uuid "62251cb1-654d-49d1-bb75-c36a2207b51f")
+		(property "Reference" "U19"
+			(at 159.385 86.36 0)
+			(effects
+				(font
+					(size 1.524 1.524)
+				)
+			)
+		)
+		(property "Value" "ST1L05APU33R"
+			(at 159.385 88.9 0)
+			(effects
+				(font
+					(size 1.524 1.524)
+				)
+			)
+		)
+		(property "Footprint" "DFN_5APU33R_STM"
+			(at 146.05 96.52 0)
+			(effects
+				(font
+					(size 1.27 1.27)
+					(italic yes)
+				)
+				(hide yes)
+			)
+		)
+		(property "Datasheet" "ST1L05APU33R"
+			(at 146.05 96.52 0)
+			(effects
+				(font
+					(size 1.27 1.27)
+					(italic yes)
+				)
+				(hide yes)
+			)
+		)
+		(property "Description" ""
+			(at 146.05 93.98 0)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(hide yes)
+			)
+		)
+		(pin "4"
+			(uuid "02cc8091-2fa0-4fed-ae12-66b056f25474")
+		)
+		(pin "6"
+			(uuid "36c88011-7c33-42d9-b131-7ec35241503e")
+		)
+		(pin "1"
+			(uuid "d8321652-c691-42e1-8870-77cd31827493")
+		)
+		(pin "2"
+			(uuid "2c8b32b9-8a52-4b94-96c9-e207c2d033d3")
+		)
+		(pin "5"
+			(uuid "09bac2a6-7f6e-4ce9-b162-7afeb51921f2")
+		)
+		(pin "3"
+			(uuid "6b786661-c3c0-46b8-b824-7cd18086a64c")
+		)
+		(instances
+			(project ""
+				(path "/b5440f7d-90d5-417e-adc2-aa6b11e5424d/eb849fef-899c-46da-8ce0-ed0caaa370cf"
+					(reference "U19")
+					(unit 1)
+				)
+			)
+		)
+	)
+	(symbol
 		(lib_name "GND_13")
 		(lib_id "power:GND")
 		(at 82.55 41.91 0)
@@ -12771,73 +13111,6 @@
 				(path "/b5440f7d-90d5-417e-adc2-aa6b11e5424d/eb849fef-899c-46da-8ce0-ed0caaa370cf"
 					(reference "U11")
 					(unit 3)
-				)
-			)
-		)
-	)
-	(symbol
-		(lib_name "GND_10")
-		(lib_id "power:GND")
-		(at 208.28 102.87 0)
-		(unit 1)
-		(exclude_from_sim no)
-		(in_bom yes)
-		(on_board yes)
-		(dnp no)
-		(fields_autoplaced yes)
-		(uuid "7a48ab44-1785-4941-9599-8296692e5501")
-		(property "Reference" "#PWR0112"
-			(at 208.28 109.22 0)
-			(effects
-				(font
-					(size 1.27 1.27)
-				)
-				(hide yes)
-			)
-		)
-		(property "Value" "GND"
-			(at 208.28 107.95 0)
-			(effects
-				(font
-					(size 1.27 1.27)
-				)
-			)
-		)
-		(property "Footprint" ""
-			(at 208.28 102.87 0)
-			(effects
-				(font
-					(size 1.27 1.27)
-				)
-				(hide yes)
-			)
-		)
-		(property "Datasheet" ""
-			(at 208.28 102.87 0)
-			(effects
-				(font
-					(size 1.27 1.27)
-				)
-				(hide yes)
-			)
-		)
-		(property "Description" ""
-			(at 208.28 102.87 0)
-			(effects
-				(font
-					(size 1.27 1.27)
-				)
-				(hide yes)
-			)
-		)
-		(pin "1"
-			(uuid "0c7719f9-93a4-4fdf-84dc-ba80afac0cfc")
-		)
-		(instances
-			(project "USBLabTool"
-				(path "/b5440f7d-90d5-417e-adc2-aa6b11e5424d/eb849fef-899c-46da-8ce0-ed0caaa370cf"
-					(reference "#PWR0112")
-					(unit 1)
 				)
 			)
 		)
@@ -15220,90 +15493,6 @@
 			(project "USBLabTool"
 				(path "/b5440f7d-90d5-417e-adc2-aa6b11e5424d/eb849fef-899c-46da-8ce0-ed0caaa370cf"
 					(reference "#PWR0113")
-					(unit 1)
-				)
-			)
-		)
-	)
-	(symbol
-		(lib_id "ST1L05APU33R:ST1L05APU33R")
-		(at 146.05 93.98 0)
-		(unit 1)
-		(exclude_from_sim no)
-		(in_bom yes)
-		(on_board yes)
-		(dnp no)
-		(uuid "c496f778-59e1-4581-8559-ab5ee6761836")
-		(property "Reference" "U14"
-			(at 166.624 93.218 0)
-			(effects
-				(font
-					(size 1.524 1.524)
-				)
-			)
-		)
-		(property "Value" "ST1L05APU33R"
-			(at 166.37 86.36 0)
-			(effects
-				(font
-					(size 1.524 1.524)
-				)
-			)
-		)
-		(property "Footprint" "DFN_5APU33R_STM"
-			(at 146.05 93.98 0)
-			(effects
-				(font
-					(size 1.27 1.27)
-					(italic yes)
-				)
-				(hide yes)
-			)
-		)
-		(property "Datasheet" "ST1L05APU33R"
-			(at 146.05 93.98 0)
-			(effects
-				(font
-					(size 1.27 1.27)
-					(italic yes)
-				)
-				(hide yes)
-			)
-		)
-		(property "Description" ""
-			(at 146.05 93.98 0)
-			(effects
-				(font
-					(size 1.27 1.27)
-				)
-				(hide yes)
-			)
-		)
-		(pin "3"
-			(uuid "a6f9f76e-4c8e-4fd6-9c50-fadfedf88a68")
-		)
-		(pin "6"
-			(uuid "16562bbd-fa3a-4895-bb95-4862e51b3a4d")
-		)
-		(pin "1"
-			(uuid "2676ed17-e41c-48ee-8e57-f03a2fcdf42e")
-		)
-		(pin "7"
-			(uuid "8c59d393-b8af-4737-ac45-24371ffabdbf")
-		)
-		(pin "4"
-			(uuid "3b9bb488-4295-408e-a964-91f03ba92a18")
-		)
-		(pin "5"
-			(uuid "f1586d1f-e207-4a98-921d-7a9360352061")
-		)
-		(pin "2"
-			(uuid "b566660e-5c66-475a-9fe2-4c4ef47aadf0")
-		)
-		(instances
-			(project ""
-				(path "/b5440f7d-90d5-417e-adc2-aa6b11e5424d/eb849fef-899c-46da-8ce0-ed0caaa370cf"
-					(reference "U14")
 					(unit 1)
 				)
 			)
