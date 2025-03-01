@@ -3736,9 +3736,9 @@
 		)
 		(symbol "GND_5"
 			(power)
+			(pin_numbers hide)
 			(pin_names
-				(offset 0)
-			)
+				(offset 0) hide)
 			(exclude_from_sim no)
 			(in_bom yes)
 			(on_board yes)
@@ -3786,7 +3786,7 @@
 					(hide yes)
 				)
 			)
-			(property "ki_keywords" "power-flag"
+			(property "ki_keywords" "global power"
 				(at 0 0 0)
 				(effects
 					(font
@@ -3812,8 +3812,8 @@
 			(symbol "GND_5_1_1"
 				(pin power_in line
 					(at 0 0 270)
-					(length 0) hide
-					(name "GND"
+					(length 0)
+					(name "~"
 						(effects
 							(font
 								(size 1.27 1.27)
@@ -7468,12 +7468,6 @@
 		(uuid "1efc7080-3454-4d49-ab26-ed2999c83d82")
 	)
 	(junction
-		(at 162.56 241.3)
-		(diameter 0)
-		(color 0 0 0 0)
-		(uuid "1f6e8779-c850-4b45-b47a-a25067279d43")
-	)
-	(junction
 		(at 157.48 101.6)
 		(diameter 0)
 		(color 0 0 0 0)
@@ -10734,16 +10728,6 @@
 			(type default)
 		)
 		(uuid "dbfdeb53-7b46-4fa6-907c-fe8cdc4c3362")
-	)
-	(wire
-		(pts
-			(xy 162.56 242.57) (xy 162.56 241.3)
-		)
-		(stroke
-			(width 0)
-			(type default)
-		)
-		(uuid "dc9ba39e-df9e-4cf9-8680-a395fe238249")
 	)
 	(wire
 		(pts
@@ -15757,73 +15741,6 @@
 		)
 	)
 	(symbol
-		(lib_name "GND_5")
-		(lib_id "power:GND")
-		(at 162.56 241.3 0)
-		(unit 1)
-		(exclude_from_sim no)
-		(in_bom yes)
-		(on_board yes)
-		(dnp no)
-		(fields_autoplaced yes)
-		(uuid "6058cc8b-9a84-4a9c-bfaf-3451af8b0a1b")
-		(property "Reference" "#PWR018"
-			(at 162.56 247.65 0)
-			(effects
-				(font
-					(size 1.27 1.27)
-				)
-				(hide yes)
-			)
-		)
-		(property "Value" "GND"
-			(at 162.56 246.38 0)
-			(effects
-				(font
-					(size 1.27 1.27)
-				)
-			)
-		)
-		(property "Footprint" ""
-			(at 162.56 241.3 0)
-			(effects
-				(font
-					(size 1.27 1.27)
-				)
-				(hide yes)
-			)
-		)
-		(property "Datasheet" ""
-			(at 162.56 241.3 0)
-			(effects
-				(font
-					(size 1.27 1.27)
-				)
-				(hide yes)
-			)
-		)
-		(property "Description" ""
-			(at 162.56 241.3 0)
-			(effects
-				(font
-					(size 1.27 1.27)
-				)
-				(hide yes)
-			)
-		)
-		(pin "1"
-			(uuid "f2806177-e66f-4b3a-926a-5fe0d1186483")
-		)
-		(instances
-			(project "USBLabTool"
-				(path "/b5440f7d-90d5-417e-adc2-aa6b11e5424d/4269701b-4537-45be-98a2-a1633b405066"
-					(reference "#PWR018")
-					(unit 1)
-				)
-			)
-		)
-	)
-	(symbol
 		(lib_name "-5V_4")
 		(lib_id "power:-5V")
 		(at 168.91 34.29 0)
@@ -19886,7 +19803,7 @@
 				(justify left)
 			)
 		)
-		(property "Value" "CD74HC4316M96"
+		(property "Value" "CD74HC4316PWR"
 			(at 164.7541 243.84 0)
 			(effects
 				(font
@@ -19904,7 +19821,7 @@
 				(hide yes)
 			)
 		)
-		(property "Datasheet" "https://www.digikey.com/en/products/detail/texas-instruments/CD74HC4316M96/555784"
+		(property "Datasheet" "https://www.digikey.com/en/products/detail/texas-instruments/CD74HC4316PWR/1507290"
 			(at 149.86 198.12 0)
 			(effects
 				(font
@@ -20408,8 +20325,8 @@
 				(justify left)
 			)
 		)
-		(property "Value" "CD74HC4316M96"
-			(at 163.576 105.664 0)
+		(property "Value" "CD74HC4316PWR"
+			(at 173.482 131.572 0)
 			(effects
 				(font
 					(size 1.27 1.27)
@@ -20426,7 +20343,7 @@
 				(hide yes)
 			)
 		)
-		(property "Datasheet" "https://www.digikey.com/en/products/detail/texas-instruments/CD74HC4316M96/555784"
+		(property "Datasheet" "https://www.digikey.com/en/products/detail/texas-instruments/CD74HC4316PWR/1507290"
 			(at 158.75 86.36 0)
 			(effects
 				(font
@@ -21059,6 +20976,73 @@
 			(project ""
 				(path "/b5440f7d-90d5-417e-adc2-aa6b11e5424d/4269701b-4537-45be-98a2-a1633b405066"
 					(reference "C15")
+					(unit 1)
+				)
+			)
+		)
+	)
+	(symbol
+		(lib_name "GND_5")
+		(lib_id "power:GND")
+		(at 162.56 241.3 0)
+		(unit 1)
+		(exclude_from_sim no)
+		(in_bom yes)
+		(on_board yes)
+		(dnp no)
+		(fields_autoplaced yes)
+		(uuid "d8f1a167-5048-4cf2-8f83-917659e3ec83")
+		(property "Reference" "#PWR018"
+			(at 162.56 247.65 0)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(hide yes)
+			)
+		)
+		(property "Value" "GND"
+			(at 162.56 246.38 0)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+			)
+		)
+		(property "Footprint" ""
+			(at 162.56 241.3 0)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(hide yes)
+			)
+		)
+		(property "Datasheet" ""
+			(at 162.56 241.3 0)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(hide yes)
+			)
+		)
+		(property "Description" "Power symbol creates a global label with name \"GND\" , ground"
+			(at 162.56 241.3 0)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(hide yes)
+			)
+		)
+		(pin "1"
+			(uuid "e71a6288-2942-4d09-ac60-7f44780ed880")
+		)
+		(instances
+			(project ""
+				(path "/b5440f7d-90d5-417e-adc2-aa6b11e5424d/4269701b-4537-45be-98a2-a1633b405066"
+					(reference "#PWR018")
 					(unit 1)
 				)
 			)
