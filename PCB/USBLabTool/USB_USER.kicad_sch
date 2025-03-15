@@ -1411,6 +1411,168 @@
 			)
 			(embedded_fonts no)
 		)
+		(symbol "Device:L"
+			(pin_numbers
+				(hide yes)
+			)
+			(pin_names
+				(offset 1.016)
+				(hide yes)
+			)
+			(exclude_from_sim no)
+			(in_bom yes)
+			(on_board yes)
+			(property "Reference" "L"
+				(at -1.27 0 90)
+				(effects
+					(font
+						(size 1.27 1.27)
+					)
+				)
+			)
+			(property "Value" "L"
+				(at 1.905 0 90)
+				(effects
+					(font
+						(size 1.27 1.27)
+					)
+				)
+			)
+			(property "Footprint" ""
+				(at 0 0 0)
+				(effects
+					(font
+						(size 1.27 1.27)
+					)
+					(hide yes)
+				)
+			)
+			(property "Datasheet" "~"
+				(at 0 0 0)
+				(effects
+					(font
+						(size 1.27 1.27)
+					)
+					(hide yes)
+				)
+			)
+			(property "Description" "Inductor"
+				(at 0 0 0)
+				(effects
+					(font
+						(size 1.27 1.27)
+					)
+					(hide yes)
+				)
+			)
+			(property "ki_keywords" "inductor choke coil reactor magnetic"
+				(at 0 0 0)
+				(effects
+					(font
+						(size 1.27 1.27)
+					)
+					(hide yes)
+				)
+			)
+			(property "ki_fp_filters" "Choke_* *Coil* Inductor_* L_*"
+				(at 0 0 0)
+				(effects
+					(font
+						(size 1.27 1.27)
+					)
+					(hide yes)
+				)
+			)
+			(symbol "L_0_1"
+				(arc
+					(start 0 2.54)
+					(mid 0.6323 1.905)
+					(end 0 1.27)
+					(stroke
+						(width 0)
+						(type default)
+					)
+					(fill
+						(type none)
+					)
+				)
+				(arc
+					(start 0 1.27)
+					(mid 0.6323 0.635)
+					(end 0 0)
+					(stroke
+						(width 0)
+						(type default)
+					)
+					(fill
+						(type none)
+					)
+				)
+				(arc
+					(start 0 0)
+					(mid 0.6323 -0.635)
+					(end 0 -1.27)
+					(stroke
+						(width 0)
+						(type default)
+					)
+					(fill
+						(type none)
+					)
+				)
+				(arc
+					(start 0 -1.27)
+					(mid 0.6323 -1.905)
+					(end 0 -2.54)
+					(stroke
+						(width 0)
+						(type default)
+					)
+					(fill
+						(type none)
+					)
+				)
+			)
+			(symbol "L_1_1"
+				(pin passive line
+					(at 0 3.81 270)
+					(length 1.27)
+					(name "1"
+						(effects
+							(font
+								(size 1.27 1.27)
+							)
+						)
+					)
+					(number "1"
+						(effects
+							(font
+								(size 1.27 1.27)
+							)
+						)
+					)
+				)
+				(pin passive line
+					(at 0 -3.81 90)
+					(length 1.27)
+					(name "2"
+						(effects
+							(font
+								(size 1.27 1.27)
+							)
+						)
+					)
+					(number "2"
+						(effects
+							(font
+								(size 1.27 1.27)
+							)
+						)
+					)
+				)
+			)
+			(embedded_fonts no)
+		)
 		(symbol "ESDA25P35-1U1M:ESDA25P35-1U1M"
 			(pin_names
 				(offset 1.016)
@@ -2396,12 +2558,13 @@
 					(hide yes)
 				)
 			)
-			(property "Description" ""
+			(property "Description" "MOSFET N-Ch 30V 0.006 Ohm 11A STripFET VI Deep"
 				(at 0 0 0)
 				(effects
 					(font
 						(size 1.27 1.27)
 					)
+					(justify bottom)
 					(hide yes)
 				)
 			)
@@ -2436,16 +2599,6 @@
 				)
 			)
 			(property "OPERATING_TEMPERATURE" "-55 to 150"
-				(at 0 0 0)
-				(effects
-					(font
-						(size 1.27 1.27)
-					)
-					(justify bottom)
-					(hide yes)
-				)
-			)
-			(property "DESCRIPTION" "MOSFET N-Ch 30V 0.006 Ohm 11A STripFET VI Deep"
 				(at 0 0 0)
 				(effects
 					(font
@@ -3539,104 +3692,6 @@
 			)
 			(embedded_fonts no)
 		)
-		(symbol "power:GNDA"
-			(power)
-			(pin_names
-				(offset 0)
-			)
-			(exclude_from_sim no)
-			(in_bom yes)
-			(on_board yes)
-			(property "Reference" "#PWR"
-				(at 0 -6.35 0)
-				(effects
-					(font
-						(size 1.27 1.27)
-					)
-					(hide yes)
-				)
-			)
-			(property "Value" "GNDA"
-				(at 0 -3.81 0)
-				(effects
-					(font
-						(size 1.27 1.27)
-					)
-				)
-			)
-			(property "Footprint" ""
-				(at 0 0 0)
-				(effects
-					(font
-						(size 1.27 1.27)
-					)
-					(hide yes)
-				)
-			)
-			(property "Datasheet" ""
-				(at 0 0 0)
-				(effects
-					(font
-						(size 1.27 1.27)
-					)
-					(hide yes)
-				)
-			)
-			(property "Description" "Power symbol creates a global label with name \"GNDA\" , analog ground"
-				(at 0 0 0)
-				(effects
-					(font
-						(size 1.27 1.27)
-					)
-					(hide yes)
-				)
-			)
-			(property "ki_keywords" "global power"
-				(at 0 0 0)
-				(effects
-					(font
-						(size 1.27 1.27)
-					)
-					(hide yes)
-				)
-			)
-			(symbol "GNDA_0_1"
-				(polyline
-					(pts
-						(xy 0 0) (xy 0 -1.27) (xy 1.27 -1.27) (xy 0 -2.54) (xy -1.27 -1.27) (xy 0 -1.27)
-					)
-					(stroke
-						(width 0)
-						(type default)
-					)
-					(fill
-						(type none)
-					)
-				)
-			)
-			(symbol "GNDA_1_1"
-				(pin power_in line
-					(at 0 0 270)
-					(length 0)
-					(hide yes)
-					(name "GNDA"
-						(effects
-							(font
-								(size 1.27 1.27)
-							)
-						)
-					)
-					(number "1"
-						(effects
-							(font
-								(size 1.27 1.27)
-							)
-						)
-					)
-				)
-			)
-			(embedded_fonts no)
-		)
 	)
 	(junction
 		(at 203.2 127)
@@ -3651,6 +3706,12 @@
 		(uuid "05149b55-de23-4868-9e60-a658e5984855")
 	)
 	(junction
+		(at 128.27 147.32)
+		(diameter 0)
+		(color 0 0 0 0)
+		(uuid "06046046-907a-48fc-9601-a51e9b1feaa6")
+	)
+	(junction
 		(at 259.08 82.55)
 		(diameter 0)
 		(color 0 0 0 0)
@@ -3661,12 +3722,6 @@
 		(diameter 0)
 		(color 0 0 0 0)
 		(uuid "243aef93-f606-4b06-a19a-04c9816be581")
-	)
-	(junction
-		(at 138.43 147.32)
-		(diameter 0)
-		(color 0 0 0 0)
-		(uuid "2b02a0f5-c42c-4e7f-87eb-325efadb8652")
 	)
 	(junction
 		(at 177.8 105.41)
@@ -3708,7 +3763,7 @@
 		(at 148.59 147.32)
 		(diameter 0)
 		(color 0 0 0 0)
-		(uuid "89e40a75-627b-4a6c-9161-2184b12e9b64")
+		(uuid "88e39b48-295d-48c4-866f-9f57ebe34cb9")
 	)
 	(junction
 		(at 118.11 45.72)
@@ -3793,12 +3848,6 @@
 		(diameter 0)
 		(color 0 0 0 0)
 		(uuid "d945d44d-f3d4-4327-b8b0-c6fb78e35982")
-	)
-	(junction
-		(at 128.27 147.32)
-		(diameter 0)
-		(color 0 0 0 0)
-		(uuid "ddb97bee-a8e5-4903-aa67-7df969a46a23")
 	)
 	(junction
 		(at 127 45.72)
@@ -3927,6 +3976,16 @@
 			(type default)
 		)
 		(uuid "0585e791-caaa-404a-91cb-495d38cf6704")
+	)
+	(wire
+		(pts
+			(xy 128.27 147.32) (xy 134.62 147.32)
+		)
+		(stroke
+			(width 0)
+			(type default)
+		)
+		(uuid "099c0130-487b-487b-8ed8-e5ce089e80d4")
 	)
 	(wire
 		(pts
@@ -4420,6 +4479,16 @@
 	)
 	(wire
 		(pts
+			(xy 142.24 147.32) (xy 148.59 147.32)
+		)
+		(stroke
+			(width 0)
+			(type default)
+		)
+		(uuid "64ca03d4-b8cd-4d84-9bba-2c1984a2d4e2")
+	)
+	(wire
+		(pts
 			(xy 234.95 139.7) (xy 227.33 139.7)
 		)
 		(stroke
@@ -4550,6 +4619,16 @@
 	)
 	(wire
 		(pts
+			(xy 148.59 147.32) (xy 156.21 147.32)
+		)
+		(stroke
+			(width 0)
+			(type default)
+		)
+		(uuid "9003ae65-7d6d-470b-aa0b-df6fb59a4e67")
+	)
+	(wire
+		(pts
 			(xy 102.87 95.25) (xy 109.22 95.25)
 		)
 		(stroke
@@ -4607,16 +4686,6 @@
 			(type default)
 		)
 		(uuid "9849a06f-fbf8-4c48-9a77-b9bcab56b7b2")
-	)
-	(wire
-		(pts
-			(xy 148.59 147.32) (xy 156.21 147.32)
-		)
-		(stroke
-			(width 0)
-			(type default)
-		)
-		(uuid "995254d3-010f-4389-9aaf-9a310fa338e7")
 	)
 	(wire
 		(pts
@@ -4920,16 +4989,6 @@
 	)
 	(wire
 		(pts
-			(xy 138.43 147.32) (xy 148.59 147.32)
-		)
-		(stroke
-			(width 0)
-			(type default)
-		)
-		(uuid "d616067f-1008-490e-9545-40fb00e44da9")
-	)
-	(wire
-		(pts
 			(xy 127 43.18) (xy 128.27 43.18)
 		)
 		(stroke
@@ -5157,16 +5216,6 @@
 			(type default)
 		)
 		(uuid "ff687059-0184-4196-80c9-ba9ec178d482")
-	)
-	(wire
-		(pts
-			(xy 128.27 147.32) (xy 138.43 147.32)
-		)
-		(stroke
-			(width 0)
-			(type default)
-		)
-		(uuid "ffc2276c-5ac0-4568-9cb9-e2ea6fd5d992")
 	)
 	(wire
 		(pts
@@ -5439,6 +5488,100 @@
 				)
 				(justify left)
 				(hide yes)
+			)
+		)
+	)
+	(symbol
+		(lib_id "Device:L")
+		(at 138.43 147.32 90)
+		(unit 1)
+		(exclude_from_sim no)
+		(in_bom yes)
+		(on_board yes)
+		(dnp no)
+		(uuid "0aee7695-4b23-414e-b5e8-eb3aac1f8234")
+		(property "Reference" "L7"
+			(at 138.176 142.494 90)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+			)
+		)
+		(property "Value" "4.7uH"
+			(at 138.176 145.034 90)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+			)
+		)
+		(property "Footprint" "Inductor_SMD:L_0603_1608Metric_Pad1.05x0.95mm_HandSolder"
+			(at 138.43 147.32 0)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(hide yes)
+			)
+		)
+		(property "Datasheet" "~"
+			(at 138.43 147.32 0)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(hide yes)
+			)
+		)
+		(property "Description" ""
+			(at 138.43 147.32 0)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(hide yes)
+			)
+		)
+		(property "External REF" ""
+			(at 138.43 147.32 0)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(hide yes)
+			)
+		)
+		(property "Mouser REF" "80-L0603B470KPWFT"
+			(at 138.43 147.32 0)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(hide yes)
+			)
+		)
+		(property "Purpose" ""
+			(at 138.43 147.32 0)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(hide yes)
+			)
+		)
+		(pin "1"
+			(uuid "5b92056d-9bbc-4390-b1b8-b039412f563d")
+		)
+		(pin "2"
+			(uuid "2d0d523c-cf8c-427d-bf34-b55d64799afd")
+		)
+		(instances
+			(project "USBLabTool"
+				(path "/b5440f7d-90d5-417e-adc2-aa6b11e5424d/37e12e55-0596-42de-ac66-6f566cb1a838"
+					(reference "L7")
+					(unit 1)
+				)
 			)
 		)
 	)
@@ -5997,84 +6140,6 @@
 		)
 	)
 	(symbol
-		(lib_id "Device:C")
-		(at 148.59 151.13 0)
-		(unit 1)
-		(exclude_from_sim no)
-		(in_bom yes)
-		(on_board yes)
-		(dnp no)
-		(uuid "1e9bc088-8c11-42b6-9d7a-4b4d5a1b01ab")
-		(property "Reference" "C69"
-			(at 151.892 150.114 0)
-			(effects
-				(font
-					(size 1.27 1.27)
-				)
-				(justify left)
-			)
-		)
-		(property "Value" "100n"
-			(at 150.622 153.416 0)
-			(effects
-				(font
-					(size 1.27 1.27)
-				)
-				(justify left)
-			)
-		)
-		(property "Footprint" "Capacitor_SMD:C_0603_1608Metric_Pad1.08x0.95mm_HandSolder"
-			(at 149.5552 154.94 0)
-			(effects
-				(font
-					(size 1.27 1.27)
-				)
-				(hide yes)
-			)
-		)
-		(property "Datasheet" "~"
-			(at 148.59 151.13 0)
-			(effects
-				(font
-					(size 1.27 1.27)
-				)
-				(hide yes)
-			)
-		)
-		(property "Description" ""
-			(at 148.59 151.13 0)
-			(effects
-				(font
-					(size 1.27 1.27)
-				)
-				(hide yes)
-			)
-		)
-		(property "Purpose" ""
-			(at 148.59 151.13 0)
-			(effects
-				(font
-					(size 1.27 1.27)
-				)
-				(hide yes)
-			)
-		)
-		(pin "1"
-			(uuid "296b1122-e311-4e88-af40-c7e99fbf7ea8")
-		)
-		(pin "2"
-			(uuid "812eabfd-775c-46e4-90d8-325d5b7dca6d")
-		)
-		(instances
-			(project "USBLabTool"
-				(path "/b5440f7d-90d5-417e-adc2-aa6b11e5424d/37e12e55-0596-42de-ac66-6f566cb1a838"
-					(reference "C69")
-					(unit 1)
-				)
-			)
-		)
-	)
-	(symbol
 		(lib_id "power:GND")
 		(at 278.13 72.39 0)
 		(unit 1)
@@ -6285,72 +6350,6 @@
 		)
 	)
 	(symbol
-		(lib_id "power:GNDA")
-		(at 148.59 154.94 0)
-		(unit 1)
-		(exclude_from_sim no)
-		(in_bom yes)
-		(on_board yes)
-		(dnp no)
-		(fields_autoplaced yes)
-		(uuid "45da8281-0b1a-4d78-9db6-0db893ac5a0d")
-		(property "Reference" "#PWR0133"
-			(at 148.59 161.29 0)
-			(effects
-				(font
-					(size 1.27 1.27)
-				)
-				(hide yes)
-			)
-		)
-		(property "Value" "GNDA"
-			(at 148.59 160.02 0)
-			(effects
-				(font
-					(size 1.27 1.27)
-				)
-			)
-		)
-		(property "Footprint" ""
-			(at 148.59 154.94 0)
-			(effects
-				(font
-					(size 1.27 1.27)
-				)
-				(hide yes)
-			)
-		)
-		(property "Datasheet" ""
-			(at 148.59 154.94 0)
-			(effects
-				(font
-					(size 1.27 1.27)
-				)
-				(hide yes)
-			)
-		)
-		(property "Description" "Power symbol creates a global label with name \"GNDA\" , analog ground"
-			(at 148.59 154.94 0)
-			(effects
-				(font
-					(size 1.27 1.27)
-				)
-				(hide yes)
-			)
-		)
-		(pin "1"
-			(uuid "7f4751b5-dab3-42e1-b4fd-34aeed7d1cc8")
-		)
-		(instances
-			(project "USBLabTool"
-				(path "/b5440f7d-90d5-417e-adc2-aa6b11e5424d/37e12e55-0596-42de-ac66-6f566cb1a838"
-					(reference "#PWR0133")
-					(unit 1)
-				)
-			)
-		)
-	)
-	(symbol
 		(lib_id "Device:C")
 		(at 217.17 102.87 270)
 		(unit 1)
@@ -6514,12 +6513,13 @@
 				(hide yes)
 			)
 		)
-		(property "Value" "GNDA"
-			(at 128.27 160.02 0)
+		(property "Value" "GND"
+			(at 130.81 156.2099 0)
 			(effects
 				(font
 					(size 1.27 1.27)
 				)
+				(justify left)
 			)
 		)
 		(property "Footprint" ""
@@ -7020,7 +7020,7 @@
 	)
 	(symbol
 		(lib_id "Device:C")
-		(at 138.43 151.13 0)
+		(at 148.59 151.13 0)
 		(unit 1)
 		(exclude_from_sim no)
 		(in_bom yes)
@@ -7028,7 +7028,7 @@
 		(dnp no)
 		(uuid "8ed3d1d7-219c-4753-9533-b887e30f41ea")
 		(property "Reference" "C68"
-			(at 141.732 150.114 0)
+			(at 151.892 150.114 0)
 			(effects
 				(font
 					(size 1.27 1.27)
@@ -7037,7 +7037,7 @@
 			)
 		)
 		(property "Value" "100n"
-			(at 140.462 153.416 0)
+			(at 150.622 153.416 0)
 			(effects
 				(font
 					(size 1.27 1.27)
@@ -7046,7 +7046,7 @@
 			)
 		)
 		(property "Footprint" "Capacitor_SMD:C_0603_1608Metric_Pad1.08x0.95mm_HandSolder"
-			(at 139.3952 154.94 0)
+			(at 149.5552 154.94 0)
 			(effects
 				(font
 					(size 1.27 1.27)
@@ -7055,7 +7055,7 @@
 			)
 		)
 		(property "Datasheet" "~"
-			(at 138.43 151.13 0)
+			(at 148.59 151.13 0)
 			(effects
 				(font
 					(size 1.27 1.27)
@@ -7064,7 +7064,7 @@
 			)
 		)
 		(property "Description" ""
-			(at 138.43 151.13 0)
+			(at 148.59 151.13 0)
 			(effects
 				(font
 					(size 1.27 1.27)
@@ -7073,7 +7073,7 @@
 			)
 		)
 		(property "Purpose" ""
-			(at 138.43 151.13 0)
+			(at 148.59 151.13 0)
 			(effects
 				(font
 					(size 1.27 1.27)
@@ -7620,7 +7620,7 @@
 	(symbol
 		(lib_name "GNDA_1")
 		(lib_id "power:GNDA")
-		(at 138.43 154.94 0)
+		(at 148.59 154.94 0)
 		(unit 1)
 		(exclude_from_sim no)
 		(in_bom yes)
@@ -7629,7 +7629,7 @@
 		(fields_autoplaced yes)
 		(uuid "d204d8b6-3fb9-4e5d-8204-6fdc909625d4")
 		(property "Reference" "#PWR0132"
-			(at 138.43 161.29 0)
+			(at 148.59 161.29 0)
 			(effects
 				(font
 					(size 1.27 1.27)
@@ -7638,7 +7638,7 @@
 			)
 		)
 		(property "Value" "GNDA"
-			(at 138.43 160.02 0)
+			(at 148.59 160.02 0)
 			(effects
 				(font
 					(size 1.27 1.27)
@@ -7646,7 +7646,7 @@
 			)
 		)
 		(property "Footprint" ""
-			(at 138.43 154.94 0)
+			(at 148.59 154.94 0)
 			(effects
 				(font
 					(size 1.27 1.27)
@@ -7655,7 +7655,7 @@
 			)
 		)
 		(property "Datasheet" ""
-			(at 138.43 154.94 0)
+			(at 148.59 154.94 0)
 			(effects
 				(font
 					(size 1.27 1.27)
@@ -7664,7 +7664,7 @@
 			)
 		)
 		(property "Description" "Power symbol creates a global label with name \"GNDA\" , analog ground"
-			(at 138.43 154.94 0)
+			(at 148.59 154.94 0)
 			(effects
 				(font
 					(size 1.27 1.27)

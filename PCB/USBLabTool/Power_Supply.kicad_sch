@@ -9717,7 +9717,7 @@
 				)
 			)
 		)
-		(property "Value" "47u"
+		(property "Value" "47uH"
 			(at 166.624 128.016 90)
 			(effects
 				(font
@@ -10953,7 +10953,6 @@
 		(in_bom yes)
 		(on_board yes)
 		(dnp no)
-		(fields_autoplaced yes)
 		(uuid "36fb1c1f-dd37-4b68-a547-aa64768741e5")
 		(property "Reference" "#PWR0116"
 			(at 160.02 129.54 0)
@@ -10964,12 +10963,13 @@
 				(hide yes)
 			)
 		)
-		(property "Value" "GNDA"
-			(at 160.02 128.27 0)
+		(property "Value" "GND"
+			(at 155.956 127.254 0)
 			(effects
 				(font
 					(size 1.27 1.27)
 				)
+				(justify left)
 			)
 		)
 		(property "Footprint" ""
@@ -11194,7 +11194,6 @@
 		(in_bom yes)
 		(on_board yes)
 		(dnp no)
-		(fields_autoplaced yes)
 		(uuid "45c08552-97da-493e-bb74-401ba80e6f37")
 		(property "Reference" "#PWR0106"
 			(at 114.3 97.79 0)
@@ -11909,7 +11908,7 @@
 				(hide yes)
 			)
 		)
-		(property "Value" "GNDA"
+		(property "Value" "GND"
 			(at 139.7 172.72 0)
 			(effects
 				(font
@@ -12480,12 +12479,13 @@
 				(hide yes)
 			)
 		)
-		(property "Value" "GNDA"
-			(at 104.14 133.35 0)
+		(property "Value" "GND"
+			(at 106.68 129.5399 0)
 			(effects
 				(font
 					(size 1.27 1.27)
 				)
+				(justify left)
 			)
 		)
 		(property "Footprint" ""
@@ -12660,7 +12660,7 @@
 				(justify left)
 			)
 		)
-		(property "Value" "4.7u"
+		(property "Value" "4.7uH"
 			(at 44.45 74.93 0)
 			(effects
 				(font
@@ -12738,7 +12738,7 @@
 				(justify left)
 			)
 		)
-		(property "Value" "4.7u"
+		(property "Value" "4.7uH"
 			(at 51.054 115.316 0)
 			(effects
 				(font
@@ -13363,7 +13363,7 @@
 				(hide yes)
 			)
 		)
-		(property "Value" "GND"
+		(property "Value" "GNDA"
 			(at 50.546 122.428 0)
 			(effects
 				(font
@@ -14299,12 +14299,13 @@
 				(hide yes)
 			)
 		)
-		(property "Value" "GNDA"
-			(at 19.05 110.49 0)
+		(property "Value" "GND"
+			(at 21.59 106.6799 0)
 			(effects
 				(font
 					(size 1.27 1.27)
 				)
+				(justify left)
 			)
 		)
 		(property "Footprint" ""
@@ -15004,7 +15005,7 @@
 				)
 			)
 		)
-		(property "Value" "47u"
+		(property "Value" "47uH"
 			(at 166.116 110.744 90)
 			(effects
 				(font
@@ -15304,12 +15305,13 @@
 				(hide yes)
 			)
 		)
-		(property "Value" "GNDA"
-			(at 167.64 168.91 0)
+		(property "Value" "GND"
+			(at 170.18 165.0999 0)
 			(effects
 				(font
 					(size 1.27 1.27)
 				)
+				(justify left)
 			)
 		)
 		(property "Footprint" ""
@@ -16743,7 +16745,6 @@
 		(in_bom yes)
 		(on_board yes)
 		(dnp no)
-		(fields_autoplaced yes)
 		(uuid "efd92f36-07ea-42ea-8de3-f73568cda57a")
 		(property "Reference" "#PWR080"
 			(at 24.13 139.7 0)
@@ -16754,7 +16755,7 @@
 				(hide yes)
 			)
 		)
-		(property "Value" "GNDA"
+		(property "Value" "GND"
 			(at 24.13 138.43 0)
 			(effects
 				(font
