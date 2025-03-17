@@ -7672,6 +7672,12 @@
 		(uuid "20814a0a-597b-4ca1-8042-e20342c04cc0")
 	)
 	(junction
+		(at 87.63 227.33)
+		(diameter 0)
+		(color 0 0 0 0)
+		(uuid "2126686d-a9c6-4129-9f7b-6134a1816ad0")
+	)
+	(junction
 		(at 48.26 88.9)
 		(diameter 0)
 		(color 0 0 0 0)
@@ -7936,12 +7942,6 @@
 		(uuid "9258a1e6-ffc8-40b3-8394-7fbba0fa8c7e")
 	)
 	(junction
-		(at 97.79 113.03)
-		(diameter 0)
-		(color 0 0 0 0)
-		(uuid "9525df67-3b47-46d6-ba05-cc176ec90636")
-	)
-	(junction
 		(at 248.92 43.18)
 		(diameter 0)
 		(color 0 0 0 0)
@@ -8002,6 +8002,12 @@
 		(uuid "b9c1d8e6-5706-46ca-9fdc-ed2ea6c50ad4")
 	)
 	(junction
+		(at 97.79 113.03)
+		(diameter 0)
+		(color 0 0 0 0)
+		(uuid "be56ced7-653f-4b0a-b64e-63b38fcde941")
+	)
+	(junction
 		(at 238.76 76.2)
 		(diameter 0)
 		(color 0 0 0 0)
@@ -8024,12 +8030,6 @@
 		(diameter 0)
 		(color 0 0 0 0)
 		(uuid "c8d6e282-2437-4ad5-8314-6bc7247e0460")
-	)
-	(junction
-		(at 91.44 227.33)
-		(diameter 0)
-		(color 0 0 0 0)
-		(uuid "cb5ffa14-0fd3-4b96-8458-7ea9c96bceba")
 	)
 	(junction
 		(at 196.85 97.79)
@@ -8273,7 +8273,7 @@
 	)
 	(wire
 		(pts
-			(xy 83.82 227.33) (xy 91.44 227.33)
+			(xy 83.82 227.33) (xy 87.63 227.33)
 		)
 		(stroke
 			(width 0)
@@ -9913,7 +9913,7 @@
 	)
 	(wire
 		(pts
-			(xy 97.79 113.03) (xy 101.6 113.03)
+			(xy 93.98 113.03) (xy 97.79 113.03)
 		)
 		(stroke
 			(width 0)
@@ -9983,6 +9983,16 @@
 	)
 	(wire
 		(pts
+			(xy 87.63 227.33) (xy 91.44 227.33)
+		)
+		(stroke
+			(width 0)
+			(type default)
+		)
+		(uuid "9a9bc3b4-cb4a-45df-9576-1fd96f1d2eac")
+	)
+	(wire
+		(pts
 			(xy 101.6 113.03) (xy 101.6 110.49)
 		)
 		(stroke
@@ -10010,16 +10020,6 @@
 			(type default)
 		)
 		(uuid "9b9c4315-3681-4cc8-b967-e2fe25b09632")
-	)
-	(wire
-		(pts
-			(xy 93.98 113.03) (xy 97.79 113.03)
-		)
-		(stroke
-			(width 0)
-			(type default)
-		)
-		(uuid "9caab292-cbb0-4f72-8d3a-bf4aba6a9ced")
 	)
 	(wire
 		(pts
@@ -10570,6 +10570,16 @@
 			(type default)
 		)
 		(uuid "c3c4c02a-7f8c-43cb-aa99-c825d68ed5fe")
+	)
+	(wire
+		(pts
+			(xy 97.79 113.03) (xy 101.6 113.03)
+		)
+		(stroke
+			(width 0)
+			(type default)
+		)
+		(uuid "c45159c7-fe7a-432c-9364-0e6dae2fb95a")
 	)
 	(wire
 		(pts
@@ -12089,73 +12099,6 @@
 			(project ""
 				(path "/b5440f7d-90d5-417e-adc2-aa6b11e5424d/4269701b-4537-45be-98a2-a1633b405066"
 					(reference "R1")
-					(unit 1)
-				)
-			)
-		)
-	)
-	(symbol
-		(lib_id "power:GNDA")
-		(at 97.79 113.03 0)
-		(unit 1)
-		(exclude_from_sim no)
-		(in_bom yes)
-		(on_board yes)
-		(dnp no)
-		(fields_autoplaced yes)
-		(uuid "0783f635-ee84-4853-af07-40521cc86fda")
-		(property "Reference" "#PWR07"
-			(at 97.79 119.38 0)
-			(effects
-				(font
-					(size 1.27 1.27)
-				)
-				(hide yes)
-			)
-		)
-		(property "Value" "GND"
-			(at 100.33 114.2999 0)
-			(effects
-				(font
-					(size 1.27 1.27)
-				)
-				(justify left)
-			)
-		)
-		(property "Footprint" ""
-			(at 97.79 113.03 0)
-			(effects
-				(font
-					(size 1.27 1.27)
-				)
-				(hide yes)
-			)
-		)
-		(property "Datasheet" ""
-			(at 97.79 113.03 0)
-			(effects
-				(font
-					(size 1.27 1.27)
-				)
-				(hide yes)
-			)
-		)
-		(property "Description" ""
-			(at 97.79 113.03 0)
-			(effects
-				(font
-					(size 1.27 1.27)
-				)
-				(hide yes)
-			)
-		)
-		(pin "1"
-			(uuid "42b47ada-00d7-45ed-ade7-45629aefb776")
-		)
-		(instances
-			(project "USBLabTool"
-				(path "/b5440f7d-90d5-417e-adc2-aa6b11e5424d/4269701b-4537-45be-98a2-a1633b405066"
-					(reference "#PWR07")
 					(unit 1)
 				)
 			)
@@ -14120,15 +14063,15 @@
 	)
 	(symbol
 		(lib_id "power:GNDA")
-		(at 96.52 166.37 0)
+		(at 97.79 113.03 0)
 		(unit 1)
 		(exclude_from_sim no)
 		(in_bom yes)
 		(on_board yes)
 		(dnp no)
-		(uuid "35915f94-0698-4497-8a9e-000935696269")
-		(property "Reference" "#PWR06"
-			(at 96.52 172.72 0)
+		(uuid "38bd004b-f667-4781-a1f7-b6e4fc557b99")
+		(property "Reference" "#PWR07"
+			(at 97.79 119.38 0)
 			(effects
 				(font
 					(size 1.27 1.27)
@@ -14136,8 +14079,8 @@
 				(hide yes)
 			)
 		)
-		(property "Value" "GND"
-			(at 100.838 167.894 0)
+		(property "Value" "GNDA"
+			(at 102.108 114.554 0)
 			(effects
 				(font
 					(size 1.27 1.27)
@@ -14145,7 +14088,7 @@
 			)
 		)
 		(property "Footprint" ""
-			(at 96.52 166.37 0)
+			(at 97.79 113.03 0)
 			(effects
 				(font
 					(size 1.27 1.27)
@@ -14154,7 +14097,7 @@
 			)
 		)
 		(property "Datasheet" ""
-			(at 96.52 166.37 0)
+			(at 97.79 113.03 0)
 			(effects
 				(font
 					(size 1.27 1.27)
@@ -14163,7 +14106,7 @@
 			)
 		)
 		(property "Description" ""
-			(at 96.52 166.37 0)
+			(at 97.79 113.03 0)
 			(effects
 				(font
 					(size 1.27 1.27)
@@ -14172,12 +14115,12 @@
 			)
 		)
 		(pin "1"
-			(uuid "27de37d0-4c5d-4584-8741-07a355b661be")
+			(uuid "774d1be4-dacd-41f8-a256-0392f5f2dc16")
 		)
 		(instances
 			(project "USBLabTool"
 				(path "/b5440f7d-90d5-417e-adc2-aa6b11e5424d/4269701b-4537-45be-98a2-a1633b405066"
-					(reference "#PWR06")
+					(reference "#PWR07")
 					(unit 1)
 				)
 			)
@@ -15399,7 +15342,7 @@
 				)
 			)
 		)
-		(property "Footprint" "Diode_THT:D_DO-35_SOD27_P7.62mm_Horizontal"
+		(property "Footprint" "Diode_SMD:D_SOD-323_HandSoldering"
 			(at 62.23 172.085 0)
 			(effects
 				(font
@@ -15418,6 +15361,15 @@
 			)
 		)
 		(property "Description" ""
+			(at 62.23 167.64 0)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(hide yes)
+			)
+		)
+		(property "Purpose" ""
 			(at 62.23 167.64 0)
 			(effects
 				(font
@@ -15941,71 +15893,6 @@
 			(project "USBLabTool"
 				(path "/b5440f7d-90d5-417e-adc2-aa6b11e5424d/4269701b-4537-45be-98a2-a1633b405066"
 					(reference "#PWR021")
-					(unit 1)
-				)
-			)
-		)
-	)
-	(symbol
-		(lib_id "power:GNDA")
-		(at 91.44 227.33 0)
-		(unit 1)
-		(exclude_from_sim no)
-		(in_bom yes)
-		(on_board yes)
-		(dnp no)
-		(uuid "6314d8d4-8519-4602-89aa-513c73823929")
-		(property "Reference" "#PWR05"
-			(at 91.44 233.68 0)
-			(effects
-				(font
-					(size 1.27 1.27)
-				)
-				(hide yes)
-			)
-		)
-		(property "Value" "GND"
-			(at 95.758 228.854 0)
-			(effects
-				(font
-					(size 1.27 1.27)
-				)
-			)
-		)
-		(property "Footprint" ""
-			(at 91.44 227.33 0)
-			(effects
-				(font
-					(size 1.27 1.27)
-				)
-				(hide yes)
-			)
-		)
-		(property "Datasheet" ""
-			(at 91.44 227.33 0)
-			(effects
-				(font
-					(size 1.27 1.27)
-				)
-				(hide yes)
-			)
-		)
-		(property "Description" ""
-			(at 91.44 227.33 0)
-			(effects
-				(font
-					(size 1.27 1.27)
-				)
-				(hide yes)
-			)
-		)
-		(pin "1"
-			(uuid "f0b2da1e-9a36-4e14-b98c-128a14b8fe8a")
-		)
-		(instances
-			(project "USBLabTool"
-				(path "/b5440f7d-90d5-417e-adc2-aa6b11e5424d/4269701b-4537-45be-98a2-a1633b405066"
-					(reference "#PWR05")
 					(unit 1)
 				)
 			)
@@ -17191,6 +17078,71 @@
 			(project "USBLabTool"
 				(path "/b5440f7d-90d5-417e-adc2-aa6b11e5424d/4269701b-4537-45be-98a2-a1633b405066"
 					(reference "#FLG05")
+					(unit 1)
+				)
+			)
+		)
+	)
+	(symbol
+		(lib_id "power:GNDA")
+		(at 110.49 55.88 0)
+		(unit 1)
+		(exclude_from_sim no)
+		(in_bom yes)
+		(on_board yes)
+		(dnp no)
+		(uuid "802a800e-e471-48a3-822f-be9255ef981b")
+		(property "Reference" "#PWR08"
+			(at 110.49 62.23 0)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(hide yes)
+			)
+		)
+		(property "Value" "GNDA"
+			(at 114.808 57.404 0)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+			)
+		)
+		(property "Footprint" ""
+			(at 110.49 55.88 0)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(hide yes)
+			)
+		)
+		(property "Datasheet" ""
+			(at 110.49 55.88 0)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(hide yes)
+			)
+		)
+		(property "Description" ""
+			(at 110.49 55.88 0)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(hide yes)
+			)
+		)
+		(pin "1"
+			(uuid "b3780e4e-4ef6-4934-8690-caca466da800")
+		)
+		(instances
+			(project "USBLabTool"
+				(path "/b5440f7d-90d5-417e-adc2-aa6b11e5424d/4269701b-4537-45be-98a2-a1633b405066"
+					(reference "#PWR08")
 					(unit 1)
 				)
 			)
@@ -18638,73 +18590,6 @@
 		)
 	)
 	(symbol
-		(lib_id "power:GNDA")
-		(at 110.49 55.88 0)
-		(unit 1)
-		(exclude_from_sim no)
-		(in_bom yes)
-		(on_board yes)
-		(dnp no)
-		(fields_autoplaced yes)
-		(uuid "9b93b0bb-7ae2-4b59-b2de-be2d6c0534de")
-		(property "Reference" "#PWR08"
-			(at 110.49 62.23 0)
-			(effects
-				(font
-					(size 1.27 1.27)
-				)
-				(hide yes)
-			)
-		)
-		(property "Value" "GND"
-			(at 113.03 57.1499 0)
-			(effects
-				(font
-					(size 1.27 1.27)
-				)
-				(justify left)
-			)
-		)
-		(property "Footprint" ""
-			(at 110.49 55.88 0)
-			(effects
-				(font
-					(size 1.27 1.27)
-				)
-				(hide yes)
-			)
-		)
-		(property "Datasheet" ""
-			(at 110.49 55.88 0)
-			(effects
-				(font
-					(size 1.27 1.27)
-				)
-				(hide yes)
-			)
-		)
-		(property "Description" ""
-			(at 110.49 55.88 0)
-			(effects
-				(font
-					(size 1.27 1.27)
-				)
-				(hide yes)
-			)
-		)
-		(pin "1"
-			(uuid "9bb22399-86e1-42f1-b42c-e56d78e28bed")
-		)
-		(instances
-			(project "USBLabTool"
-				(path "/b5440f7d-90d5-417e-adc2-aa6b11e5424d/4269701b-4537-45be-98a2-a1633b405066"
-					(reference "#PWR08")
-					(unit 1)
-				)
-			)
-		)
-	)
-	(symbol
 		(lib_id "Device:C")
 		(at 90.17 172.72 0)
 		(mirror y)
@@ -19177,6 +19062,71 @@
 			(project "USBLabTool"
 				(path "/b5440f7d-90d5-417e-adc2-aa6b11e5424d/4269701b-4537-45be-98a2-a1633b405066"
 					(reference "#PWR012")
+					(unit 1)
+				)
+			)
+		)
+	)
+	(symbol
+		(lib_id "power:GNDA")
+		(at 96.52 166.37 0)
+		(unit 1)
+		(exclude_from_sim no)
+		(in_bom yes)
+		(on_board yes)
+		(dnp no)
+		(uuid "a9048e97-a9b7-4252-91d6-094b6fa0fdff")
+		(property "Reference" "#PWR06"
+			(at 96.52 172.72 0)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(hide yes)
+			)
+		)
+		(property "Value" "GNDA"
+			(at 100.838 167.894 0)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+			)
+		)
+		(property "Footprint" ""
+			(at 96.52 166.37 0)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(hide yes)
+			)
+		)
+		(property "Datasheet" ""
+			(at 96.52 166.37 0)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(hide yes)
+			)
+		)
+		(property "Description" ""
+			(at 96.52 166.37 0)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(hide yes)
+			)
+		)
+		(pin "1"
+			(uuid "596a7a41-4c90-4827-b282-723674a3689f")
+		)
+		(instances
+			(project "USBLabTool"
+				(path "/b5440f7d-90d5-417e-adc2-aa6b11e5424d/4269701b-4537-45be-98a2-a1633b405066"
+					(reference "#PWR06")
 					(unit 1)
 				)
 			)
@@ -20626,6 +20576,71 @@
 			(project "USBLabTool"
 				(path "/b5440f7d-90d5-417e-adc2-aa6b11e5424d/4269701b-4537-45be-98a2-a1633b405066"
 					(reference "J14")
+					(unit 1)
+				)
+			)
+		)
+	)
+	(symbol
+		(lib_id "power:GNDA")
+		(at 87.63 227.33 0)
+		(unit 1)
+		(exclude_from_sim no)
+		(in_bom yes)
+		(on_board yes)
+		(dnp no)
+		(uuid "ca898d2c-18b2-44b1-b551-004a3d46a977")
+		(property "Reference" "#PWR05"
+			(at 87.63 233.68 0)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(hide yes)
+			)
+		)
+		(property "Value" "GNDA"
+			(at 91.948 228.854 0)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+			)
+		)
+		(property "Footprint" ""
+			(at 87.63 227.33 0)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(hide yes)
+			)
+		)
+		(property "Datasheet" ""
+			(at 87.63 227.33 0)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(hide yes)
+			)
+		)
+		(property "Description" ""
+			(at 87.63 227.33 0)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(hide yes)
+			)
+		)
+		(pin "1"
+			(uuid "e85d84d3-0ea6-4678-b9ef-efe968450474")
+		)
+		(instances
+			(project "USBLabTool"
+				(path "/b5440f7d-90d5-417e-adc2-aa6b11e5424d/4269701b-4537-45be-98a2-a1633b405066"
+					(reference "#PWR05")
 					(unit 1)
 				)
 			)
