@@ -15724,7 +15724,7 @@
 				)
 			)
 		)
-		(property "Footprint" "Diode_THT:D_DO-35_SOD27_P7.62mm_Horizontal"
+		(property "Footprint" "Diode_SMD:D_SOD-323_HandSoldering"
 			(at 69.85 60.325 0)
 			(effects
 				(font
@@ -15743,6 +15743,15 @@
 			)
 		)
 		(property "Description" ""
+			(at 69.85 55.88 0)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(hide yes)
+			)
+		)
+		(property "Purpose" ""
 			(at 69.85 55.88 0)
 			(effects
 				(font
