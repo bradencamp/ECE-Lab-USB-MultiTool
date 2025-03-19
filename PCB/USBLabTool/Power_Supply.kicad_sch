@@ -12149,7 +12149,7 @@
 				(justify left)
 			)
 		)
-		(property "Footprint" "Package_SO:SOIC-14W_7.5x9mm_P1.27mm"
+		(property "Footprint" "Package_SO:SOIC-14_3.9x8.7mm_P1.27mm"
 			(at 52.07 166.37 0)
 			(effects
 				(font
@@ -12177,6 +12177,15 @@
 			)
 		)
 		(property "BUY" "https://www.digikey.com/en/products/detail/onsemi/MC33274ADR2G/920884"
+			(at 52.07 166.37 0)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(hide yes)
+			)
+		)
+		(property "Purpose" ""
 			(at 52.07 166.37 0)
 			(effects
 				(font
@@ -15873,7 +15882,7 @@
 				(justify left)
 			)
 		)
-		(property "Footprint" "Package_SO:SOIC-14W_7.5x9mm_P1.27mm"
+		(property "Footprint" "Package_SO:SOIC-14_3.9x8.7mm_P1.27mm"
 			(at 93.98 167.64 0)
 			(effects
 				(font
@@ -15892,6 +15901,15 @@
 			)
 		)
 		(property "Description" ""
+			(at 93.98 167.64 0)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(hide yes)
+			)
+		)
+		(property "Purpose" ""
 			(at 93.98 167.64 0)
 			(effects
 				(font

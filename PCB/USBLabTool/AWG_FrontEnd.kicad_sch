@@ -7054,7 +7054,7 @@
 				)
 			)
 		)
-		(property "Footprint" "Package_SO:SOIC-14W_7.5x9mm_P1.27mm"
+		(property "Footprint" "Package_SO:SOIC-14_3.9x8.7mm_P1.27mm"
 			(at 71.12 111.76 0)
 			(effects
 				(font
@@ -7073,6 +7073,15 @@
 			)
 		)
 		(property "Description" ""
+			(at 71.12 111.76 0)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(hide yes)
+			)
+		)
+		(property "Purpose" ""
 			(at 71.12 111.76 0)
 			(effects
 				(font
@@ -7165,7 +7174,7 @@
 				)
 			)
 		)
-		(property "Footprint" "Package_SO:SOIC-14W_7.5x9mm_P1.27mm"
+		(property "Footprint" "Package_SO:SOIC-14_3.9x8.7mm_P1.27mm"
 			(at 71.12 53.34 0)
 			(effects
 				(font
@@ -7193,6 +7202,15 @@
 			)
 		)
 		(property "BUY" "https://www.digikey.com/en/products/detail/onsemi/MC33274ADR2G/920884"
+			(at 71.12 53.34 0)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(hide yes)
+			)
+		)
+		(property "Purpose" ""
 			(at 71.12 53.34 0)
 			(effects
 				(font
@@ -7670,7 +7688,7 @@
 				)
 			)
 		)
-		(property "Footprint" "Package_SO:SOIC-14W_7.5x9mm_P1.27mm"
+		(property "Footprint" "Package_SO:SOIC-14_3.9x8.7mm_P1.27mm"
 			(at 71.12 86.36 0)
 			(effects
 				(font
@@ -7689,6 +7707,15 @@
 			)
 		)
 		(property "Description" ""
+			(at 71.12 86.36 0)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(hide yes)
+			)
+		)
+		(property "Purpose" ""
 			(at 71.12 86.36 0)
 			(effects
 				(font
@@ -8302,7 +8329,7 @@
 				)
 			)
 		)
-		(property "Footprint" "Package_SO:SOIC-14W_7.5x9mm_P1.27mm"
+		(property "Footprint" "Package_SO:SOIC-14_3.9x8.7mm_P1.27mm"
 			(at 175.26 114.3 0)
 			(effects
 				(font
@@ -8321,6 +8348,15 @@
 			)
 		)
 		(property "Description" ""
+			(at 175.26 114.3 0)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(hide yes)
+			)
+		)
+		(property "Purpose" ""
 			(at 175.26 114.3 0)
 			(effects
 				(font
@@ -8687,7 +8723,7 @@
 				)
 			)
 		)
-		(property "Footprint" "Package_SO:SOIC-14W_7.5x9mm_P1.27mm"
+		(property "Footprint" "Package_SO:SOIC-14_3.9x8.7mm_P1.27mm"
 			(at 175.26 55.88 0)
 			(effects
 				(font
@@ -8715,6 +8751,15 @@
 			)
 		)
 		(property "BUY" "https://www.digikey.com/en/products/detail/onsemi/MC33274ADR2G/920884"
+			(at 175.26 55.88 0)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(hide yes)
+			)
+		)
+		(property "Purpose" ""
 			(at 175.26 55.88 0)
 			(effects
 				(font
@@ -9649,7 +9694,7 @@
 				)
 			)
 		)
-		(property "Footprint" "Package_SO:SOIC-14W_7.5x9mm_P1.27mm"
+		(property "Footprint" "Package_SO:SOIC-14_3.9x8.7mm_P1.27mm"
 			(at 104.14 55.88 0)
 			(effects
 				(font
@@ -9677,6 +9722,15 @@
 			)
 		)
 		(property "BUY" "https://www.digikey.com/en/products/detail/onsemi/MC33274ADR2G/920884"
+			(at 104.14 55.88 0)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(hide yes)
+			)
+		)
+		(property "Purpose" ""
 			(at 104.14 55.88 0)
 			(effects
 				(font
@@ -9976,7 +10030,7 @@
 				)
 			)
 		)
-		(property "Footprint" "Package_SO:SOIC-14W_7.5x9mm_P1.27mm"
+		(property "Footprint" "Package_SO:SOIC-14_3.9x8.7mm_P1.27mm"
 			(at 71.12 27.94 0)
 			(effects
 				(font
@@ -10004,6 +10058,15 @@
 			)
 		)
 		(property "BUY" "https://www.digikey.com/en/products/detail/onsemi/MC33274ADR2G/920884"
+			(at 71.12 27.94 0)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(hide yes)
+			)
+		)
+		(property "Purpose" ""
 			(at 71.12 27.94 0)
 			(effects
 				(font
@@ -10632,7 +10695,7 @@
 				)
 			)
 		)
-		(property "Footprint" "Package_SO:SOIC-14W_7.5x9mm_P1.27mm"
+		(property "Footprint" "Package_SO:SOIC-14_3.9x8.7mm_P1.27mm"
 			(at 104.14 114.3 0)
 			(effects
 				(font
@@ -10651,6 +10714,15 @@
 			)
 		)
 		(property "Description" ""
+			(at 104.14 114.3 0)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(hide yes)
+			)
+		)
+		(property "Purpose" ""
 			(at 104.14 114.3 0)
 			(effects
 				(font
