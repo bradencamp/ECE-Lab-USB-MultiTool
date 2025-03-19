@@ -3,7 +3,7 @@
 # - [?] Spacing?
 # - [?] AWG checkboxes TODO: (does awg or scope have priority?)
 # - [?] Single run button TODO: (single period? single data capture? etc)
-# - [ ] Scope ranges
+# - [~] Scope ranges
 # - [ ] Trigger stuff
 # - [ ] Trigger modes, holdoff
 # - [ ] Trigger indicator (triangle) on plot?
@@ -329,25 +329,28 @@ class MainWindow(QMainWindow):
             #this happens never from experience
             print("\tx close: ")
         else:'''
+        self.viewRange = ranges
         self.awgTime1 = np.linspace(ranges[0][0],ranges[0][1],NUMPOINTS)
         print("\t{} : {}".format(self.awgTime1[0],self.awgTime1[-1]))
         self.awgTime2 = np.linspace(ranges[0][0],ranges[0][1],NUMPOINTS)
         print("\t{} : {}".format(self.awgTime2[0],self.awgTime2[-1]))
         vb.disableAutoRange(pg.ViewBox.XAxis)
         #print(self.xAxis.tickSpacing(ranges[0][0],ranges[0][1],NUMPOINTS))
-        self.viewRange = ranges
         self.vertLineFix()
 
-    def on_range_changed_manually(self):
-         ranges = self.plotViewBox.viewRange()
-         print("Manually CHANGED: ", ranges)
-         #newDiv = (ranges[0][1] - ranges[0][0]) / 10.0 #Latest attempt at out of mem bug squashing
-         #self.timeDiv.input_field.setVal(newDiv,runCallback=False)
-         #self.plotViewBox.setXRange(self.viewRange[0][0],self.viewRange[0][0]+10*newDiv)
-         self.awgTime1 = np.linspace(ranges[0][0],ranges[0][1],NUMPOINTS)
-         self.awgTime2 = np.linspace(ranges[0][0],ranges[0][1],NUMPOINTS)
-         self.viewRange = ranges
-         self.vertLineFix()
+	# if scope V/div range is manually changed by user
+    def set_range_manually(self, div):
+        #self.plotViewBox.setYRange(self.viewRange[0][0],self.viewRange[0][0]+10*div)
+        #ranges = self.plotViewBox.viewRange()
+        #print("Manually CHANGED: ")#, ranges)        
+        #self.viewRange = ranges
+        #newDiv = (ranges[0][1] - ranges[0][0]) / 10.0 #Latest attempt at out of mem bug squashing
+        #self.timeDiv.input_field.setVal(newDiv,runCallback=False)
+        #self.plotViewBox.setXRange(self.viewRange[0][0],self.viewRange[0][0]+10*newDiv)
+        self.plotViewBox.setYRange(-5*div,5*div)
+        self.awgTime1 = np.linspace(self.viewRange[0][0]*div,(self.viewRange[0][1]*div)+10,NUMPOINTS)
+        self.awgTime2 = np.linspace(self.viewRange[0][0]*div,(self.viewRange[0][1]*div)+10,NUMPOINTS)
+        self.vertLineFix()
          
     def lineMoved(self, line):
         print("LINE MOVED TO : "+str(line.value()))
@@ -518,8 +521,8 @@ class MainWindow(QMainWindow):
         #if this is commented, autoranging will grow x axis indefinitely, so dont
         vb.disableAutoRange(pg.ViewBox.XAxis)
         vb.setDefaultPadding(0.0)#doesn't help 
-        vb.sigRangeChangedManually.connect(self.on_range_changed_manually)
-        vb.setLimits(yMax = 20, yMin = -20)
+        vb.sigRangeChangedManually.connect(self.set_range_manually)
+        vb.setLimits(yMax = 10, yMin = -10)
         vb.setXRange(0,10)
         self.plotViewBox = vb
         self.xAxis = self.plot_graph.getAxis("bottom").setTickPen(color = "black", width = 2) #USES directly
@@ -606,6 +609,8 @@ class MainWindow(QMainWindow):
         self.oscCh1Trig.setPlaceholderText('Trigger Type')
         self.oscCh1Trig.addItems(edges)
         self.oscCh1VDiv = LabelField("Range",[1e-6,20],1.0,2,"V/Div",{"u":1e-6,"m":1e-3,"":1},BLANK)
+        #self.oscCh1VDiv.sigRange.connect(self.set_range_manually)
+        self.oscCh1VDiv.valueChanged.connect(self.set_range_manually)
         #scope CH2
         self.oscCh2EN = QCheckBox("CH2")
         self.oscCh2EN.setChecked(False) #default scope channel 2 off
@@ -614,6 +619,7 @@ class MainWindow(QMainWindow):
         self.oscCh2Trig.setPlaceholderText('Trigger Type')
         self.oscCh2Trig.addItems(edges)
         self.oscCh2VDiv = LabelField("Range",[1e-6,20],1.0,2,"V/Div",{"u":1e-6,"m":1e-3,"":1},BLANK)
+        self.oscCh2VDiv.valueChanged.connect(self.set_range_manually)
 
         #add scope CH1
         oscilloLayout.addWidget(self.oscCh1EN,1,0,alignment=Qt.AlignmentFlag.AlignLeft)
