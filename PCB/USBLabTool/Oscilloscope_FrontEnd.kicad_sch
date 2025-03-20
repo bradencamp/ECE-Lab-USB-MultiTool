@@ -7630,12 +7630,6 @@
 		(uuid "13de5f6f-444c-4d90-b4fa-11513cf03cf0")
 	)
 	(junction
-		(at 134.62 163.83)
-		(diameter 0)
-		(color 0 0 0 0)
-		(uuid "16dbd3da-63bf-444d-8f2c-ac3e4fe5914d")
-	)
-	(junction
 		(at 196.85 90.17)
 		(diameter 0)
 		(color 0 0 0 0)
@@ -7790,12 +7784,6 @@
 		(diameter 0)
 		(color 0 0 0 0)
 		(uuid "54de52a3-ed8c-45aa-a000-757fd08c73a9")
-	)
-	(junction
-		(at 102.87 52.07)
-		(diameter 0)
-		(color 0 0 0 0)
-		(uuid "55cb7039-ea02-492c-9ce7-cc8fda276d01")
 	)
 	(junction
 		(at 166.37 146.05)
@@ -8026,12 +8014,6 @@
 		(uuid "c73b76e9-b9ba-4719-bd3d-1f8654d3381e")
 	)
 	(junction
-		(at 93.98 163.83)
-		(diameter 0)
-		(color 0 0 0 0)
-		(uuid "c8d6e282-2437-4ad5-8314-6bc7247e0460")
-	)
-	(junction
 		(at 196.85 97.79)
 		(diameter 0)
 		(color 0 0 0 0)
@@ -8060,12 +8042,6 @@
 		(diameter 0)
 		(color 0 0 0 0)
 		(uuid "d3a52a1c-2316-4510-b4b9-54fcceca51cc")
-	)
-	(junction
-		(at 143.51 52.07)
-		(diameter 0)
-		(color 0 0 0 0)
-		(uuid "d98b0e80-c187-434f-8b50-4f06318fb307")
 	)
 	(junction
 		(at 97.79 54.61)
@@ -8953,16 +8929,6 @@
 	)
 	(wire
 		(pts
-			(xy 102.87 52.07) (xy 102.87 50.8)
-		)
-		(stroke
-			(width 0)
-			(type default)
-		)
-		(uuid "48790286-4207-4345-9ce3-f5c35f13c74d")
-	)
-	(wire
-		(pts
 			(xy 48.133 167.64) (xy 58.42 167.64)
 		)
 		(stroke
@@ -9013,7 +8979,7 @@
 	)
 	(wire
 		(pts
-			(xy 50.8 163.83) (xy 93.98 163.83)
+			(xy 50.8 163.83) (xy 115.57 163.83)
 		)
 		(stroke
 			(width 0)
@@ -9380,16 +9346,6 @@
 			(type default)
 		)
 		(uuid "6747e430-5aaf-4328-be4a-88bb5f3a49ee")
-	)
-	(wire
-		(pts
-			(xy 134.62 163.83) (xy 148.59 163.83)
-		)
-		(stroke
-			(width 0)
-			(type default)
-		)
-		(uuid "69de35e1-00dc-4735-b55e-6cb4a92b994a")
 	)
 	(wire
 		(pts
@@ -9853,16 +9809,6 @@
 	)
 	(wire
 		(pts
-			(xy 143.51 48.26) (xy 143.51 52.07)
-		)
-		(stroke
-			(width 0)
-			(type default)
-		)
-		(uuid "9183d835-8cf0-48fd-9e84-f980b5e0b82a")
-	)
-	(wire
-		(pts
 			(xy 177.8 64.77) (xy 177.8 66.04)
 		)
 		(stroke
@@ -10273,7 +10219,7 @@
 	)
 	(wire
 		(pts
-			(xy 139.7 52.07) (xy 143.51 52.07)
+			(xy 139.7 52.07) (xy 158.8513 52.07)
 		)
 		(stroke
 			(width 0)
@@ -10443,7 +10389,7 @@
 	)
 	(wire
 		(pts
-			(xy 130.81 163.83) (xy 134.62 163.83)
+			(xy 130.81 163.83) (xy 148.59 163.83)
 		)
 		(stroke
 			(width 0)
@@ -10620,16 +10566,6 @@
 			(type default)
 		)
 		(uuid "c672e9d3-bb77-4163-8efb-c71fef58e04f")
-	)
-	(wire
-		(pts
-			(xy 93.98 163.83) (xy 115.57 163.83)
-		)
-		(stroke
-			(width 0)
-			(type default)
-		)
-		(uuid "c6ca1960-7a67-43fb-a80e-d03201898588")
 	)
 	(wire
 		(pts
@@ -10893,7 +10829,7 @@
 	)
 	(wire
 		(pts
-			(xy 59.69 52.07) (xy 102.87 52.07)
+			(xy 59.69 52.07) (xy 124.46 52.07)
 		)
 		(stroke
 			(width 0)
@@ -11003,16 +10939,6 @@
 	)
 	(wire
 		(pts
-			(xy 102.87 52.07) (xy 124.46 52.07)
-		)
-		(stroke
-			(width 0)
-			(type default)
-		)
-		(uuid "e35fa5c3-fb1d-4aa8-9f44-5cf8ba29a134")
-	)
-	(wire
-		(pts
 			(xy 240.03 167.64) (xy 247.65 167.64)
 		)
 		(stroke
@@ -11103,26 +11029,6 @@
 	)
 	(wire
 		(pts
-			(xy 93.98 163.83) (xy 93.98 162.56)
-		)
-		(stroke
-			(width 0)
-			(type default)
-		)
-		(uuid "ed9ecf10-f078-433b-ae76-6236503aa445")
-	)
-	(wire
-		(pts
-			(xy 134.62 163.83) (xy 134.62 162.56)
-		)
-		(stroke
-			(width 0)
-			(type default)
-		)
-		(uuid "efcbfeb8-41fb-46fc-a60f-5d5b871e7f49")
-	)
-	(wire
-		(pts
 			(xy 157.48 97.79) (xy 157.48 101.6)
 		)
 		(stroke
@@ -11200,16 +11106,6 @@
 			(type default)
 		)
 		(uuid "f69680f6-7825-49bb-9410-074fca376c3a")
-	)
-	(wire
-		(pts
-			(xy 143.51 52.07) (xy 158.8513 52.07)
-		)
-		(stroke
-			(width 0)
-			(type default)
-		)
-		(uuid "f69a394a-0f47-4c38-bcde-35df63bb0270")
 	)
 	(wire
 		(pts
@@ -12960,7 +12856,7 @@
 				(justify left)
 			)
 		)
-		(property "Footprint" "Connector_PinHeader_2.54mm:PinHeader_1x01_P2.54mm_Vertical"
+		(property "Footprint" "TestPoint:TestPoint_Pad_D2.0mm"
 			(at 313.69 175.26 0)
 			(effects
 				(font
@@ -13307,7 +13203,7 @@
 		(dnp no)
 		(uuid "26a52c87-b096-4130-82a1-451f5a1b8d06")
 		(property "Reference" "R28"
-			(at 234.0864 136.3726 90)
+			(at 234.188 134.366 90)
 			(effects
 				(font
 					(size 1.27 1.27)
@@ -13315,7 +13211,7 @@
 			)
 		)
 		(property "Value" "1K"
-			(at 233.8832 138.4554 90)
+			(at 233.68 136.144 90)
 			(effects
 				(font
 					(size 1.27 1.27)
@@ -14273,79 +14169,6 @@
 	)
 	(symbol
 		(lib_id "Connector_Generic:Conn_01x01")
-		(at 143.51 43.18 90)
-		(unit 1)
-		(exclude_from_sim no)
-		(in_bom yes)
-		(on_board yes)
-		(dnp no)
-		(fields_autoplaced yes)
-		(uuid "3adeec2b-c4b9-4b1f-8624-ba0504db7bee")
-		(property "Reference" "J6"
-			(at 146.558 41.9099 90)
-			(effects
-				(font
-					(size 1.27 1.27)
-				)
-				(justify right)
-			)
-		)
-		(property "Value" "T_acdc"
-			(at 146.558 44.4499 90)
-			(effects
-				(font
-					(size 1.27 1.27)
-				)
-				(justify right)
-			)
-		)
-		(property "Footprint" "Connector_PinHeader_2.54mm:PinHeader_1x01_P2.54mm_Vertical"
-			(at 143.51 43.18 0)
-			(effects
-				(font
-					(size 1.27 1.27)
-				)
-				(hide yes)
-			)
-		)
-		(property "Datasheet" "~"
-			(at 143.51 43.18 0)
-			(effects
-				(font
-					(size 1.27 1.27)
-				)
-				(hide yes)
-			)
-		)
-		(property "Description" ""
-			(at 143.51 43.18 0)
-			(effects
-				(font
-					(size 1.27 1.27)
-				)
-				(hide yes)
-			)
-		)
-		(pin "1"
-			(uuid "f9646df5-526a-4a72-9a20-29eeeea63cd1")
-		)
-		(instances
-			(project "Oscilloscope_FrontEnd"
-				(path "/8154ece5-3057-47b0-ace6-3a152b9b167f"
-					(reference "J5")
-					(unit 1)
-				)
-			)
-			(project ""
-				(path "/b5440f7d-90d5-417e-adc2-aa6b11e5424d/4269701b-4537-45be-98a2-a1633b405066"
-					(reference "J6")
-					(unit 1)
-				)
-			)
-		)
-	)
-	(symbol
-		(lib_id "Connector_Generic:Conn_01x01")
 		(at 278.638 53.34 90)
 		(unit 1)
 		(exclude_from_sim no)
@@ -14371,7 +14194,7 @@
 				(justify right)
 			)
 		)
-		(property "Footprint" "Connector_PinHeader_2.54mm:PinHeader_1x01_P2.54mm_Vertical"
+		(property "Footprint" "TestPoint:TestPoint_Pad_D2.0mm"
 			(at 278.638 53.34 0)
 			(effects
 				(font
@@ -14904,7 +14727,7 @@
 				(justify right)
 			)
 		)
-		(property "Footprint" "Connector_PinHeader_2.54mm:PinHeader_1x01_P2.54mm_Vertical"
+		(property "Footprint" "TestPoint:TestPoint_Pad_D2.0mm"
 			(at 269.24 165.1 0)
 			(effects
 				(font
@@ -14944,73 +14767,6 @@
 			(project ""
 				(path "/b5440f7d-90d5-417e-adc2-aa6b11e5424d/4269701b-4537-45be-98a2-a1633b405066"
 					(reference "J11")
-					(unit 1)
-				)
-			)
-		)
-	)
-	(symbol
-		(lib_id "Connector_Generic:Conn_01x01")
-		(at 102.87 45.72 90)
-		(unit 1)
-		(exclude_from_sim no)
-		(in_bom yes)
-		(on_board yes)
-		(dnp no)
-		(fields_autoplaced yes)
-		(uuid "4b033912-256f-4336-9131-12d05f2f9e8c")
-		(property "Reference" "J4"
-			(at 105.918 44.4499 90)
-			(effects
-				(font
-					(size 1.27 1.27)
-				)
-				(justify right)
-			)
-		)
-		(property "Value" "T_att"
-			(at 105.918 46.9899 90)
-			(effects
-				(font
-					(size 1.27 1.27)
-				)
-				(justify right)
-			)
-		)
-		(property "Footprint" "Connector_PinHeader_2.54mm:PinHeader_1x01_P2.54mm_Vertical"
-			(at 102.87 45.72 0)
-			(effects
-				(font
-					(size 1.27 1.27)
-				)
-				(hide yes)
-			)
-		)
-		(property "Datasheet" "~"
-			(at 102.87 45.72 0)
-			(effects
-				(font
-					(size 1.27 1.27)
-				)
-				(hide yes)
-			)
-		)
-		(property "Description" ""
-			(at 102.87 45.72 0)
-			(effects
-				(font
-					(size 1.27 1.27)
-				)
-				(hide yes)
-			)
-		)
-		(pin "1"
-			(uuid "ca395c9a-2bf1-4dbb-bbfa-a57186e67a4d")
-		)
-		(instances
-			(project "USBLabTool"
-				(path "/b5440f7d-90d5-417e-adc2-aa6b11e5424d/4269701b-4537-45be-98a2-a1633b405066"
-					(reference "J4")
 					(unit 1)
 				)
 			)
@@ -15640,7 +15396,7 @@
 		(dnp no)
 		(uuid "5de0cf0d-7bc1-4fa9-8c9e-449a37527398")
 		(property "Reference" "R30"
-			(at 242.9764 24.6126 90)
+			(at 242.57 24.638 90)
 			(effects
 				(font
 					(size 1.27 1.27)
@@ -15648,7 +15404,7 @@
 			)
 		)
 		(property "Value" "1K"
-			(at 242.7732 26.6954 90)
+			(at 242.57 29.21 90)
 			(effects
 				(font
 					(size 1.27 1.27)
@@ -17452,7 +17208,7 @@
 				(justify right)
 			)
 		)
-		(property "Footprint" "Connector_PinHeader_2.54mm:PinHeader_1x01_P2.54mm_Vertical"
+		(property "Footprint" "TestPoint:TestPoint_Pad_D2.0mm"
 			(at 191.77 160.02 0)
 			(effects
 				(font
@@ -17835,78 +17591,6 @@
 		)
 	)
 	(symbol
-		(lib_id "Connector_Generic:Conn_01x01")
-		(at 134.62 157.48 90)
-		(unit 1)
-		(exclude_from_sim no)
-		(in_bom yes)
-		(on_board yes)
-		(dnp no)
-		(uuid "8ee75b81-ba88-492f-a09f-4b179f94733b")
-		(property "Reference" "J5"
-			(at 137.668 156.2099 90)
-			(effects
-				(font
-					(size 1.27 1.27)
-				)
-				(justify right)
-			)
-		)
-		(property "Value" "T_acdc"
-			(at 133.096 152.4 90)
-			(effects
-				(font
-					(size 1.27 1.27)
-				)
-				(justify right)
-			)
-		)
-		(property "Footprint" "Connector_PinHeader_2.54mm:PinHeader_1x01_P2.54mm_Vertical"
-			(at 134.62 157.48 0)
-			(effects
-				(font
-					(size 1.27 1.27)
-				)
-				(hide yes)
-			)
-		)
-		(property "Datasheet" "~"
-			(at 134.62 157.48 0)
-			(effects
-				(font
-					(size 1.27 1.27)
-				)
-				(hide yes)
-			)
-		)
-		(property "Description" ""
-			(at 134.62 157.48 0)
-			(effects
-				(font
-					(size 1.27 1.27)
-				)
-				(hide yes)
-			)
-		)
-		(pin "1"
-			(uuid "ffa23961-7c06-4360-a569-1cc570f311e8")
-		)
-		(instances
-			(project "Oscilloscope_FrontEnd"
-				(path "/8154ece5-3057-47b0-ace6-3a152b9b167f"
-					(reference "J6")
-					(unit 1)
-				)
-			)
-			(project ""
-				(path "/b5440f7d-90d5-417e-adc2-aa6b11e5424d/4269701b-4537-45be-98a2-a1633b405066"
-					(reference "J5")
-					(unit 1)
-				)
-			)
-		)
-	)
-	(symbol
 		(lib_id "Device:C")
 		(at 281.94 173.99 0)
 		(unit 1)
@@ -18009,7 +17693,7 @@
 				(justify right)
 			)
 		)
-		(property "Footprint" "Connector_PinHeader_2.54mm:PinHeader_1x01_P2.54mm_Vertical"
+		(property "Footprint" "TestPoint:TestPoint_Pad_D2.0mm"
 			(at 227.203 193.04 0)
 			(effects
 				(font
@@ -18149,7 +17833,7 @@
 				(justify left)
 			)
 		)
-		(property "Footprint" "Connector_PinHeader_2.54mm:PinHeader_1x01_P2.54mm_Vertical"
+		(property "Footprint" "TestPoint:TestPoint_Pad_D2.0mm"
 			(at 322.58 63.5 0)
 			(effects
 				(font
@@ -18216,7 +17900,7 @@
 				(justify right)
 			)
 		)
-		(property "Footprint" "Connector_PinHeader_2.54mm:PinHeader_1x01_P2.54mm_Vertical"
+		(property "Footprint" "TestPoint:TestPoint_Pad_D2.0mm"
 			(at 238.76 86.36 0)
 			(effects
 				(font
@@ -19671,7 +19355,7 @@
 				(justify right)
 			)
 		)
-		(property "Footprint" "Connector_PinHeader_2.54mm:PinHeader_1x01_P2.54mm_Vertical"
+		(property "Footprint" "TestPoint:TestPoint_Pad_D2.0mm"
 			(at 295.91 160.02 0)
 			(effects
 				(font
@@ -20551,7 +20235,7 @@
 				(justify right)
 			)
 		)
-		(property "Footprint" "Connector_PinHeader_2.54mm:PinHeader_1x01_P2.54mm_Vertical"
+		(property "Footprint" "TestPoint:TestPoint_Pad_D2.0mm"
 			(at 304.8 48.26 0)
 			(effects
 				(font
@@ -22718,79 +22402,6 @@
 			(project ""
 				(path "/b5440f7d-90d5-417e-adc2-aa6b11e5424d/4269701b-4537-45be-98a2-a1633b405066"
 					(reference "#PWR011")
-					(unit 1)
-				)
-			)
-		)
-	)
-	(symbol
-		(lib_id "Connector_Generic:Conn_01x01")
-		(at 93.98 157.48 90)
-		(unit 1)
-		(exclude_from_sim no)
-		(in_bom yes)
-		(on_board yes)
-		(dnp no)
-		(fields_autoplaced yes)
-		(uuid "ffd280b2-c68a-436c-a2b6-c475c94cfc5d")
-		(property "Reference" "J3"
-			(at 97.028 156.2099 90)
-			(effects
-				(font
-					(size 1.27 1.27)
-				)
-				(justify right)
-			)
-		)
-		(property "Value" "T_att"
-			(at 97.028 158.7499 90)
-			(effects
-				(font
-					(size 1.27 1.27)
-				)
-				(justify right)
-			)
-		)
-		(property "Footprint" "Connector_PinHeader_2.54mm:PinHeader_1x01_P2.54mm_Vertical"
-			(at 93.98 157.48 0)
-			(effects
-				(font
-					(size 1.27 1.27)
-				)
-				(hide yes)
-			)
-		)
-		(property "Datasheet" "~"
-			(at 93.98 157.48 0)
-			(effects
-				(font
-					(size 1.27 1.27)
-				)
-				(hide yes)
-			)
-		)
-		(property "Description" ""
-			(at 93.98 157.48 0)
-			(effects
-				(font
-					(size 1.27 1.27)
-				)
-				(hide yes)
-			)
-		)
-		(pin "1"
-			(uuid "1d00342b-ca27-4003-8964-7e4ba05adfdf")
-		)
-		(instances
-			(project "Oscilloscope_FrontEnd"
-				(path "/8154ece5-3057-47b0-ace6-3a152b9b167f"
-					(reference "J4")
-					(unit 1)
-				)
-			)
-			(project ""
-				(path "/b5440f7d-90d5-417e-adc2-aa6b11e5424d/4269701b-4537-45be-98a2-a1633b405066"
-					(reference "J3")
 					(unit 1)
 				)
 			)
