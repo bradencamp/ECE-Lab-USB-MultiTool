@@ -6956,6 +6956,15 @@
 				(hide yes)
 			)
 		)
+		(property "Purpose" ""
+			(at 58.42 109.22 0)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(hide yes)
+			)
+		)
 		(pin "1"
 			(uuid "001ca098-1015-459b-b8b8-0ac804a239dd")
 		)
@@ -7017,6 +7026,15 @@
 			)
 		)
 		(property "Description" ""
+			(at 58.42 50.8 0)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(hide yes)
+			)
+		)
+		(property "Purpose" ""
 			(at 58.42 50.8 0)
 			(effects
 				(font
