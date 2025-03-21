@@ -5442,6 +5442,16 @@
 		)
 		(uuid "bc3a5850-ef1c-443b-89bb-3527d9bc669e")
 	)
+	(text "may not needed in final version"
+		(exclude_from_sim no)
+		(at 181.864 20.574 0)
+		(effects
+			(font
+				(size 1.27 1.27)
+			)
+		)
+		(uuid "f530747b-4c4c-486e-a4f6-2cd726ae7cbb")
+	)
 	(junction
 		(at 137.16 55.88)
 		(diameter 0)
