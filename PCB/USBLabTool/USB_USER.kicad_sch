@@ -6888,7 +6888,7 @@
 				)
 			)
 		)
-		(property "Footprint" "Connector_USB:USB_C_Receptacle_Amphenol_12401548E4-2A"
+		(property "Footprint" "userfp:AMPHENOL_12401832E402A"
 			(at 238.76 95.25 0)
 			(effects
 				(font
@@ -7298,7 +7298,7 @@
 				)
 			)
 		)
-		(property "Footprint" "QFN12_TCPP01-M12_STM"
+		(property "Footprint" "userfp:QFN12_TCPP01-M12_STM"
 			(at 124.46 90.17 0)
 			(effects
 				(font

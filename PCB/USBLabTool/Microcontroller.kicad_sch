@@ -12438,7 +12438,7 @@
 				(justify left)
 			)
 		)
-		(property "Footprint" "DIODE_ESDALC6V1-1U2_STM"
+		(property "Footprint" "userfp:DIODE_ESDALC6V1-1U2_STM"
 			(at 185.42 186.69 0)
 			(effects
 				(font

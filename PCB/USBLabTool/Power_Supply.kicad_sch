@@ -11090,7 +11090,7 @@
 				)
 			)
 		)
-		(property "Footprint" "DFN_5APU33R_STM"
+		(property "Footprint" "userfp:DFN_5APU33R_STM"
 			(at 146.05 151.13 0)
 			(effects
 				(font
@@ -15113,7 +15113,7 @@
 				)
 			)
 		)
-		(property "Footprint" "DFN_5APU33R_STM"
+		(property "Footprint" "userfp:DFN_5APU33R_STM"
 			(at 148.59 90.17 0)
 			(effects
 				(font
