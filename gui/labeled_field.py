@@ -3,7 +3,7 @@ from PyQt6.QtWidgets import QWidget, QLabel, QHBoxLayout
 
 
 class LabelField(QWidget):
-    #properites to ensure that internal field values are always the same as this class
+    # properties to ensure that internal field values are always the same as this class
     @property
     def range(self):
         return self._range
@@ -67,7 +67,7 @@ class LabelField(QWidget):
     def printVal(self):
         print(self.input_field.value)
 
-#testing function
+# testing function
 if __name__ == "__main__":
     print("Hello, World!")
     from PyQt6.QtWidgets import QApplication, QMainWindow

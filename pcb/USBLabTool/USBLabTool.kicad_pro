@@ -632,11 +632,11 @@
     ],
     [
       "eb849fef-899c-46da-8ce0-ed0caaa370cf",
-      "Power_Supply"
+      "psu"
     ],
     [
       "37e12e55-0596-42de-ac66-6f566cb1a838",
-      "USB_USER"
+      "usb_iface"
     ],
     [
       "a25b8bd5-b6d2-402d-8b42-7856aa781e02",
