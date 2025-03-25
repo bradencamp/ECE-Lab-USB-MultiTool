@@ -19,13 +19,13 @@ fp-info-cache
 ~*.lck
 \#auto_saved_files#
 # Netlist files (exported from Eeschema)
-*.net
+#*.net
 # Autorouter files (exported from Pcbnew)
-*.dsn
-*.ses
+#*.dsn
+#*.ses
 # Exported BOM files
-*.xml
-*.csv
+#*.xml
+#*.csv
 # unwanted OS files
 # macOS
 .DS_Store
