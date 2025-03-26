@@ -107,8 +107,14 @@ class MainWindow(QMainWindow):
         self.setWindowTitle("USB MultiTool")
 
 
-        self.awgPen1 = pg.mkPen(color=(0, 0, 255), width=5, style=Qt.PenStyle.SolidLine) #scope ch1 = blue, solid line
-        self.awgPen2 = pg.mkPen(color=(255, 0, 0), width=5, style=Qt.PenStyle.DotLine) #scope ch2 = red, dotted line
+        self.awgPen1 = pg.mkPen(color=(0, 0, 255), width=4, style=Qt.PenStyle.SolidLine) #scope ch1 = blue, solid line
+        self.awgPen2 = pg.mkPen(color=(255, 0, 0), width=4, style=Qt.PenStyle.SolidLine) #scope ch2 = red, dotted line
+
+        self.oscTime1 = np.linspace(0,10,NUMPOINTS)
+        self.oscTime2 = np.linspace(0,10,NUMPOINTS)
+        self.oscData1 = 1*np.sin(2*pi*self.awgCh1Config["freq"]*self.oscTime1+pi/180*self.awgCh1Config["phase"]) #sine wave ch1
+        self.oscData2 = 1*np.sin(2*pi*self.awgCh2Config["freq"]*self.oscTime2) #sine wave ch2
+
         #layout for awg section
         awgLayout = self.awgLayoutSetup()
 
@@ -134,17 +140,8 @@ class MainWindow(QMainWindow):
         self.timer.start()
         self.sampRes = 0
         
-        self.oscTime1 = np.linspace(0,10,NUMPOINTS)
-        self.oscTime2 = np.linspace(0,10,NUMPOINTS)
-
-        self.oscData1 = 1*np.sin(2*pi*self.awgCh1Config["freq"]*self.oscTime1+pi/180*self.awgCh1Config["phase"]) #sine wave ch1
-
-        self.oscData2 = 1*np.sin(2*pi*self.awgCh2Config["freq"]*self.oscTime2) #sine wave ch2
         
-        self.oscLine1 = self.plot_graph.plot(self.oscTime1, self.oscData1,pen = self.awgPen1)
-        self.oscLine2 = self.plot_graph.plot(self.oscTime2, self.oscData2, pen = self.awgPen2)
-
-
+        
         self.logicLines = [None]*8
 
         self.logicLines[0] = self.logic_graph.plot(pen = self.awgPen1)
@@ -377,8 +374,20 @@ class MainWindow(QMainWindow):
             range = line.getViewBox().viewRange()
             midpoint = (range[0][0]+range[0][1])/2
             line.setPos(midpoint)
-            
+
+    #not sure how much needed, but from example
+    def updateViews(self):
+        ## view has resized; update auxiliary views to match
         
+        self.plot_osc2.setGeometry(self.plot_graph.vb.sceneBoundingRect())
+        
+        ## need to re-update linked axes since this was called
+        ## incorrectly while views had different shapes.
+        ## (probably this should be handled in ViewBox.resizeEvent)
+        self.plot_osc2.linkedViewChanged(self.plot_graph.vb, self.plot_osc2.XAxis)
+
+
+
     #Layouts
     ###-------------------------------------------------------------------------------------###
     def graphSetup(self):
@@ -410,7 +419,11 @@ class MainWindow(QMainWindow):
         self.awgGraphCh1.hide()
         self.awgGraphCh2.hide()
         #maybe make a custom plotwidget, this will work for now
-        self.plot_graph = graphLayout.addPlot(row = 1, col = 0, colspan = 2)#pg.PlotWidget()
+        self.plot_graph = pg.PlotItem()
+        #self.plot_osc2 = pg.ViewBox()
+        graphLayout.addItem(self.plot_graph,row = 1, col = 0, colspan = 2) #addPlot(row = 1, col = 0, colspan = 2)#pg.PlotWidget()
+        self.plot_osc2 = graphLayout.addViewBox(row = 1, col = 0, colspan = 2)
+        self.plot_osc2.setZValue(2)
         #####self.plot_graph.setBackground("w")
         vb = self.plot_graph.getViewBox()  #USES directly
         vb.setBackgroundColor("w")
@@ -430,6 +443,7 @@ class MainWindow(QMainWindow):
         vb.setXRange(0,10)
         self.plotViewBox = vb
         self.xAxis = self.plot_graph.getAxis("bottom") #USES directly
+        self.yAxis1 = self.plot_graph.getAxis("left")
         self.xAxis.setTickPen(color = "black", width = 2)
         #set y axis as well
         self.plot_graph.getAxis("left").setTickPen(color = "black", width = 2)#USES directly
@@ -440,12 +454,32 @@ class MainWindow(QMainWindow):
         self.plot_graph.setLabel("bottom", text ="Time" ,units = "s")
         self.plot_graph.showGrid(x=True, y=True)
         #add infinte line to graph
-        self.plotLine = pg.InfiniteLine(pos=5,movable=True, angle=90, pen={'color':'r', 'width':3},  hoverPen=(0,200,0))
-        self.plotLine.setZValue(2)
+        self.plotLine = pg.InfiniteLine(pos=5,movable=True, angle=90, pen={'color':'g', 'width':3},  hoverPen=(0,200,0))
+        
+        self.plotLine.setZValue(3)
         self.plot_graph.addItem(self.plotLine)
 
         vb.setLimits(minXRange = 4e-6*5)
         self.plotLine.sigPositionChangeFinished.connect(self.lineMoved)
+
+
+        #Setting second y-axis
+        
+        self.plot_graph.showAxis('right')
+        self.plot_graph.scene().addItem(self.plot_osc2)
+        self.plot_graph.getAxis('right').linkToView(self.plot_osc2)
+        self.plot_osc2.setXLink(self.plot_graph)
+        self.plot_graph.setLabel("right", text = "Voltage", units = "V")
+
+        self.plot_graph.getAxis("right").setGrid(False)
+        self.plot_graph.vb.sigResized.connect(self.updateViews)
+        self.plot_osc2.sigResized.connect(self.updateViews)
+
+        self.oscLine1 = self.plot_graph.plot(self.oscTime1, self.oscData1,pen = self.awgPen1)
+        self.oscLine2 = pg.PlotDataItem(self.oscTime2, self.oscData2, pen = self.awgPen2)
+        self.plot_osc2.addItem(self.oscLine2)#self.plot_graph.plot(self.oscTime2, self.oscData2, pen = self.awgPen2)
+        self.oscLine2.setZValue(2)
+        
         #when recordData clicked, export plot data to image & save
         self.exportData = pg.exporters.ImageExporter(self.plot_graph) #USES directly
 
@@ -489,6 +523,7 @@ class MainWindow(QMainWindow):
 
         self.logic_graph.hide()
         self.plot_graph.hide()
+        self.plot_osc2.hide()
 
         graphLayout.ci.setSpacing(0)
         return graphLayout
@@ -739,8 +774,10 @@ class MainWindow(QMainWindow):
             self.oscCh1EN.setChecked(False)
             self.oscCh2EN.setChecked(False)
             self.plot_graph.hide()
+            self.plot_osc2.hide()
         else:
             self.plot_graph.show()
+            self.plot_osc2.show()
             
 
     #scope channel 1 checkbox handler
@@ -798,6 +835,10 @@ class MainWindow(QMainWindow):
                 self.oscData2 = np.sin(tau*self.omega2)
         #scale and offset
         self.oscData2 = self.awgCh2Config["amp"]*self.oscData2 + self.awgCh2Config["off"]
+        #ensure we do not show below graph
+            #TODO: find better fix than this
+            #maybye done by connecting to sigresize
+
         self.oscLine2.setData(self.oscTime2,self.oscData2)
 
     #TODO: finish this, either sloppy or well
