@@ -34,7 +34,7 @@ import os
 #html standard colors
 colors = ["Yellow","Teal","Silver","Red","Purple","Olive","Navy","White",
             "Maroon","Lime","Green","Gray","Fuchsia","Blue","Black","Aqua"]
-
+#Constants
 MAXFREQUENCY = 250e3
 MINFREQUENCY = 1
 MINAMP = -5
@@ -48,7 +48,8 @@ USE_CSV = False
 #because of a change made to input field, we need to specify a "" unit
 prefixes_voltage = {"m": 1e-3,"":1}
 prefixes_frequency = {"k": 1e3, "M": 1e6,"":1}
-
+possibleTimeDivs = [1, 0.5, 0.2, 0.1, 0.05, 0.02, 0.01, 5/1000, 2/1000, 1/1000 ,5/1000/10, 2/1000/10, 1/1000/10 ,5/1000/100, 2/1000/100, 1/1000/100 ,5/1000/1000, 2/1000/1000, 1/1000/1000]
+#simple box widget
 class ColorBox(QWidget):
 
     def __init__(self, color):
@@ -149,7 +150,7 @@ class MainWindow(QMainWindow):
 
 
 
-        self.set_time_div(1.0) #1v/div
+        self.set_time_div(0) #1v/div
         widget = QWidget()
         widget.setLayout(layout)
         self.setCentralWidget(widget)
@@ -192,7 +193,11 @@ class MainWindow(QMainWindow):
     def getPorts(self):
         self.portSelect.clear()
         self.portSelect.addItem("Refresh Ports")
-        ports = [port.name for port in list(serial.tools.list_ports.comports())]
+        portCanidates =list(serial.tools.list_ports.comports())
+        ports = []
+        for port in portCanidates:
+            if(port.vid == 1155):#Do we need both? and port.pid == 22352):
+                ports.append(port.name)
         self.portSelect.addItems(ports)
         self.portSelect.activated.connect(self.port_currentIndexChanged)
 
@@ -303,25 +308,32 @@ class MainWindow(QMainWindow):
         return
 
     def set_time_div(self, div):
-        try:
-            self.plotViewBox.setXRange(self.viewRange[0][0],self.viewRange[0][0]+10*div)
-            #self.xAxis.setTickSpacing(div,div/2)
-            '''majorTicks = [None]*10 #Attempted manually setting ticks, possible promissing, but reqires more exporation
-            minorTicks = [None]*20
-            for i in range(0,10):
-                majorTicks[i] = (self.viewRange[0][0]+i*div,str(self.viewRange[0][0]+i*div))
-                minorTicks[i] = (self.viewRange[0][0]+i*div/2,"")
-                minorTicks[i+10] = (self.viewRange[0][0]+(10+i)*div/2,"")
-            self.xAxis.setTicks([majorTicks,minorTicks])'''
-            #TODO: throws error if current range is too large in comparision to div
-            #ie 10s range, 4us divs
-            #happens IN pyqtgraph library, so this try does nothoing
-            #also idealy we do not change the range much, so implement float div->mult correction
+        div = possibleTimeDivs[div]#convert index into div value
+        midpoint = (self.viewRange[0][0]+ self.viewRange[0][1])/2
+        #limit l-r span of xaxis to prevent too many tick lines from being drawn if user scrolls manually
+        self.plotViewBox.setLimits(maxXRange=div*100)
+        self.logicViewBox.setLimits(maxXRange=div*100)
+        self.xAxis.setTickSpacing(2*div,div )
+        self.logic_graph.getAxis("bottom").setTickSpacing(2*div,div)
+        #5.5 as a fudge to show fifth point
+        self.plotViewBox.setXRange(midpoint-5.5*div, midpoint+5.5*div)#self.viewRange[0][0],self.viewRange[0][0]+10*div)
+        self.viewRange = self.plotViewBox.viewRange()
+        print("New Range: "+str(self.viewRange[0][1] - self.viewRange[0][0]))
+        
+        '''majorTicks = [None]*10 #Attempted manually setting ticks, possible promissing, but reqires more exporation
+        minorTicks = [None]*20
+        for i in range(0,10):
+            majorTicks[i] = (self.viewRange[0][0]+i*div,str(self.viewRange[0][0]+i*div))
+            minorTicks[i] = (self.viewRange[0][0]+i*div/2,"")
+            minorTicks[i+10] = (self.viewRange[0][0]+(10+i)*div/2,"")
+        self.xAxis.setTicks([majorTicks,minorTicks])'''
+        #TODO: throws error if current range is too large in comparision to div
+        #ie 10s range, 4us divs
+        #happens IN pyqtgraph library, so this try does nothoing
+        #also idealy we do not change the range much, so implement float div->mult correction
 
-            #The infamous mem error
-                #sidestepped by not setting tick spacing
-        except:
-            return
+        #The infamous mem error
+            #sidestepped by not setting tick spacing 
 
     # handle range scaling
     def on_range_changed(self,vb, ranges):
@@ -370,9 +382,10 @@ class MainWindow(QMainWindow):
         self.vertLineFix()
 
     def vertLineFix(self):
+        range = self.xAxis.range#Comment this line and uncomment following for line to exist relative to each plot
         for line in self.verticalLines:
-            range = line.getViewBox().viewRange()
-            midpoint = (range[0][0]+range[0][1])/2
+            #range = line.getViewBox().viewRange()
+            midpoint = (range[0]+range[1])/2#(range[0][0]+range[0][1])/2
             line.setPos(midpoint)
 
     #not sure how much needed, but from example
@@ -390,13 +403,14 @@ class MainWindow(QMainWindow):
 
     #Layouts
     ###-------------------------------------------------------------------------------------###
+    #sets up central graphs
     def graphSetup(self):
         graphLayout =pg.GraphicsLayoutWidget(show=True)
         graphLayout.setBackground("w") 
         graphLayout.addLabel("")
 
         self.awgGraphCh1 = graphLayout.addPlot(row = 3, col = 0 )#pg.PlotWidget#
-        self.awgGraphCh2 = graphLayout.addPlot(row = 3, col = 1, colSpan = -1)#pg.PlotWidget#
+        self.awgGraphCh2 = graphLayout.addPlot(row = 3, col = 1)#pg.PlotWidget#
 
         
         self.awgline1= self.awgGraphCh1.plot([0],[0], pen = self.awgPen1)
@@ -480,13 +494,20 @@ class MainWindow(QMainWindow):
         self.plot_osc2.addItem(self.oscLine2)#self.plot_graph.plot(self.oscTime2, self.oscData2, pen = self.awgPen2)
         self.oscLine2.setZValue(2)
         
+        #stop auto resizing of base plot
+        vb.disableAutoRange(pg.ViewBox.YAxis)
+        self.plot_graph.hideButtons()
+        self.yAxis1.setScale(2)
         #when recordData clicked, export plot data to image & save
         self.exportData = pg.exporters.ImageExporter(self.plot_graph) #USES directly
 
         #Logic Analyizer section
             #mostly copied over from plot_graph
         self.logic_graph = graphLayout.addPlot(row = 2, col = 0, colspan = 2)#pg.PlotWidget()
-        
+        self.logic_graph.showAxis('right')
+        self.logic_graph.setLabel("right", text = "Logic")
+        self.logic_graph.getAxis('right').setStyle(showValues= False)
+        self.logic_graph.getAxis('left').setStyle(showValues= False)
         vb_l = self.logic_graph.getViewBox() #USES directly
         vb_l.setBackgroundColor("w")
         
@@ -505,12 +526,12 @@ class MainWindow(QMainWindow):
         vb_l.setDefaultPadding(0.0)#doesn't help 
         vb_l.setLimits(yMax = 20, yMin = -20)
         vb_l.setXRange(0,10)
-        self.logicViewBox = vb
+        self.logicViewBox = vb_l
         
         #set y axis as well
         self.logic_graph.getAxis("left").setTickPen(color = "black", width = 2)#Uses Direclty
         self.logic_graph.getAxis("bottom").setTickPen(color = "black", width = 2)#Uses Direclty
-        #self.logic_graph.setLabel("left", "Logic")
+        self.logic_graph.setLabel("left", "Logic")
         self.logic_graph.setLabel("bottom", text = "Time",units = "s")
         self.logic_graph.showGrid(x=True, y=True)
         self.logic_graph.setXLink(self.plot_graph)
@@ -603,7 +624,7 @@ class MainWindow(QMainWindow):
 
     def centerLayoutSetup(self):
         centerLayout = QGridLayout()
-        centerLayout.addWidget(ColorBox("White"),0,0, -1,-1)#background for demonstration. Remove later [1]
+        #centerLayout.addWidget(ColorBox("White"),0,0, -1,-1)#background for demonstration. Remove later [1]
         self.runStopButton = QPushButton("RUN/STOP")
         self.runStopButton.setCheckable(True)
         self.runStopButton.setChecked(False) #default to not clicked/running
@@ -618,11 +639,28 @@ class MainWindow(QMainWindow):
         centerSettings = QGridLayout()
         timeSetting = ColorBox("#e0dde5") 
         centerLayout.addWidget(timeSetting,0,0,1,-1)
-        self.timeDiv = LabelField("Time Base", [1/MAXFREQUENCY,1/MINFREQUENCY],1,3,"s/div",{"u":1e-6,"m":1e-3,"":1},BLANK)
-        centerSettings.addWidget(self.timeDiv,0,0,1,1)
-        self.timeDiv.valueChanged.connect(self.set_time_div)
-
-        centerSettings.addWidget(QLabel("Trigger Settings: "),0,1,1,1)
+        #might want to make this a dropdown
+        self.timeDiv = QComboBox()
+        #LabelField("Time Base", [1/MAXFREQUENCY,1/MINFREQUENCY],1,3,"s/div",{"u":1e-6,"m":1e-3,"":1},BLANK)
+        centerSettings.addWidget(self.timeDiv,0,0+1,1,1)
+        centerSettings.addWidget(QLabel("Time Div "), 0,0)
+        for div in possibleTimeDivs:
+            unit = ""
+            val = div
+            if(div < 1/1000):#us case
+                unit = "u"
+                val = div*1000*1000
+            elif(div < 1):#ms case
+                unit = "m"
+                val = div*1000
+            self.timeDiv.addItem(f"{val} {unit}s/div")
+            #possibleTimeDivs = [1, 0.5, 0.2, 0.1, 0.05, 0.02, 0.01, 5/1000, 2/1000, 1/1000 ,5/1000/10, 2/1000/10, 1/1000/10 ,5/1000/100, 2/1000/100, 1/1000/100 ,5/1000/1000, 2/1000/1000, 1/1000/1000]
+        
+        #self.timeDiv.addItems(["10 s/div",  "5 s/div", "1 s/div","0.5 s/div", "0.1 s/div", "50 ms/div", "10 ms/div","5 ms/div","1 ms/div"])
+        self.timeDiv.setCurrentIndex(0)
+        self.timeDiv.currentIndexChanged.connect(self.set_time_div)
+        
+        centerSettings.addWidget(QLabel("Trigger Settings: "),0,1+1,1,1)
 
         modes = ["Auto","Normal"]
         trigTypeSelect = QComboBox()
@@ -631,8 +669,8 @@ class MainWindow(QMainWindow):
         trigHoldoffSelect = QComboBox()
         trigHoldoffSelect.addItem("Holdoff (s)")
 
-        centerSettings.addWidget(trigTypeSelect,0,2)
-        centerSettings.addWidget(trigHoldoffSelect,0,3)
+        centerSettings.addWidget(trigTypeSelect,0,2+1)
+        centerSettings.addWidget(trigHoldoffSelect,0,3+1)
 
         logicLayout = QGridLayout()
         logicLayout.addWidget(ColorBox("#c9d4c9"),0,0,-1,-1)#background for demonstration. Remove later
@@ -893,6 +931,8 @@ class MainWindow(QMainWindow):
                         self.logicLines[i].setData(range(0,10),[2*i+temp_logic_data[i][j] for j in range(0,10)],stepMode = "left")
                     else:
                         self.logicLines[i].setData(self.zeros,self.zeros)
+
+
 
         if(self.awgGraphCh1.isVisible()):
             self.omega1AWG = np.mod(self.awgPeriod1+(self.awgCh1Config["phase"]/(360*self.awgCh1Config["freq"])),
