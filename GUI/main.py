@@ -196,7 +196,7 @@ class MainWindow(QMainWindow):
         portCanidates =list(serial.tools.list_ports.comports())
         ports = []
         for port in portCanidates:
-            if(port.vid == 1155):#Do we need both? and port.pid == 22352):
+            if(port.vid == 1155):#Do we need both vid and pid? and port.pid == 22352):
                 ports.append(port.name)
         self.portSelect.addItems(ports)
         self.portSelect.activated.connect(self.port_currentIndexChanged)
