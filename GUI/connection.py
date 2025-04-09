@@ -87,13 +87,32 @@ class Connection:
                     #print()
                     #print(unpack("<BHHHH55x", buff))
                     try:
-                        pos, osch1, osch2, logicd, buffpos = unpack("<BHHHH55x", buff)
+                        packettype, stInput=unpack("<B63s",buff)
+                        stInput=str(stInput)
+                        tempInput=stInput.split("_")
+                        print(tempInput)
+                        buffpos=int(tempInput[0][2:])
+                        #print("Pos {}, Osch1 {}, Osch2 {}, logic {}, Bpos {}\n".format(pos,osch1,osch2,logicd,buffpos))
+                        if(buffpos < self.lastPos):
+                           self.itteration += 1
+                        self.buffPosQueue.append(buffpos+self.itteration*BUFFERSIZE)
+                        self.buffPosQueue.append(buffpos+1+self.itteration*BUFFERSIZE)
+                        self.buffPosQueue.append(buffpos+2+self.itteration*BUFFERSIZE)
+                        self.buffPosQueue.append(buffpos+3+self.itteration*BUFFERSIZE)
+                        self.oscCh1Queue.append(int(tempInput[1]))
+                        self.oscCh1Queue.append(int(tempInput[2]))
+                        self.oscCh1Queue.append(int(tempInput[3]))
+                        self.oscCh1Queue.append(int(tempInput[4]))
+                        self.lastPos = buffpos
+                    
+
+                        '''pos, osch1, osch2, logicd, buffpos = unpack("<BHHHH55x", buff)
                         print("Pos {}, Osch1 {}, Osch2 {}, logic {}, Bpos {}\n".format(pos,osch1,osch2,logicd,buffpos))
                         if(buffpos < self.lastPos):
                             self.itteration += 1
                         self.buffPosQueue.append(buffpos+self.itteration*BUFFERSIZE)
                         self.oscCh1Queue.append(osch1)
-                        self.lastPos = buffpos
+                        self.lastPos = buffpos'''
                     #self.dataIn[0], self.dataIn[1], self.dataIn[2], self.dataIn[3], self.dataIn[4] = unpack("<BHHHH55x", buff)
                     #print(self.dataIn[0])
                     #if(self.dataIn[4]<30000):

@@ -868,7 +868,7 @@ class MainWindow(QMainWindow):
         self.dataIn=self.conn.returnData()
         #print(self.dataIn)
         #self.osc1Buffer.append(self.dataIn[0]) #This is slow and very inefficient. 
-        self.osc1Buffer = np.asarray(self.conn.oscCh1Queue)
+        self.osc1Buffer = np.asarray(self.conn.oscCh1Queue)/4096*3.3
         self.oscTime1 = self.conn.returnPositions() * self.oscPosInterval
             
         if not self.runStopButton.isChecked():
