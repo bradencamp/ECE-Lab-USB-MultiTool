@@ -7,8 +7,10 @@ from struct import pack, unpack, calcsize
 import os
 from queue import Queue
 import time
+from collections import deque 
+from numpy import asarray
 
-
+BUFFERSIZE = 30*1000
 class Connection:
     """Handles the connection to the AWG device"""
     
@@ -45,7 +47,7 @@ class Connection:
     def read_funct(self):
         """ The function that runs the read thread. This function reads data from the serial port. Detects acknowledgments and disconnects due to timeout, emitted updates to the main UI as needed."""
         timeouts = 0
-        recoverybuff=b'\x059988_3040_3040_3040_3040_1016_1016_1020_1016\x00-\x00\x08\xa8\xff\t \xa8\xff\xff\xff\x01\x00\x00\x00@\x00\x00'
+        #recoverybuff=b'\x059988_3040_3040_3040_3040_1016_1016_1020_1016\x00-\x00\x08\xa8\xff\t \xa8\xff\xff\xff\x01\x00\x00\x00@\x00\x00'
         while self.status != "Disconnected":
             try:
                 self.ser.reset_input_buffer()
@@ -81,9 +83,17 @@ class Connection:
                     #packettype, osc1data, osc2data, logicdata=unpack("<B4H4H4H", buff[0:24])
                     #print(calcsize("<B4H4H4H39x"))
                     #print(unpack("<B4H4H4HH37x", buff))
-                    print(buff[0:50])
+                    #print(buff)
+                    #print()
                     #print(unpack("<BHHHH55x", buff))
-                    #pos, osch1, osch2, logicd, bufpos = unpack("<BHHHH55x", buff)
+                    try:
+                        pos, osch1, osch2, logicd, buffpos = unpack("<BHHHH55x", buff)
+                        print("Pos {}, Osch1 {}, Osch2 {}, logic {}, Bpos {}\n".format(pos,osch1,osch2,logicd,buffpos))
+                        if(buffpos < self.lastPos):
+                            self.itteration += 1
+                        self.buffPosQueue.append(buffpos+self.itteration*BUFFERSIZE)
+                        self.oscCh1Queue.append(osch1)
+                        self.lastPos = buffpos
                     #self.dataIn[0], self.dataIn[1], self.dataIn[2], self.dataIn[3], self.dataIn[4] = unpack("<BHHHH55x", buff)
                     #print(self.dataIn[0])
                     #if(self.dataIn[4]<30000):
@@ -93,7 +103,8 @@ class Connection:
                             #print("Position: ",i, "Data: ",self.ADCbuff[0][i])
                     #print(unpack("<B16s16s16sH13x", buff))
                     #print(packettype)
-                    pass  
+                    finally:
+                        pass  
                 else:   #bad reply
                     #print(unpack("<BHHHH55x", buff))
                     print(buff[0:63])
@@ -106,7 +117,9 @@ class Connection:
         #causes the write thread to wake up so that it can exit.
         self.sendQ.put(None)
     def returnData(self): #return data. Change this to a full buffer
-        return self.dataIn        
+        return self.dataIn  
+    def returnPositions(self):
+        return asarray(self.buffPosQueue)      
     def write_funct(self):
         """ The function that runs the write thread. This function writes packets from the sendQ to the serial port."""
         while self.status != "Disconnected":
@@ -297,3 +310,8 @@ class Connection:
         self.ADCbuff = np.zeros((2,30000))
         self.status = "Disconnected"
         self.statusCallback = statusCallback
+
+        self.buffPosQueue = deque([],BUFFERSIZE)
+        self.oscCh1Queue = deque([], BUFFERSIZE)
+        self.lastPos = -1
+        self.itteration = 0
