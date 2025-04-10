@@ -6765,7 +6765,7 @@
 				)
 			)
 		)
-		(property "Value" "47uH"
+		(property "Value" "4.7uH"
 			(at 166.624 128.016 90)
 			(effects
 				(font
@@ -12083,7 +12083,7 @@
 				)
 			)
 		)
-		(property "Value" "47uH"
+		(property "Value" "4.7uH"
 			(at 166.116 110.744 90)
 			(effects
 				(font
