@@ -4406,7 +4406,7 @@
 	)
 	(text "Negative 5V Power supply"
 		(exclude_from_sim no)
-		(at 179.6288 19.9136 0)
+		(at 198.628 19.05 0)
 		(effects
 			(font
 				(size 1.27 1.27)

@@ -2612,6 +2612,189 @@
 			)
 			(embedded_fonts no)
 		)
+		(symbol "Jumper:SolderJumper_2_Open"
+			(pin_names
+				(offset 0)
+				(hide yes)
+			)
+			(exclude_from_sim no)
+			(in_bom yes)
+			(on_board yes)
+			(property "Reference" "JP"
+				(at 0 2.032 0)
+				(effects
+					(font
+						(size 1.27 1.27)
+					)
+				)
+			)
+			(property "Value" "SolderJumper_2_Open"
+				(at 0 -2.54 0)
+				(effects
+					(font
+						(size 1.27 1.27)
+					)
+				)
+			)
+			(property "Footprint" ""
+				(at 0 0 0)
+				(effects
+					(font
+						(size 1.27 1.27)
+					)
+					(hide yes)
+				)
+			)
+			(property "Datasheet" "~"
+				(at 0 0 0)
+				(effects
+					(font
+						(size 1.27 1.27)
+					)
+					(hide yes)
+				)
+			)
+			(property "Description" "Solder Jumper, 2-pole, open"
+				(at 0 0 0)
+				(effects
+					(font
+						(size 1.27 1.27)
+					)
+					(hide yes)
+				)
+			)
+			(property "ki_keywords" "solder jumper SPST"
+				(at 0 0 0)
+				(effects
+					(font
+						(size 1.27 1.27)
+					)
+					(hide yes)
+				)
+			)
+			(property "ki_fp_filters" "SolderJumper*Open*"
+				(at 0 0 0)
+				(effects
+					(font
+						(size 1.27 1.27)
+					)
+					(hide yes)
+				)
+			)
+			(symbol "SolderJumper_2_Open_0_1"
+				(polyline
+					(pts
+						(xy -0.254 1.016) (xy -0.254 -1.016)
+					)
+					(stroke
+						(width 0)
+						(type default)
+					)
+					(fill
+						(type none)
+					)
+				)
+				(arc
+					(start -0.254 -1.016)
+					(mid -1.2656 0)
+					(end -0.254 1.016)
+					(stroke
+						(width 0)
+						(type default)
+					)
+					(fill
+						(type none)
+					)
+				)
+				(arc
+					(start -0.254 -1.016)
+					(mid -1.2656 0)
+					(end -0.254 1.016)
+					(stroke
+						(width 0)
+						(type default)
+					)
+					(fill
+						(type outline)
+					)
+				)
+				(arc
+					(start 0.254 1.016)
+					(mid 1.2656 0)
+					(end 0.254 -1.016)
+					(stroke
+						(width 0)
+						(type default)
+					)
+					(fill
+						(type none)
+					)
+				)
+				(arc
+					(start 0.254 1.016)
+					(mid 1.2656 0)
+					(end 0.254 -1.016)
+					(stroke
+						(width 0)
+						(type default)
+					)
+					(fill
+						(type outline)
+					)
+				)
+				(polyline
+					(pts
+						(xy 0.254 1.016) (xy 0.254 -1.016)
+					)
+					(stroke
+						(width 0)
+						(type default)
+					)
+					(fill
+						(type none)
+					)
+				)
+			)
+			(symbol "SolderJumper_2_Open_1_1"
+				(pin passive line
+					(at -3.81 0 0)
+					(length 2.54)
+					(name "A"
+						(effects
+							(font
+								(size 1.27 1.27)
+							)
+						)
+					)
+					(number "1"
+						(effects
+							(font
+								(size 1.27 1.27)
+							)
+						)
+					)
+				)
+				(pin passive line
+					(at 3.81 0 180)
+					(length 2.54)
+					(name "B"
+						(effects
+							(font
+								(size 1.27 1.27)
+							)
+						)
+					)
+					(number "2"
+						(effects
+							(font
+								(size 1.27 1.27)
+							)
+						)
+					)
+				)
+			)
+			(embedded_fonts no)
+		)
 		(symbol "MCU_ST_STM32H5:STM32H562VGTx"
 			(exclude_from_sim no)
 			(in_bom yes)
@@ -6463,6 +6646,12 @@
 		(uuid "6f1e7858-7bb8-4cc9-8d30-dee58e8674d9")
 	)
 	(junction
+		(at 189.23 64.77)
+		(diameter 0)
+		(color 0 0 0 0)
+		(uuid "86bcd8c6-1b23-495c-9593-9030e7f37db9")
+	)
+	(junction
 		(at 104.14 50.8)
 		(diameter 0)
 		(color 0 0 0 0)
@@ -6473,12 +6662,6 @@
 		(diameter 0)
 		(color 0 0 0 0)
 		(uuid "965635b5-364d-4595-84a1-c9abf8941a22")
-	)
-	(junction
-		(at 189.23 64.77)
-		(diameter 0)
-		(color 0 0 0 0)
-		(uuid "97233ddb-4694-4cb5-9d35-769d44ba27ee")
 	)
 	(junction
 		(at 101.6 50.8)
@@ -6788,6 +6971,16 @@
 	)
 	(wire
 		(pts
+			(xy 196.85 120.65) (xy 199.39 120.65)
+		)
+		(stroke
+			(width 0)
+			(type default)
+		)
+		(uuid "3d4a30ac-5b00-4a32-a0a7-1c5128fc2b5f")
+	)
+	(wire
+		(pts
 			(xy 116.84 33.02) (xy 118.11 33.02)
 		)
 		(stroke
@@ -6848,7 +7041,7 @@
 	)
 	(wire
 		(pts
-			(xy 204.47 64.77) (xy 209.55 64.77)
+			(xy 204.47 64.77) (xy 210.82 64.77)
 		)
 		(stroke
 			(width 0)
@@ -6865,16 +7058,6 @@
 			(type default)
 		)
 		(uuid "517f178b-fdbe-4a65-91f2-2468cc3d6093")
-	)
-	(wire
-		(pts
-			(xy 184.15 64.77) (xy 189.23 64.77)
-		)
-		(stroke
-			(width 0)
-			(type default)
-		)
-		(uuid "52e6da43-29f0-4d4f-90b4-3bd6b4f27bc1")
 	)
 	(wire
 		(pts
@@ -6938,7 +7121,7 @@
 	)
 	(wire
 		(pts
-			(xy 186.69 139.7) (xy 199.39 139.7)
+			(xy 186.69 139.7) (xy 188.595 139.7)
 		)
 		(stroke
 			(width 0)
@@ -6975,6 +7158,16 @@
 			(type default)
 		)
 		(uuid "6dce64ca-90d8-4c68-b3e3-c879cdbded53")
+	)
+	(wire
+		(pts
+			(xy 218.44 64.77) (xy 223.52 64.77)
+		)
+		(stroke
+			(width 0)
+			(type default)
+		)
+		(uuid "6ef54f2f-0008-4aa1-bac1-b9fb547a9edf")
 	)
 	(wire
 		(pts
@@ -7058,6 +7251,16 @@
 	)
 	(wire
 		(pts
+			(xy 196.215 139.7) (xy 199.39 139.7)
+		)
+		(stroke
+			(width 0)
+			(type default)
+		)
+		(uuid "9d73bfa3-7c06-4b5a-8719-74cf698e473d")
+	)
+	(wire
+		(pts
 			(xy 199.39 133.35) (xy 199.39 139.7)
 		)
 		(stroke
@@ -7065,6 +7268,16 @@
 			(type default)
 		)
 		(uuid "9ed1ff91-8d69-47a8-9b49-f4d7c381a8d4")
+	)
+	(wire
+		(pts
+			(xy 168.91 64.77) (xy 175.26 64.77)
+		)
+		(stroke
+			(width 0)
+			(type default)
+		)
+		(uuid "a33ac402-5b86-4bc2-96f5-ef6aea6a3584")
 	)
 	(wire
 		(pts
@@ -7158,7 +7371,7 @@
 	)
 	(wire
 		(pts
-			(xy 186.69 120.65) (xy 199.39 120.65)
+			(xy 186.69 120.65) (xy 189.23 120.65)
 		)
 		(stroke
 			(width 0)
@@ -7225,6 +7438,16 @@
 			(type default)
 		)
 		(uuid "f26a9eac-4927-42a6-b107-74d62b1291b8")
+	)
+	(wire
+		(pts
+			(xy 182.88 64.77) (xy 189.23 64.77)
+		)
+		(stroke
+			(width 0)
+			(type default)
+		)
+		(uuid "f4ef964e-f5d7-4577-a91c-cd593d02bcd9")
 	)
 	(wire
 		(pts
@@ -7313,6 +7536,28 @@
 		(uuid "0aa39391-c5b8-4e4a-88bf-ed0f8afce5fa")
 		(property "Intersheetrefs" "${INTERSHEET_REFS}"
 			(at 203.5241 158.75 0)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(justify left)
+				(hide yes)
+			)
+		)
+	)
+	(global_label "USB_FN_P"
+		(shape input)
+		(at 132.08 91.44 0)
+		(fields_autoplaced yes)
+		(effects
+			(font
+				(size 1.27 1.27)
+			)
+			(justify left)
+		)
+		(uuid "0d8a38af-db79-485f-beba-50ed60a37953")
+		(property "Intersheetrefs" "${INTERSHEET_REFS}"
+			(at 144.4995 91.44 0)
 			(effects
 				(font
 					(size 1.27 1.27)
@@ -7520,6 +7765,28 @@
 			)
 		)
 	)
+	(global_label "USB_FN_N"
+		(shape input)
+		(at 132.08 88.9 0)
+		(fields_autoplaced yes)
+		(effects
+			(font
+				(size 1.27 1.27)
+			)
+			(justify left)
+		)
+		(uuid "2c6c9e15-9180-4a22-96fe-642791031ae0")
+		(property "Intersheetrefs" "${INTERSHEET_REFS}"
+			(at 144.56 88.9 0)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(justify left)
+				(hide yes)
+			)
+		)
+	)
 	(global_label "LOGIC_INP12"
 		(shape input)
 		(at 273.05 81.28 0)
@@ -7533,28 +7800,6 @@
 		(uuid "2f268ce5-c1c0-4999-bdf4-ba38e1173ff8")
 		(property "Intersheetrefs" "${INTERSHEET_REFS}"
 			(at 288.1305 81.28 0)
-			(effects
-				(font
-					(size 1.27 1.27)
-				)
-				(justify left)
-				(hide yes)
-			)
-		)
-	)
-	(global_label "USB_D+"
-		(shape input)
-		(at 132.08 91.44 0)
-		(fields_autoplaced yes)
-		(effects
-			(font
-				(size 1.27 1.27)
-			)
-			(justify left)
-		)
-		(uuid "34694cca-7c27-4632-ab1d-1270ea2cb8e5")
-		(property "Intersheetrefs" "${INTERSHEET_REFS}"
-			(at 142.6852 91.44 0)
 			(effects
 				(font
 					(size 1.27 1.27)
@@ -8171,28 +8416,6 @@
 		(uuid "7e510fce-7fa2-4522-9c92-9ef6e41ff241")
 		(property "Intersheetrefs" "${INTERSHEET_REFS}"
 			(at 144.9228 134.62 0)
-			(effects
-				(font
-					(size 1.27 1.27)
-				)
-				(justify left)
-				(hide yes)
-			)
-		)
-	)
-	(global_label "USB_D-"
-		(shape input)
-		(at 132.08 88.9 0)
-		(fields_autoplaced yes)
-		(effects
-			(font
-				(size 1.27 1.27)
-			)
-			(justify left)
-		)
-		(uuid "812c4a8a-591b-4158-b0ce-b23eeb2de192")
-		(property "Intersheetrefs" "${INTERSHEET_REFS}"
-			(at 142.6852 88.9 0)
 			(effects
 				(font
 					(size 1.27 1.27)
@@ -8842,7 +9065,7 @@
 	)
 	(global_label "RCC_OSC_OUT"
 		(shape input)
-		(at 209.55 64.77 0)
+		(at 223.52 64.77 0)
 		(fields_autoplaced yes)
 		(effects
 			(font
@@ -8852,7 +9075,7 @@
 		)
 		(uuid "d69f1178-d543-47da-82fb-19b43d9a626b")
 		(property "Intersheetrefs" "${INTERSHEET_REFS}"
-			(at 225.719 64.77 0)
+			(at 239.689 64.77 0)
 			(effects
 				(font
 					(size 1.27 1.27)
@@ -8996,7 +9219,7 @@
 	)
 	(global_label "RCC_OSC_IN"
 		(shape input)
-		(at 184.15 64.77 180)
+		(at 168.91 64.77 180)
 		(fields_autoplaced yes)
 		(effects
 			(font
@@ -9006,7 +9229,7 @@
 		)
 		(uuid "e4ea9882-0d6b-4303-930a-a906064a73c9")
 		(property "Intersheetrefs" "${INTERSHEET_REFS}"
-			(at 169.6743 64.77 0)
+			(at 154.4343 64.77 0)
 			(effects
 				(font
 					(size 1.27 1.27)
@@ -9441,6 +9664,91 @@
 			(project ""
 				(path "/b5440f7d-90d5-417e-adc2-aa6b11e5424d/829c33f0-6f08-4314-9594-5cabd02fe19e"
 					(reference "#PWR071")
+					(unit 1)
+				)
+			)
+		)
+	)
+	(symbol
+		(lib_id "Device:R")
+		(at 192.405 139.7 270)
+		(unit 1)
+		(exclude_from_sim no)
+		(in_bom yes)
+		(on_board yes)
+		(dnp no)
+		(uuid "2a13bb11-0cc8-4f09-95f2-35560c10dfe0")
+		(property "Reference" "R83"
+			(at 192.405 137.414 90)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+			)
+		)
+		(property "Value" "0"
+			(at 192.405 139.7 90)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+			)
+		)
+		(property "Footprint" "Resistor_SMD:R_0603_1608Metric_Pad0.98x0.95mm_HandSolder"
+			(at 192.405 137.922 90)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(hide yes)
+			)
+		)
+		(property "Datasheet" "~"
+			(at 192.405 139.7 0)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(hide yes)
+			)
+		)
+		(property "Description" ""
+			(at 192.405 139.7 0)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(hide yes)
+			)
+		)
+		(property "External REF" ""
+			(at 192.405 139.7 0)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(hide yes)
+			)
+		)
+		(property "Mouser REF" ""
+			(at 192.405 139.7 0)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(hide yes)
+			)
+		)
+		(pin "1"
+			(uuid "10bd9a95-f171-4317-8dc2-9fc99885e2e7")
+		)
+		(pin "2"
+			(uuid "043ec49c-3291-4ceb-85fd-3601307e450b")
+		)
+		(instances
+			(project "USBLabTool"
+				(path "/b5440f7d-90d5-417e-adc2-aa6b11e5424d/829c33f0-6f08-4314-9594-5cabd02fe19e"
+					(reference "R83")
 					(unit 1)
 				)
 			)
@@ -10984,6 +11292,70 @@
 		)
 	)
 	(symbol
+		(lib_id "Mechanical:MountingHole")
+		(at 262.89 185.42 0)
+		(unit 1)
+		(exclude_from_sim yes)
+		(in_bom no)
+		(on_board yes)
+		(dnp no)
+		(fields_autoplaced yes)
+		(uuid "a4a0378a-ba73-4ae7-af6a-44d857e461e3")
+		(property "Reference" "H4"
+			(at 265.43 184.1499 0)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(justify left)
+			)
+		)
+		(property "Value" "MountingHole"
+			(at 265.43 186.6899 0)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(justify left)
+			)
+		)
+		(property "Footprint" "MountingHole:MountingHole_2.2mm_M2"
+			(at 262.89 185.42 0)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(hide yes)
+			)
+		)
+		(property "Datasheet" "~"
+			(at 262.89 185.42 0)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(hide yes)
+			)
+		)
+		(property "Description" "Mounting Hole without connection"
+			(at 262.89 185.42 0)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(hide yes)
+			)
+		)
+		(instances
+			(project "USBLabTool"
+				(path "/b5440f7d-90d5-417e-adc2-aa6b11e5424d/829c33f0-6f08-4314-9594-5cabd02fe19e"
+					(reference "H4")
+					(unit 1)
+				)
+			)
+		)
+	)
+	(symbol
 		(lib_id "Device:C")
 		(at 204.47 68.58 180)
 		(unit 1)
@@ -11360,6 +11732,84 @@
 		)
 	)
 	(symbol
+		(lib_id "Jumper:SolderJumper_2_Open")
+		(at 179.07 64.77 0)
+		(unit 1)
+		(exclude_from_sim no)
+		(in_bom yes)
+		(on_board yes)
+		(dnp no)
+		(uuid "bb3b1ac1-af52-4d15-8a26-26fc68f94867")
+		(property "Reference" "JP6"
+			(at 178.054 68.834 0)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(justify right)
+			)
+		)
+		(property "Value" "SJ"
+			(at 177.038 66.548 0)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(justify right)
+			)
+		)
+		(property "Footprint" "Jumper:SolderJumper-2_P1.3mm_Open_RoundedPad1.0x1.5mm"
+			(at 179.07 64.77 0)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(hide yes)
+			)
+		)
+		(property "Datasheet" "~"
+			(at 179.07 64.77 0)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(hide yes)
+			)
+		)
+		(property "Description" ""
+			(at 179.07 64.77 0)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(hide yes)
+			)
+		)
+		(property "Purpose" ""
+			(at 179.07 64.77 0)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(hide yes)
+			)
+		)
+		(pin "1"
+			(uuid "ba33ba34-ba73-484d-9360-1c482e623b7d")
+		)
+		(pin "2"
+			(uuid "58aa5f2c-183c-4e37-935a-7d29222feaa6")
+		)
+		(instances
+			(project "USBLabTool"
+				(path "/b5440f7d-90d5-417e-adc2-aa6b11e5424d/829c33f0-6f08-4314-9594-5cabd02fe19e"
+					(reference "JP6")
+					(unit 1)
+				)
+			)
+		)
+	)
+	(symbol
 		(lib_id "power:GND")
 		(at 196.85 78.74 0)
 		(unit 1)
@@ -11553,6 +12003,233 @@
 			(project ""
 				(path "/b5440f7d-90d5-417e-adc2-aa6b11e5424d/829c33f0-6f08-4314-9594-5cabd02fe19e"
 					(reference "#PWR077")
+					(unit 1)
+				)
+			)
+		)
+	)
+	(symbol
+		(lib_id "Mechanical:MountingHole")
+		(at 262.89 179.07 0)
+		(unit 1)
+		(exclude_from_sim yes)
+		(in_bom no)
+		(on_board yes)
+		(dnp no)
+		(fields_autoplaced yes)
+		(uuid "c2fc2d8d-4f82-46e6-95c8-e092e88bc3e2")
+		(property "Reference" "H3"
+			(at 265.43 177.7999 0)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(justify left)
+			)
+		)
+		(property "Value" "MountingHole"
+			(at 265.43 180.3399 0)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(justify left)
+			)
+		)
+		(property "Footprint" "MountingHole:MountingHole_2.2mm_M2"
+			(at 262.89 179.07 0)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(hide yes)
+			)
+		)
+		(property "Datasheet" "~"
+			(at 262.89 179.07 0)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(hide yes)
+			)
+		)
+		(property "Description" "Mounting Hole without connection"
+			(at 262.89 179.07 0)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(hide yes)
+			)
+		)
+		(instances
+			(project "USBLabTool"
+				(path "/b5440f7d-90d5-417e-adc2-aa6b11e5424d/829c33f0-6f08-4314-9594-5cabd02fe19e"
+					(reference "H3")
+					(unit 1)
+				)
+			)
+		)
+	)
+	(symbol
+		(lib_id "Jumper:SolderJumper_2_Open")
+		(at 214.63 64.77 0)
+		(unit 1)
+		(exclude_from_sim no)
+		(in_bom yes)
+		(on_board yes)
+		(dnp no)
+		(uuid "ca0209d7-b2a0-465c-ae05-3984d1d6a339")
+		(property "Reference" "JP7"
+			(at 219.202 68.58 0)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(justify right)
+			)
+		)
+		(property "Value" "SJ"
+			(at 218.186 66.548 0)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(justify right)
+			)
+		)
+		(property "Footprint" "Jumper:SolderJumper-2_P1.3mm_Open_RoundedPad1.0x1.5mm"
+			(at 214.63 64.77 0)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(hide yes)
+			)
+		)
+		(property "Datasheet" "~"
+			(at 214.63 64.77 0)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(hide yes)
+			)
+		)
+		(property "Description" ""
+			(at 214.63 64.77 0)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(hide yes)
+			)
+		)
+		(property "Purpose" ""
+			(at 214.63 64.77 0)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(hide yes)
+			)
+		)
+		(pin "1"
+			(uuid "a56af02f-54ec-45ac-b4b2-904fc726e61e")
+		)
+		(pin "2"
+			(uuid "be327d0b-cc49-49a4-9fec-68a5172d9ba9")
+		)
+		(instances
+			(project "USBLabTool"
+				(path "/b5440f7d-90d5-417e-adc2-aa6b11e5424d/829c33f0-6f08-4314-9594-5cabd02fe19e"
+					(reference "JP7")
+					(unit 1)
+				)
+			)
+		)
+	)
+	(symbol
+		(lib_id "Device:R")
+		(at 193.04 120.65 270)
+		(unit 1)
+		(exclude_from_sim no)
+		(in_bom yes)
+		(on_board yes)
+		(dnp no)
+		(uuid "d176e40e-f8cd-4777-bfda-92954844fa55")
+		(property "Reference" "R82"
+			(at 193.04 118.364 90)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+			)
+		)
+		(property "Value" "0"
+			(at 193.04 120.65 90)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+			)
+		)
+		(property "Footprint" "Resistor_SMD:R_0603_1608Metric_Pad0.98x0.95mm_HandSolder"
+			(at 193.04 118.872 90)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(hide yes)
+			)
+		)
+		(property "Datasheet" "~"
+			(at 193.04 120.65 0)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(hide yes)
+			)
+		)
+		(property "Description" ""
+			(at 193.04 120.65 0)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(hide yes)
+			)
+		)
+		(property "External REF" ""
+			(at 193.04 120.65 0)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(hide yes)
+			)
+		)
+		(property "Mouser REF" ""
+			(at 193.04 120.65 0)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(hide yes)
+			)
+		)
+		(pin "1"
+			(uuid "99d03891-ffc8-4e07-a6a8-cd219f1cdb19")
+		)
+		(pin "2"
+			(uuid "28f31c59-66de-42dd-99c1-ae4a312dcb8a")
+		)
+		(instances
+			(project "USBLabTool"
+				(path "/b5440f7d-90d5-417e-adc2-aa6b11e5424d/829c33f0-6f08-4314-9594-5cabd02fe19e"
+					(reference "R82")
 					(unit 1)
 				)
 			)
