@@ -18911,13 +18911,13 @@
 	)
 	(symbol
 		(lib_id "Diode:BAV99")
-		(at 294.64 175.26 180)
+		(at 294.64 175.26 0)
+		(mirror x)
 		(unit 1)
 		(exclude_from_sim no)
 		(in_bom yes)
 		(on_board yes)
 		(dnp no)
-		(fields_autoplaced yes)
 		(uuid "e5e17a79-442f-4074-bd85-00aadd10ea23")
 		(property "Reference" "D3"
 			(at 294.64 179.07 0)
@@ -19058,13 +19058,13 @@
 	)
 	(symbol
 		(lib_id "Diode:BAV99")
-		(at 304.8 63.5 180)
+		(at 304.8 63.5 0)
+		(mirror x)
 		(unit 1)
 		(exclude_from_sim no)
 		(in_bom yes)
 		(on_board yes)
 		(dnp no)
-		(fields_autoplaced yes)
 		(uuid "e7b69ee1-4819-43e6-bed4-8e176f2bdcac")
 		(property "Reference" "D4"
 			(at 304.8 67.31 0)

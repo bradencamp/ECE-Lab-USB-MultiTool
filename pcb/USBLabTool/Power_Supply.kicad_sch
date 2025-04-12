@@ -6773,7 +6773,7 @@
 				)
 			)
 		)
-		(property "Footprint" "Inductor_SMD:L_0603_1608Metric_Pad1.05x0.95mm_HandSolder"
+		(property "Footprint" "userfp:IND_TAIYO_NRH2410_TAY"
 			(at 166.37 130.81 0)
 			(effects
 				(font
@@ -6810,6 +6810,15 @@
 			)
 		)
 		(property "Mouser REF" "80-L0603B470KPWFT"
+			(at 166.37 130.81 0)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(hide yes)
+			)
+		)
+		(property "Purpose" ""
 			(at 166.37 130.81 0)
 			(effects
 				(font
@@ -6920,7 +6929,7 @@
 				(justify left)
 			)
 		)
-		(property "Value" "4.7uF"
+		(property "Value" "100nF"
 			(at 180.848 119.126 0)
 			(effects
 				(font
@@ -7639,7 +7648,7 @@
 				(justify left)
 			)
 		)
-		(property "Value" "4.7uF"
+		(property "Value" "100nF"
 			(at 157.226 118.618 0)
 			(effects
 				(font
@@ -12091,7 +12100,7 @@
 				)
 			)
 		)
-		(property "Footprint" "Inductor_SMD:L_0603_1608Metric_Pad1.05x0.95mm_HandSolder"
+		(property "Footprint" "userfp:IND_TAIYO_NRH2410_TAY"
 			(at 166.37 113.03 0)
 			(effects
 				(font
@@ -12128,6 +12137,15 @@
 			)
 		)
 		(property "Mouser REF" "80-L0603B470KPWFT"
+			(at 166.37 113.03 0)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(hide yes)
+			)
+		)
+		(property "Purpose" ""
 			(at 166.37 113.03 0)
 			(effects
 				(font
