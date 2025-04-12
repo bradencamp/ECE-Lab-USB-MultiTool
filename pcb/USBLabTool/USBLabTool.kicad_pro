@@ -108,6 +108,7 @@
         "solder_mask_bridge": "error",
         "starved_thermal": "error",
         "text_height": "warning",
+        "text_on_edge_cuts": "error",
         "text_thickness": "warning",
         "through_hole_pad_without_hole": "error",
         "too_many_vias": "error",
@@ -632,11 +633,11 @@
     ],
     [
       "eb849fef-899c-46da-8ce0-ed0caaa370cf",
-      "psu"
+      "Power_Supply"
     ],
     [
       "37e12e55-0596-42de-ac66-6f566cb1a838",
-      "usb_iface"
+      "USB_USER"
     ],
     [
       "a25b8bd5-b6d2-402d-8b42-7856aa781e02",
