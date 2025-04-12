@@ -11292,6 +11292,70 @@
 		)
 	)
 	(symbol
+		(lib_id "Mechanical:MountingHole")
+		(at 262.89 185.42 0)
+		(unit 1)
+		(exclude_from_sim yes)
+		(in_bom no)
+		(on_board yes)
+		(dnp no)
+		(fields_autoplaced yes)
+		(uuid "a4a0378a-ba73-4ae7-af6a-44d857e461e3")
+		(property "Reference" "H4"
+			(at 265.43 184.1499 0)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(justify left)
+			)
+		)
+		(property "Value" "MountingHole"
+			(at 265.43 186.6899 0)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(justify left)
+			)
+		)
+		(property "Footprint" "MountingHole:MountingHole_2.2mm_M2"
+			(at 262.89 185.42 0)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(hide yes)
+			)
+		)
+		(property "Datasheet" "~"
+			(at 262.89 185.42 0)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(hide yes)
+			)
+		)
+		(property "Description" "Mounting Hole without connection"
+			(at 262.89 185.42 0)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(hide yes)
+			)
+		)
+		(instances
+			(project "USBLabTool"
+				(path "/b5440f7d-90d5-417e-adc2-aa6b11e5424d/829c33f0-6f08-4314-9594-5cabd02fe19e"
+					(reference "H4")
+					(unit 1)
+				)
+			)
+		)
+	)
+	(symbol
 		(lib_id "Device:C")
 		(at 204.47 68.58 180)
 		(unit 1)
@@ -11677,7 +11741,7 @@
 		(dnp no)
 		(uuid "bb3b1ac1-af52-4d15-8a26-26fc68f94867")
 		(property "Reference" "JP6"
-			(at 181.356 58.928 90)
+			(at 178.054 68.834 0)
 			(effects
 				(font
 					(size 1.27 1.27)
@@ -11686,7 +11750,7 @@
 			)
 		)
 		(property "Value" "SJ"
-			(at 178.816 58.928 90)
+			(at 177.038 66.548 0)
 			(effects
 				(font
 					(size 1.27 1.27)
@@ -11945,6 +12009,70 @@
 		)
 	)
 	(symbol
+		(lib_id "Mechanical:MountingHole")
+		(at 262.89 179.07 0)
+		(unit 1)
+		(exclude_from_sim yes)
+		(in_bom no)
+		(on_board yes)
+		(dnp no)
+		(fields_autoplaced yes)
+		(uuid "c2fc2d8d-4f82-46e6-95c8-e092e88bc3e2")
+		(property "Reference" "H3"
+			(at 265.43 177.7999 0)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(justify left)
+			)
+		)
+		(property "Value" "MountingHole"
+			(at 265.43 180.3399 0)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(justify left)
+			)
+		)
+		(property "Footprint" "MountingHole:MountingHole_2.2mm_M2"
+			(at 262.89 179.07 0)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(hide yes)
+			)
+		)
+		(property "Datasheet" "~"
+			(at 262.89 179.07 0)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(hide yes)
+			)
+		)
+		(property "Description" "Mounting Hole without connection"
+			(at 262.89 179.07 0)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(hide yes)
+			)
+		)
+		(instances
+			(project "USBLabTool"
+				(path "/b5440f7d-90d5-417e-adc2-aa6b11e5424d/829c33f0-6f08-4314-9594-5cabd02fe19e"
+					(reference "H3")
+					(unit 1)
+				)
+			)
+		)
+	)
+	(symbol
 		(lib_id "Jumper:SolderJumper_2_Open")
 		(at 214.63 64.77 0)
 		(unit 1)
@@ -11954,7 +12082,7 @@
 		(dnp no)
 		(uuid "ca0209d7-b2a0-465c-ae05-3984d1d6a339")
 		(property "Reference" "JP7"
-			(at 216.916 58.928 90)
+			(at 219.202 68.58 0)
 			(effects
 				(font
 					(size 1.27 1.27)
@@ -11963,7 +12091,7 @@
 			)
 		)
 		(property "Value" "SJ"
-			(at 214.376 58.928 90)
+			(at 218.186 66.548 0)
 			(effects
 				(font
 					(size 1.27 1.27)
