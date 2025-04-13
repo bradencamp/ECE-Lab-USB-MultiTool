@@ -7455,6 +7455,28 @@
 		)
 		(uuid "fdcac0cf-275b-4a19-99e2-74a8f70a683c")
 	)
+	(global_label "DEBUG_JTCK_SWCLK"
+		(shape input)
+		(at 132.08 96.52 0)
+		(fields_autoplaced yes)
+		(effects
+			(font
+				(size 1.27 1.27)
+			)
+			(justify left)
+		)
+		(uuid "005191f1-4b7c-4d35-9bcf-391665f3e23a")
+		(property "Intersheetrefs" "${INTERSHEET_REFS}"
+			(at 153.9941 96.52 0)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(justify left)
+				(hide yes)
+			)
+		)
+	)
 	(global_label "LOGIC_IN12"
 		(shape input)
 		(at 71.12 154.94 180)
@@ -8093,6 +8115,28 @@
 			)
 		)
 	)
+	(global_label "DEBUG_JTMS-SWDI0"
+		(shape input)
+		(at 132.08 93.98 0)
+		(fields_autoplaced yes)
+		(effects
+			(font
+				(size 1.27 1.27)
+			)
+			(justify left)
+		)
+		(uuid "65aa3ab6-8276-4ce9-863a-5bc92038af77")
+		(property "Intersheetrefs" "${INTERSHEET_REFS}"
+			(at 154.236 93.98 0)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(justify left)
+				(hide yes)
+			)
+		)
+	)
 	(global_label "LOGIC_IN4"
 		(shape input)
 		(at 71.12 137.16 180)
@@ -8133,28 +8177,6 @@
 					(size 1.27 1.27)
 				)
 				(justify right)
-				(hide yes)
-			)
-		)
-	)
-	(global_label "DEBUG_JTMS-SWDI0"
-		(shape input)
-		(at 132.08 144.78 0)
-		(fields_autoplaced yes)
-		(effects
-			(font
-				(size 1.27 1.27)
-			)
-			(justify left)
-		)
-		(uuid "67283a77-3215-4851-8194-b688427cca39")
-		(property "Intersheetrefs" "${INTERSHEET_REFS}"
-			(at 154.236 144.78 0)
-			(effects
-				(font
-					(size 1.27 1.27)
-				)
-				(justify left)
 				(hide yes)
 			)
 		)
@@ -8907,28 +8929,6 @@
 			)
 		)
 	)
-	(global_label "DEBUG_JTCK_SWCLK"
-		(shape input)
-		(at 132.08 147.32 0)
-		(fields_autoplaced yes)
-		(effects
-			(font
-				(size 1.27 1.27)
-			)
-			(justify left)
-		)
-		(uuid "d172f2a9-a60a-473e-8710-2878318cfa8a")
-		(property "Intersheetrefs" "${INTERSHEET_REFS}"
-			(at 153.9941 147.32 0)
-			(effects
-				(font
-					(size 1.27 1.27)
-				)
-				(justify left)
-				(hide yes)
-			)
-		)
-	)
 	(global_label "LOGIC_INP4"
 		(shape input)
 		(at 260.35 81.28 180)
@@ -9215,6 +9215,28 @@
 			)
 		)
 	)
+	(global_label "DEBUG_JTD-SW0"
+		(shape input)
+		(at 132.08 111.76 0)
+		(fields_autoplaced yes)
+		(effects
+			(font
+				(size 1.27 1.27)
+			)
+			(justify left)
+		)
+		(uuid "eda492cf-c059-4e63-97cf-e010f29e8d88")
+		(property "Intersheetrefs" "${INTERSHEET_REFS}"
+			(at 150.9703 111.76 0)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(justify left)
+				(hide yes)
+			)
+		)
+	)
 	(global_label "DAC1_OUT2"
 		(shape input)
 		(at 273.05 96.52 0)
@@ -9255,28 +9277,6 @@
 					(size 1.27 1.27)
 				)
 				(justify right)
-				(hide yes)
-			)
-		)
-	)
-	(global_label "DEBUG_JTD-SW0"
-		(shape input)
-		(at 132.08 149.86 0)
-		(fields_autoplaced yes)
-		(effects
-			(font
-				(size 1.27 1.27)
-			)
-			(justify left)
-		)
-		(uuid "f6b95c6d-5280-4c6c-9da7-beebafcd39bc")
-		(property "Intersheetrefs" "${INTERSHEET_REFS}"
-			(at 150.9703 149.86 0)
-			(effects
-				(font
-					(size 1.27 1.27)
-				)
-				(justify left)
 				(hide yes)
 			)
 		)
