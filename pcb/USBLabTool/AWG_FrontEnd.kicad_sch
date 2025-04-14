@@ -2814,6 +2814,12 @@
 		(uuid "80ab7d49-c029-429b-bfa9-cadd3ca3f63a")
 	)
 	(junction
+		(at 104.14 40.64)
+		(diameter 0)
+		(color 0 0 0 0)
+		(uuid "8a6251f9-f5cb-4963-bbf2-ecc23fdfdd3f")
+	)
+	(junction
 		(at 58.42 55.88)
 		(diameter 0)
 		(color 0 0 0 0)
@@ -2854,6 +2860,12 @@
 		(diameter 0)
 		(color 0 0 0 0)
 		(uuid "dca88475-898a-45a1-88a9-9dd78c8221b8")
+	)
+	(junction
+		(at 55.88 20.32)
+		(diameter 0)
+		(color 0 0 0 0)
+		(uuid "e07256f1-faea-472f-94a3-0d7043286ccb")
 	)
 	(junction
 		(at 167.64 43.18)
@@ -2942,6 +2954,16 @@
 			(type default)
 		)
 		(uuid "11115e37-0e07-464f-8d4b-128850ee0ae2")
+	)
+	(wire
+		(pts
+			(xy 48.26 114.3) (xy 58.42 114.3)
+		)
+		(stroke
+			(width 0)
+			(type default)
+		)
+		(uuid "13c9e502-48c5-46f1-b183-f53a97631c9c")
 	)
 	(wire
 		(pts
@@ -3145,7 +3167,7 @@
 	)
 	(wire
 		(pts
-			(xy 99.06 40.64) (xy 109.22 40.64)
+			(xy 99.06 40.64) (xy 104.14 40.64)
 		)
 		(stroke
 			(width 0)
@@ -3325,16 +3347,6 @@
 	)
 	(wire
 		(pts
-			(xy 48.26 55.88) (xy 58.42 55.88)
-		)
-		(stroke
-			(width 0)
-			(type default)
-		)
-		(uuid "744486e8-4a82-49fe-a581-76c8ed7002ca")
-	)
-	(wire
-		(pts
 			(xy 63.5 78.74) (xy 78.74 78.74)
 		)
 		(stroke
@@ -3435,6 +3447,16 @@
 	)
 	(wire
 		(pts
+			(xy 48.26 55.88) (xy 58.42 55.88)
+		)
+		(stroke
+			(width 0)
+			(type default)
+		)
+		(uuid "99e4fdbb-3112-427e-88c7-53172790e074")
+	)
+	(wire
+		(pts
 			(xy 78.74 45.72) (xy 78.74 53.34)
 		)
 		(stroke
@@ -3452,6 +3474,16 @@
 			(type default)
 		)
 		(uuid "9b5b5544-701b-4915-bde5-c66616d45d2b")
+	)
+	(wire
+		(pts
+			(xy 104.14 40.64) (xy 109.22 40.64)
+		)
+		(stroke
+			(width 0)
+			(type default)
+		)
+		(uuid "9d685b2f-7f68-46c5-9d10-829893ac36f7")
 	)
 	(wire
 		(pts
@@ -3502,16 +3534,6 @@
 			(type default)
 		)
 		(uuid "b028a3e5-9ee6-4e36-910e-253bda1b5112")
-	)
-	(wire
-		(pts
-			(xy 48.26 114.3) (xy 58.42 114.3)
-		)
-		(stroke
-			(width 0)
-			(type default)
-		)
-		(uuid "b2e00de0-6e77-4cf8-a2da-3f0a488af564")
 	)
 	(wire
 		(pts
@@ -4575,6 +4597,73 @@
 				(path "/b5440f7d-90d5-417e-adc2-aa6b11e5424d/51eab4b3-0b2f-418c-9f7c-59af443ff2ad"
 					(reference "U9")
 					(unit 4)
+				)
+			)
+		)
+	)
+	(symbol
+		(lib_id "Connector:TestPoint")
+		(at 55.88 20.32 0)
+		(unit 1)
+		(exclude_from_sim no)
+		(in_bom yes)
+		(on_board yes)
+		(dnp no)
+		(fields_autoplaced yes)
+		(uuid "1ca34cd2-c012-43a1-a48a-084c7ebb2c4a")
+		(property "Reference" "TP17"
+			(at 58.42 15.7479 0)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(justify left)
+			)
+		)
+		(property "Value" "TestPoint"
+			(at 58.42 18.2879 0)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(justify left)
+			)
+		)
+		(property "Footprint" "TestPoint:TestPoint_Pad_2.0x2.0mm"
+			(at 60.96 20.32 0)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(hide yes)
+			)
+		)
+		(property "Datasheet" "~"
+			(at 60.96 20.32 0)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(hide yes)
+			)
+		)
+		(property "Description" "test point"
+			(at 55.88 20.32 0)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(hide yes)
+			)
+		)
+		(pin "1"
+			(uuid "05e6d8ce-8d80-4761-ac6a-89d6df3069aa")
+		)
+		(instances
+			(project ""
+				(path "/b5440f7d-90d5-417e-adc2-aa6b11e5424d/51eab4b3-0b2f-418c-9f7c-59af443ff2ad"
+					(reference "TP17")
+					(unit 1)
 				)
 			)
 		)
@@ -5852,6 +5941,73 @@
 			(project "USBLabTool"
 				(path "/b5440f7d-90d5-417e-adc2-aa6b11e5424d/51eab4b3-0b2f-418c-9f7c-59af443ff2ad"
 					(reference "R40")
+					(unit 1)
+				)
+			)
+		)
+	)
+	(symbol
+		(lib_id "Connector:TestPoint")
+		(at 104.14 40.64 0)
+		(mirror y)
+		(unit 1)
+		(exclude_from_sim no)
+		(in_bom yes)
+		(on_board yes)
+		(dnp no)
+		(uuid "7a0063e3-6437-46ca-beba-acfe6cd6a074")
+		(property "Reference" "TP16"
+			(at 101.6 36.0679 0)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(justify left)
+			)
+		)
+		(property "Value" "TestPoint"
+			(at 101.6 38.6079 0)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(justify left)
+			)
+		)
+		(property "Footprint" "TestPoint:TestPoint_Pad_2.0x2.0mm"
+			(at 99.06 40.64 0)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(hide yes)
+			)
+		)
+		(property "Datasheet" "~"
+			(at 99.06 40.64 0)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(hide yes)
+			)
+		)
+		(property "Description" "test point"
+			(at 104.14 40.64 0)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(hide yes)
+			)
+		)
+		(pin "1"
+			(uuid "c9ecb4f1-1753-4f57-b0bc-25a98596c496")
+		)
+		(instances
+			(project ""
+				(path "/b5440f7d-90d5-417e-adc2-aa6b11e5424d/51eab4b3-0b2f-418c-9f7c-59af443ff2ad"
+					(reference "TP16")
 					(unit 1)
 				)
 			)
