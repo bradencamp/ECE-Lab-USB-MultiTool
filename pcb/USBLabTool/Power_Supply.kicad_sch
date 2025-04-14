@@ -4476,6 +4476,12 @@
 		(uuid "2709add0-c138-4a14-9e39-a2079bf32422")
 	)
 	(junction
+		(at 260.35 67.31)
+		(diameter 0)
+		(color 0 0 0 0)
+		(uuid "27691fbf-b36f-4713-b9a1-88143c698056")
+	)
+	(junction
 		(at 57.15 26.67)
 		(diameter 0)
 		(color 0 0 0 0)
@@ -4823,7 +4829,7 @@
 	)
 	(wire
 		(pts
-			(xy 137.16 39.37) (xy 137.16 44.45)
+			(xy 137.16 39.37) (xy 137.16 43.18)
 		)
 		(stroke
 			(width 0)
@@ -4903,7 +4909,7 @@
 	)
 	(wire
 		(pts
-			(xy 250.19 67.31) (xy 252.73 67.31)
+			(xy 250.19 67.31) (xy 260.35 67.31)
 		)
 		(stroke
 			(width 0)
@@ -5410,6 +5416,16 @@
 			(type default)
 		)
 		(uuid "899e2f3e-8ac2-4b18-88bf-c7c4f165df51")
+	)
+	(wire
+		(pts
+			(xy 260.35 67.31) (xy 264.16 67.31)
+		)
+		(stroke
+			(width 0)
+			(type default)
+		)
+		(uuid "89e67436-71e6-482f-a8ab-b3dc144f2fe3")
 	)
 	(wire
 		(pts
@@ -5953,7 +5969,7 @@
 	)
 	(wire
 		(pts
-			(xy 124.46 39.37) (xy 124.46 44.45)
+			(xy 124.46 39.37) (xy 124.46 43.18)
 		)
 		(stroke
 			(width 0)
@@ -6107,7 +6123,7 @@
 	)
 	(global_label "-5VCLEAN"
 		(shape output)
-		(at 252.73 67.31 0)
+		(at 264.16 67.31 0)
 		(fields_autoplaced yes)
 		(effects
 			(font
@@ -6117,7 +6133,7 @@
 		)
 		(uuid "dd7c9914-7f81-45b7-8090-e35729c1ceaa")
 		(property "Intersheetrefs" "${INTERSHEET_REFS}"
-			(at 265.4519 67.31 0)
+			(at 276.8819 67.31 0)
 			(effects
 				(font
 					(size 1.27 1.27)
@@ -7075,7 +7091,7 @@
 	)
 	(symbol
 		(lib_id "power:GNDA")
-		(at 137.16 44.45 0)
+		(at 137.16 43.18 0)
 		(unit 1)
 		(exclude_from_sim no)
 		(in_bom yes)
@@ -7084,7 +7100,7 @@
 		(fields_autoplaced yes)
 		(uuid "263f76b0-7637-4a51-a710-99921cf4a3c2")
 		(property "Reference" "#PWR0111"
-			(at 137.16 50.8 0)
+			(at 137.16 49.53 0)
 			(effects
 				(font
 					(size 1.27 1.27)
@@ -7093,7 +7109,7 @@
 			)
 		)
 		(property "Value" "GNDA"
-			(at 137.16 49.53 0)
+			(at 137.16 48.26 0)
 			(effects
 				(font
 					(size 1.27 1.27)
@@ -7101,7 +7117,7 @@
 			)
 		)
 		(property "Footprint" ""
-			(at 137.16 44.45 0)
+			(at 137.16 43.18 0)
 			(effects
 				(font
 					(size 1.27 1.27)
@@ -7110,7 +7126,7 @@
 			)
 		)
 		(property "Datasheet" ""
-			(at 137.16 44.45 0)
+			(at 137.16 43.18 0)
 			(effects
 				(font
 					(size 1.27 1.27)
@@ -7119,7 +7135,7 @@
 			)
 		)
 		(property "Description" ""
-			(at 137.16 44.45 0)
+			(at 137.16 43.18 0)
 			(effects
 				(font
 					(size 1.27 1.27)
@@ -7873,7 +7889,7 @@
 	)
 	(symbol
 		(lib_id "power:GNDA")
-		(at 124.46 44.45 0)
+		(at 124.46 43.18 0)
 		(unit 1)
 		(exclude_from_sim no)
 		(in_bom yes)
@@ -7882,7 +7898,7 @@
 		(fields_autoplaced yes)
 		(uuid "47de691c-d16f-4228-ae18-1306b8e182fa")
 		(property "Reference" "#PWR0108"
-			(at 124.46 50.8 0)
+			(at 124.46 49.53 0)
 			(effects
 				(font
 					(size 1.27 1.27)
@@ -7891,7 +7907,7 @@
 			)
 		)
 		(property "Value" "GNDA"
-			(at 124.46 49.53 0)
+			(at 124.46 48.26 0)
 			(effects
 				(font
 					(size 1.27 1.27)
@@ -7899,7 +7915,7 @@
 			)
 		)
 		(property "Footprint" ""
-			(at 124.46 44.45 0)
+			(at 124.46 43.18 0)
 			(effects
 				(font
 					(size 1.27 1.27)
@@ -7908,7 +7924,7 @@
 			)
 		)
 		(property "Datasheet" ""
-			(at 124.46 44.45 0)
+			(at 124.46 43.18 0)
 			(effects
 				(font
 					(size 1.27 1.27)
@@ -7917,7 +7933,7 @@
 			)
 		)
 		(property "Description" ""
-			(at 124.46 44.45 0)
+			(at 124.46 43.18 0)
 			(effects
 				(font
 					(size 1.27 1.27)
@@ -12544,6 +12560,72 @@
 	)
 	(symbol
 		(lib_id "power:GNDA")
+		(at 260.35 74.93 0)
+		(unit 1)
+		(exclude_from_sim no)
+		(in_bom yes)
+		(on_board yes)
+		(dnp no)
+		(fields_autoplaced yes)
+		(uuid "c2472fa6-5223-4f1b-ba8c-042cff89e981")
+		(property "Reference" "#PWR0127"
+			(at 260.35 81.28 0)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(hide yes)
+			)
+		)
+		(property "Value" "GNDA"
+			(at 260.35 80.01 0)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+			)
+		)
+		(property "Footprint" ""
+			(at 260.35 74.93 0)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(hide yes)
+			)
+		)
+		(property "Datasheet" ""
+			(at 260.35 74.93 0)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(hide yes)
+			)
+		)
+		(property "Description" "Power symbol creates a global label with name \"GNDA\" , analog ground"
+			(at 260.35 74.93 0)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(hide yes)
+			)
+		)
+		(pin "1"
+			(uuid "5de9fd85-e810-4e1b-a68d-1543fdda5698")
+		)
+		(instances
+			(project "USBLabTool"
+				(path "/b5440f7d-90d5-417e-adc2-aa6b11e5424d/eb849fef-899c-46da-8ce0-ed0caaa370cf"
+					(reference "#PWR0127")
+					(unit 1)
+				)
+			)
+		)
+	)
+	(symbol
+		(lib_id "power:GNDA")
 		(at 167.64 163.83 0)
 		(unit 1)
 		(exclude_from_sim no)
@@ -13014,7 +13096,7 @@
 				(justify left)
 			)
 		)
-		(property "Value" "100n"
+		(property "Value" "10u"
 			(at 140.97 36.8299 0)
 			(effects
 				(font
@@ -13813,6 +13895,75 @@
 			(project "USBLabTool"
 				(path "/b5440f7d-90d5-417e-adc2-aa6b11e5424d/eb849fef-899c-46da-8ce0-ed0caaa370cf"
 					(reference "#PWR089")
+					(unit 1)
+				)
+			)
+		)
+	)
+	(symbol
+		(lib_id "Device:C")
+		(at 260.35 71.12 0)
+		(unit 1)
+		(exclude_from_sim no)
+		(in_bom yes)
+		(on_board yes)
+		(dnp no)
+		(uuid "f3d7fd11-9887-4784-b0bc-17b2eb85dc77")
+		(property "Reference" "C69"
+			(at 263.652 70.104 0)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(justify left)
+			)
+		)
+		(property "Value" "100n"
+			(at 262.382 73.406 0)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(justify left)
+			)
+		)
+		(property "Footprint" "Capacitor_SMD:C_0603_1608Metric_Pad1.08x0.95mm_HandSolder"
+			(at 261.3152 74.93 0)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(hide yes)
+			)
+		)
+		(property "Datasheet" "~"
+			(at 260.35 71.12 0)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(hide yes)
+			)
+		)
+		(property "Description" ""
+			(at 260.35 71.12 0)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(hide yes)
+			)
+		)
+		(pin "1"
+			(uuid "afae6e38-96ad-48e2-bcd5-e2140931621e")
+		)
+		(pin "2"
+			(uuid "d3cf3e3d-f400-48b4-82ca-814bd00506eb")
+		)
+		(instances
+			(project "USBLabTool"
+				(path "/b5440f7d-90d5-417e-adc2-aa6b11e5424d/eb849fef-899c-46da-8ce0-ed0caaa370cf"
+					(reference "C69")
 					(unit 1)
 				)
 			)
