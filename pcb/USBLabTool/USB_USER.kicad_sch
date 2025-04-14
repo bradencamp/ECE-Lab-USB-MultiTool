@@ -4401,6 +4401,12 @@
 		(uuid "742bc5ed-3340-4e33-8031-436c045c0b25")
 	)
 	(junction
+		(at 125.73 142.24)
+		(diameter 0)
+		(color 0 0 0 0)
+		(uuid "76d274c8-67f0-4586-8c3f-cc7a54960e13")
+	)
+	(junction
 		(at 148.59 95.25)
 		(diameter 0)
 		(color 0 0 0 0)
@@ -4687,6 +4693,16 @@
 			(type default)
 		)
 		(uuid "1693e0e1-ba87-4255-98cc-81a6bc61d859")
+	)
+	(wire
+		(pts
+			(xy 125.73 142.24) (xy 132.08 142.24)
+		)
+		(stroke
+			(width 0)
+			(type default)
+		)
+		(uuid "18e61615-5b43-4c29-9a57-b17ba5b4797f")
 	)
 	(wire
 		(pts
@@ -5230,7 +5246,7 @@
 	)
 	(wire
 		(pts
-			(xy 114.3 142.24) (xy 121.92 142.24)
+			(xy 114.3 142.24) (xy 125.73 142.24)
 		)
 		(stroke
 			(width 0)
@@ -5918,7 +5934,7 @@
 	)
 	(global_label "+5VCLEAN"
 		(shape output)
-		(at 121.92 142.24 0)
+		(at 132.08 142.24 0)
 		(fields_autoplaced yes)
 		(effects
 			(font
@@ -5928,7 +5944,7 @@
 		)
 		(uuid "5ddda8ff-4047-43a6-bc86-7b2b7b270eab")
 		(property "Intersheetrefs" "${INTERSHEET_REFS}"
-			(at 134.6419 142.24 0)
+			(at 144.8019 142.24 0)
 			(effects
 				(font
 					(size 1.27 1.27)
@@ -8349,6 +8365,72 @@
 		)
 	)
 	(symbol
+		(lib_id "power:GNDA")
+		(at 125.73 149.86 0)
+		(unit 1)
+		(exclude_from_sim no)
+		(in_bom yes)
+		(on_board yes)
+		(dnp no)
+		(fields_autoplaced yes)
+		(uuid "c2472fa6-5223-4f1b-ba8c-042cff89e981")
+		(property "Reference" "#PWR0127"
+			(at 125.73 156.21 0)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(hide yes)
+			)
+		)
+		(property "Value" "GNDA"
+			(at 125.73 154.94 0)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+			)
+		)
+		(property "Footprint" ""
+			(at 125.73 149.86 0)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(hide yes)
+			)
+		)
+		(property "Datasheet" ""
+			(at 125.73 149.86 0)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(hide yes)
+			)
+		)
+		(property "Description" "Power symbol creates a global label with name \"GNDA\" , analog ground"
+			(at 125.73 149.86 0)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(hide yes)
+			)
+		)
+		(pin "1"
+			(uuid "5de9fd85-e810-4e1b-a68d-1543fdda5698")
+		)
+		(instances
+			(project "USBLabTool"
+				(path "/b5440f7d-90d5-417e-adc2-aa6b11e5424d/37e12e55-0596-42de-ac66-6f566cb1a838"
+					(reference "#PWR0127")
+					(unit 1)
+				)
+			)
+		)
+	)
+	(symbol
 		(lib_id "USBLabTool:ESDA25P35-1U1M")
 		(at 234.95 101.6 90)
 		(mirror x)
@@ -8759,6 +8841,75 @@
 			(project "USBLabTool"
 				(path "/b5440f7d-90d5-417e-adc2-aa6b11e5424d/37e12e55-0596-42de-ac66-6f566cb1a838"
 					(reference "C70")
+					(unit 1)
+				)
+			)
+		)
+	)
+	(symbol
+		(lib_id "Device:C")
+		(at 125.73 146.05 0)
+		(unit 1)
+		(exclude_from_sim no)
+		(in_bom yes)
+		(on_board yes)
+		(dnp no)
+		(uuid "f3d7fd11-9887-4784-b0bc-17b2eb85dc77")
+		(property "Reference" "C69"
+			(at 129.032 145.034 0)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(justify left)
+			)
+		)
+		(property "Value" "100n"
+			(at 127.762 148.336 0)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(justify left)
+			)
+		)
+		(property "Footprint" "Capacitor_SMD:C_0603_1608Metric_Pad1.08x0.95mm_HandSolder"
+			(at 126.6952 149.86 0)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(hide yes)
+			)
+		)
+		(property "Datasheet" "~"
+			(at 125.73 146.05 0)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(hide yes)
+			)
+		)
+		(property "Description" ""
+			(at 125.73 146.05 0)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(hide yes)
+			)
+		)
+		(pin "1"
+			(uuid "afae6e38-96ad-48e2-bcd5-e2140931621e")
+		)
+		(pin "2"
+			(uuid "d3cf3e3d-f400-48b4-82ca-814bd00506eb")
+		)
+		(instances
+			(project "USBLabTool"
+				(path "/b5440f7d-90d5-417e-adc2-aa6b11e5424d/37e12e55-0596-42de-ac66-6f566cb1a838"
+					(reference "C69")
 					(unit 1)
 				)
 			)
