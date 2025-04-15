@@ -34,9 +34,12 @@ import os
 #html standard colors
 colors = ["Yellow","Teal","Silver","Red","Purple","Olive","Navy","White",
             "Maroon","Lime","Green","Gray","Fuchsia","Blue","Black","Aqua"]
+'''Html standard colors'''
 #Constants
 MAXFREQUENCY = 250e3
+'''max AWG frequency'''
 MINFREQUENCY = 1
+'''min AWG frequency'''
 MINAMP = -5
 MAXAMP = 5
 MINOFF = -10
@@ -45,14 +48,16 @@ NUMPOINTS = 300
 NUMDIVS = 10 #based on default we've worked with thus far, scopy uses ~16
 
 USE_CSV = False
+'''Use CSV file for testing'''
 #because of a change made to input field, we need to specify a "" unit
 prefixes_voltage = {"m": 1e-3,"":1}
 prefixes_frequency = {"k": 1e3, "M": 1e6,"":1}
 possibleTimeDivs = [1, 0.5, 0.2, 0.1, 0.05, 0.02, 0.01, 5/1000, 2/1000, 1/1000 ,5/1000/10, 2/1000/10, 1/1000/10 ,5/1000/100, 2/1000/100, 1/1000/100 ,5/1000/1000, 2/1000/1000, 1/1000/1000]
 #simple box widget
 class ColorBox(QWidget):
-
+    '''simple background color widget'''
     def __init__(self, color):
+        '''@color: Qtcolor() argument of box'''
         super(ColorBox, self).__init__()
         self.setAutoFillBackground(True)
 
@@ -65,6 +70,13 @@ def BLANK():
     return
 
 def hexStr2bin(hex:str):
+    """converts hex/binary string into binary. Not heavily necessary
+    ### Parameters
+    hex :str
+        - Hex/binary string
+    ###Returns
+        String representation of binary digits
+    """
     match hex:
         case "1"|"0001":
             return b'0001'
@@ -100,8 +112,9 @@ def hexStr2bin(hex:str):
             return b'0000'
 
 class MainWindow(QMainWindow):
-    
+    '''Main window of GUI'''
     def __init__(self):
+        '''Initializes GUI and other values'''
         super(MainWindow, self).__init__()
         self.awgCh1Config = dict(amp=1, off=0,freq = 1,phase = 0, wave = 0, DC = 0.5)  # Dictionary with initial values
         self.awgCh2Config = dict(amp=1, off=0,freq = 1,phase = 0, wave = 0, DC = 0.5)  # Dictionary with initial values
@@ -109,8 +122,9 @@ class MainWindow(QMainWindow):
 
 
         self.awgPen1 = pg.mkPen(color=(0, 0, 255), width=4, style=Qt.PenStyle.SolidLine) #scope ch1 = blue, solid line
+        '''Ch1 pen'''
         self.awgPen2 = pg.mkPen(color=(255, 0, 0), width=4, style=Qt.PenStyle.SolidLine) #scope ch2 = red, dotted line
-
+        '''Ch2 pen'''
         self.oscTime1 = np.linspace(0,10,NUMPOINTS)
         self.oscTime2 = np.linspace(0,10,NUMPOINTS)
         self.oscData1 = 1*np.sin(2*pi*self.awgCh1Config["freq"]*self.oscTime1+pi/180*self.awgCh1Config["phase"]) #sine wave ch1
@@ -164,6 +178,7 @@ class MainWindow(QMainWindow):
 
 
     def parseCSV(self):
+        '''parses a specific CSV for use in testing'''
         import csv
         #an example file exported from scopy
         filename = "GUI/i2c_EX.csv"
@@ -191,6 +206,8 @@ class MainWindow(QMainWindow):
     ###-------------------------------------------------------------------------------------###
         #TODO: add timeouts to EVERYTHING  
     def getPorts(self):
+        """Gets currently available ports with STM VID and appends them to combobox
+        """
         self.portSelect.clear()
         self.portSelect.addItem("Refresh Ports")
         portCanidates =list(serial.tools.list_ports.comports())
@@ -202,18 +219,23 @@ class MainWindow(QMainWindow):
         self.portSelect.activated.connect(self.port_currentIndexChanged)
 
     def port_currentIndexChanged(self, index):
+        '''Changes port name to that of the current port select. Slot if index of port selector changes.
+        ### Params
+        index: newly changed index'''
         self.portName = None
         if index == 0:
             self.portSelect.disconnect()
             self.getPorts()
             
     def port_disconnect(self):
+        '''Disconnects serial connection. '''
         if self.portName != None:
             self.serial.close()
             self.portName = None
             self.connectLabel.setText("Device Status: Disconnected")
 
     def port_connect(self):
+        '''Connects to port indicated by name of port_select's port.'''
         if self.portName == None:
             if self.portSelect.currentIndex() == 0:
                 self.portSelect.disconnect()
@@ -233,7 +255,7 @@ class MainWindow(QMainWindow):
                 self.connectLabel.setText("Device Status: Error")
                 return
         else:
-            try:
+            try:#TODO: remove this
                 bits = hexStr2bin(self.sendline.toPlainText())
                 self.serial.write(bits)
                 buff = self.serial.read(8)
@@ -308,6 +330,9 @@ class MainWindow(QMainWindow):
         return
 
     def set_time_div(self, div):
+        '''Sets left-right range of plots. The range will default to 10 divisions wide. 
+        ### Params
+        div: index of possible time divisions to switch to.'''
         div = possibleTimeDivs[div]#convert index into div value
         midpoint = (self.viewRange[0][0]+ self.viewRange[0][1])/2
         #limit l-r span of xaxis to prevent too many tick lines from being drawn if user scrolls manually
@@ -320,23 +345,14 @@ class MainWindow(QMainWindow):
         self.viewRange = self.plotViewBox.viewRange()
         print("New Range: "+str(self.viewRange[0][1] - self.viewRange[0][0]))
         
-        '''majorTicks = [None]*10 #Attempted manually setting ticks, possible promissing, but reqires more exporation
-        minorTicks = [None]*20
-        for i in range(0,10):
-            majorTicks[i] = (self.viewRange[0][0]+i*div,str(self.viewRange[0][0]+i*div))
-            minorTicks[i] = (self.viewRange[0][0]+i*div/2,"")
-            minorTicks[i+10] = (self.viewRange[0][0]+(10+i)*div/2,"")
-        self.xAxis.setTicks([majorTicks,minorTicks])'''
-        #TODO: throws error if current range is too large in comparision to div
-        #ie 10s range, 4us divs
-        #happens IN pyqtgraph library, so this try does nothoing
-        #also idealy we do not change the range much, so implement float div->mult correction
-
-        #The infamous mem error
-            #sidestepped by not setting tick spacing 
 
     # handle range scaling
     def on_range_changed(self,vb, ranges):
+        '''Slot for user changing range of plot.
+        ### Params
+        vb: viewbox of view changed
+
+        ranges: new range of view'''
         #perhaps include processing to ensure 
         print("Scaling occurred:", ranges)
         #controlling x scale
@@ -360,6 +376,7 @@ class MainWindow(QMainWindow):
 
 
     def on_range_changed_manually(self):
+        '''slot for user manually changing range of plot'''
         ranges = self.plotViewBox.viewRange()
         print("Manually CHANGED: ", ranges)
         #newDiv = (ranges[0][1] - ranges[0][0]) / 10.0 #Latest attempt at out of mem bug squashing
@@ -371,6 +388,9 @@ class MainWindow(QMainWindow):
         self.vertLineFix()
         
     def lineMoved(self, line):
+        '''Handler function for a movable line being moved
+        ### Params
+        line: vertical line moved'''
         print("LINE MOVED TO : "+str(line.value()))
         ranges = line.getViewBox().viewRange()
         midpoint = (ranges[0][0]+ranges[0][1])/2
@@ -382,14 +402,15 @@ class MainWindow(QMainWindow):
         self.vertLineFix()
 
     def vertLineFix(self):
+        '''Sets all vertical lines to the center of their viewbox'''
         range = self.xAxis.range#Comment this line and uncomment following for line to exist relative to each plot
         for line in self.verticalLines:
             #range = line.getViewBox().viewRange()
             midpoint = (range[0]+range[1])/2#(range[0][0]+range[0][1])/2
             line.setPos(midpoint)
 
-    #not sure how much needed, but from example
     def updateViews(self):
+        '''Updates view of second oscilloscope y axis'''
         ## view has resized; update auxiliary views to match
         
         self.plot_osc2.setGeometry(self.plot_graph.vb.sceneBoundingRect())
@@ -405,6 +426,10 @@ class MainWindow(QMainWindow):
     ###-------------------------------------------------------------------------------------###
     #sets up central graphs
     def graphSetup(self):
+        '''Sets up graphs.
+        
+        ### Returns 
+        a widget containing Graphs'''
         graphLayout =pg.GraphicsLayoutWidget(show=True)
         graphLayout.setBackground("w") 
         graphLayout.addLabel("")
@@ -435,11 +460,10 @@ class MainWindow(QMainWindow):
         #maybe make a custom plotwidget, this will work for now
         self.plot_graph = pg.PlotItem()
         #self.plot_osc2 = pg.ViewBox()
-        graphLayout.addItem(self.plot_graph,row = 1, col = 0, colspan = 2) #addPlot(row = 1, col = 0, colspan = 2)#pg.PlotWidget()
+        graphLayout.addItem(self.plot_graph,row = 1, col = 0, colspan = 2) 
         self.plot_osc2 = graphLayout.addViewBox(row = 1, col = 0, colspan = 2)
         self.plot_osc2.setZValue(2)
-        #####self.plot_graph.setBackground("w")
-        vb = self.plot_graph.getViewBox()  #USES directly
+        vb = self.plot_graph.getViewBox()  
         vb.setBackgroundColor("w")
         vb.setMouseMode(pg.ViewBox.PanMode)
         #below line disables a right click menu
@@ -450,8 +474,9 @@ class MainWindow(QMainWindow):
             #comment of shame.
         #self.plot_graph.setMouseEnabled(x=False,y=True)
         #if this is commented, autoranging will grow x axis indefinitely, so dont
+            #We do actually need this for the oscilloscope proper
         vb.disableAutoRange(pg.ViewBox.XAxis)
-        vb.setDefaultPadding(0.0)#doesn't help 
+        #vb.setDefaultPadding(0.0)#doesn't help 
         vb.sigRangeChangedManually.connect(self.on_range_changed_manually)
         vb.setLimits(yMax = 20, yMin = -20)
         vb.setXRange(0,10)
@@ -551,6 +576,7 @@ class MainWindow(QMainWindow):
 
 
     def awgLayoutSetup(self):
+        '''Creates layout for AWG controls'''
         awgLayout = QGridLayout()
         awgLayout.addWidget(ColorBox(QColor("#cbc6d3")),0,0, -1,-1)#background for demonstration. Remove later colors[0] 
         #enable channel
@@ -623,6 +649,7 @@ class MainWindow(QMainWindow):
     
 
     def centerLayoutSetup(self):
+        '''creates a layout for center containing, main plot windows, logic analyzer and oscilloscope control'''
         centerLayout = QGridLayout()
         #centerLayout.addWidget(ColorBox("White"),0,0, -1,-1)#background for demonstration. Remove later [1]
         self.runStopButton = QPushButton("RUN/STOP")
@@ -752,6 +779,7 @@ class MainWindow(QMainWindow):
         return centerLayout
 
     def deviceLayoutSetup(self):
+        '''Creates a layot for device serial controls'''
         deviceLayout = QGridLayout()
         deviceLayout.addWidget(ColorBox(colors[2]),0,0, -1,-1)#background for demonstration. Remove later
         self.connectLabel = QLabel("Device Status")
@@ -799,12 +827,14 @@ class MainWindow(QMainWindow):
     ###-------------------------------------------------------------------------------------###
     #scope main checkbox handler
     def runStopClick(self):
+        '''Sets text of graphing plotter'''
         if self.runStopButton.isChecked():
             self.runStopButton.setText("Stop")
         else:
             self.runStopButton.setText("Run")
 
     def oscClick(self):
+        '''Controls visibility of oscilloscope plot'''
         '''if self.oscilloCheck.isChecked(): #if checked -> check ch1 & ch2 checkboxes
             self.oscCh1Click()
             self.oscCh2Click()'''
@@ -820,6 +850,7 @@ class MainWindow(QMainWindow):
 
     #scope channel 1 checkbox handler
     def oscCh1Click(self):
+        '''Slot for Osc Ch1, enabling visibility '''
         '''if self.oscCh1EN.isChecked():
             self.oscLine1.setData(self.oscTime1,self.oscData1) #set ch1 waveform data if checked'''
         if not self.oscCh1EN.isChecked():
@@ -827,6 +858,7 @@ class MainWindow(QMainWindow):
 
     #scope chanel 2 checkbox handler
     def oscCh2Click(self):
+        '''Slot for Osc Ch2, enabling visibility '''
         '''if self.oscCh2EN.isChecked():
             self.oscLine2.setData(self.oscTime2,self.oscData2) #set ch2 waveform data if checked'''
         if not self.oscCh2EN.isChecked():
@@ -834,12 +866,16 @@ class MainWindow(QMainWindow):
 
     #handles record data button & exports snapshot of plot to file
     def record_data(self):
+        """Exports image of plotGraph. curently not fully functional. 
+        """
         if self.dataButton.isChecked():#recordData clicked 
             self.exportData.export()
             self.dataButton.setChecked(False) #reset button
 
 
     def graphOscCh1(self):
+        """Graphs AWG channel 2 in small 
+        """
         match self.awgCh1Config["wave"]:
             case 1:#square
                 self.oscData1 = np.ones(NUMPOINTS)
@@ -858,6 +894,8 @@ class MainWindow(QMainWindow):
         self.oscLine1.setData(self.oscTime1,self.oscData1)
 
     def graphOscCh2(self):
+        """Graphs AWG channel 2 in small 
+        """
         match self.awgCh2Config["wave"]:
             case 1:#square
                 self.oscData2 = np.ones(NUMPOINTS)
@@ -881,6 +919,8 @@ class MainWindow(QMainWindow):
 
     #TODO: finish this, either sloppy or well
     def graphAwg(self, omega, data, plot, config):
+        """Graphs AWG field based on config. Currently unfinished and unused
+        """
         match self.awgCh2Config["wave"]:
             case 1:#square
                 self.oscData2 = np.ones(NUMPOINTS)
@@ -900,6 +940,8 @@ class MainWindow(QMainWindow):
     #Periodic updates 
     ###-------------------------------------------------------------------------------------###
     def update_plot(self):
+        """Updates all visible graphs every ~300ms.
+        """
         #TODO edit all numpy funtions to use the out parameter
         temp_logic_data = [[0,0,0,0,0,1,1,1,0,0],[0,1,0,1,0,1,0,1,0,1]]
         #like angular position of awgtime array. To be used for nonsine functions
@@ -955,3 +997,24 @@ window = MainWindow()
 window.show()
 
 app.exec()
+print("Goodbye")
+
+"""[summary]
+
+    ### Parameters
+    1. a : str
+        - [description]
+    2. *b : int, (default 5)
+        - [description]
+    3. *c : Tuple[int, int], (default (1, 2))
+        - [description]
+
+    ### Returns
+    - Any
+        - [description]
+
+    Raises
+    ------
+    - ValueError
+        - [description]
+    """
