@@ -7,8 +7,10 @@ from struct import pack, unpack, calcsize
 import os
 from queue import Queue
 import time
+from collections import deque 
+from numpy import asarray
 
-
+BUFFERSIZE = 30*1000
 class Connection:
     """Handles the connection to the AWG device"""
     
@@ -45,7 +47,7 @@ class Connection:
     def read_funct(self):
         """ The function that runs the read thread. This function reads data from the serial port. Detects acknowledgments and disconnects due to timeout, emitted updates to the main UI as needed."""
         timeouts = 0
-        recoverybuff=b'\x059988_3040_3040_3040_3040_1016_1016_1020_1016\x00-\x00\x08\xa8\xff\t \xa8\xff\xff\xff\x01\x00\x00\x00@\x00\x00'
+        #recoverybuff=b'\x059988_3040_3040_3040_3040_1016_1016_1020_1016\x00-\x00\x08\xa8\xff\t \xa8\xff\xff\xff\x01\x00\x00\x00@\x00\x00'
         while self.status != "Disconnected":
             try:
                 self.ser.reset_input_buffer()
@@ -58,7 +60,7 @@ class Connection:
             if len(buff) == 0: #timeout 
                 #send keep alive packets?
                 if timeouts == 0:
-                    timeouts = 1
+                    #timeouts = 1
                     self.sendHandShakePacket()
                 else:
                     self.read_disconnect("timeout")
@@ -80,10 +82,55 @@ class Connection:
                 elif(buff[0:1] == bytes("\5", "ascii")): #got a data packet (ignore all the other stuff, just messing with packet types)
                     #packettype, osc1data, osc2data, logicdata=unpack("<B4H4H4H", buff[0:24])
                     #print(calcsize("<B4H4H4H39x"))
-                    #print(unpack("<B4H4H4HH37x", buff))
-                    print(buff[0:50])
+                    a0=[0 for i in range(8)]
+                    a1=[0 for i in range(8)]
+                    l0=[0 for i in range(8)]
+                    packettpye, adcpos, logicpos,a0[0],a0[1],a0[2],a0[3],a0[4],a0[5],a0[6],a0[7],a1[0],\
+                        a1[1],a1[2],a1[3],a1[4],a1[5],a1[6],a1[7],l0[0],l0[1],l0[2],l0[3],l0[4],l0[5],l0[6],l0[7]= unpack("<BHH8H8H8H11x", buff)
+                    #print(logicpos)
+                    if(adcpos<35000): #adc ready to send
+                        if(adcpos < self.lastPos):
+                            self.itteration += 1
+                        for i in range(0,8):
+                            self.buffPosQueue.append(adcpos+(i)+self.itteration*BUFFERSIZE)
+                            self.oscCh1Queue.append(int(a0[i]))
+                        self.lastPos = adcpos
+                    if(logicpos<35000): #logic ready to send
+                        print(l0[0],l0[1],l0[2],l0[3],l0[4],l0[5],l0[6],l0[7])
+                        if(logicpos<self.lastLogicPos):
+                            self.logicItter += 1
+                        for i in range(0,8):
+                            self.LogicPosQueue.append(logicpos+(i)+self.logicItter*BUFFERSIZE)
+                            self.LogicQueue.append(int(l0[i]))        
+                        self.lastLogicPos = logicpos
+                    #print(buff)
+                    #print()
                     #print(unpack("<BHHHH55x", buff))
-                    #pos, osch1, osch2, logicd, bufpos = unpack("<BHHHH55x", buff)
+                    try:
+                        '''
+                        packettype, stInput=unpack("<B63s",buff)
+                        stInput=str(stInput)
+                        tempInput=stInput.split("_")
+                        print(tempInput)
+                        buffpos=int(tempInput[0][2:])
+                        #print("Pos {}, Osch1 {}, Osch2 {}, logic {}, Bpos {}\n".format(pos,osch1,osch2,logicd,buffpos))
+                        #packettype, buffpos, tempInput0, tempInput1, tempInput2, tempInput3, tempInput0, tempInput1, tempInput2, tempInput3 = unpack("<BH4H4H45x",buff)
+                        #print(buff)
+                        if(buffpos < self.lastPos):
+                           self.itteration += 1
+                        for i in range(1,9):
+                            self.buffPosQueue.append(buffpos+(i-1)+self.itteration*BUFFERSIZE)
+                            self.oscCh1Queue.append(int(tempInput[i]))
+                        self.lastPos = buffpos'''
+                    
+
+                        '''pos, osch1, osch2, logicd, buffpos = unpack("<BHHHH55x", buff)
+                        print("Pos {}, Osch1 {}, Osch2 {}, logic {}, Bpos {}\n".format(pos,osch1,osch2,logicd,buffpos))
+                        if(buffpos < self.lastPos):
+                            self.itteration += 1
+                        self.buffPosQueue.append(buffpos+self.itteration*BUFFERSIZE)
+                        self.oscCh1Queue.append(osch1)
+                        self.lastPos = buffpos'''
                     #self.dataIn[0], self.dataIn[1], self.dataIn[2], self.dataIn[3], self.dataIn[4] = unpack("<BHHHH55x", buff)
                     #print(self.dataIn[0])
                     #if(self.dataIn[4]<30000):
@@ -93,7 +140,14 @@ class Connection:
                             #print("Position: ",i, "Data: ",self.ADCbuff[0][i])
                     #print(unpack("<B16s16s16sH13x", buff))
                     #print(packettype)
-                    pass  
+                    finally:
+                        pass
+                elif(buff[0:1] == bytes("\6", "ascii")):
+                        packettype, stInput=unpack("<B63s",buff)
+                        stInput=str(stInput)
+                        tempInput=stInput.split("_")
+                        print(tempInput)
+                        buffpos=int(tempInput[0][2:])                    
                 else:   #bad reply
                     #print(unpack("<BHHHH55x", buff))
                     print(buff[0:63])
@@ -106,7 +160,9 @@ class Connection:
         #causes the write thread to wake up so that it can exit.
         self.sendQ.put(None)
     def returnData(self): #return data. Change this to a full buffer
-        return self.dataIn        
+        return self.dataIn  
+    def returnPositions(self):
+        return asarray(self.buffPosQueue)      
     def write_funct(self):
         """ The function that runs the write thread. This function writes packets from the sendQ to the serial port."""
         while self.status != "Disconnected":
@@ -227,19 +283,7 @@ class Connection:
             bytes += sample_bytes
             self.sendQ.put(bytes)
         else:
-            #for oscilloscope
-            adcclock=1
-            sampletime=1
-            offset_osc=int(0)
-            attenuation=int(0)
-            amp10=int(1)
-            amp5=int(1)
-            amp2_5=int(1)
-            amp1=int(1)
-            bytes = pack("<BBBBBBBBBB54x", 2, chan, adcclock, sampletime, offset_osc, attenuation, amp10, amp5, amp2_5, amp1)
-            #sample_bytes = samplesToBytes(samples)
-            #assert len(bytes) % 64 == 0
-            #bytes += sample_bytes
+            pass
             self.sendQ.put(bytes)            
     def sendScope(self, chan, mode, sampletime, offset_osc, attenuation, amp):
         if self.status == "Disconnected":
@@ -255,9 +299,23 @@ class Connection:
             amp2_5=0
             amp1=0               
         bytes = pack("<10B54x", 2, chan, int(mode), sampletime, offset_osc, attenuation, amp10, amp5, amp2_5, amp1)
-        self.sendQ.put(bytes)  
+        self.itteration=0
+        self.sendQ.put(bytes)
+        self.sendHandShakePacket()  
         pass
-        
+    def sendLogic(self, control, trigPin, trigEdge, logicPeriod, numLogicSamples): #logicPeriodi is period32
+        samplingFreq= 250e6/ logicPeriod
+        triggerFreq= samplingFreq/ numLogicSamples
+        period16= 250e6/ triggerFreq
+        prescaler16=1
+        if( period16 > 2**16):
+            prescaler16 = math.ceil(period16 / (2**16))
+            period16 = int((250e6 / prescaler16) / triggerFreq)
+        bytes = pack("<2B4HI50x", 3, control, trigPin, trigEdge, period16, prescaler16, logicPeriod)
+        self.sendQ.put(bytes) 
+        print("logic sent")
+        self.sendHandShakePacket()
+        pass            
     def tryConnect(self, portName):
         """ Attempts to connect to the device."""
         if self.status != "Disconnected":
@@ -297,3 +355,13 @@ class Connection:
         self.ADCbuff = np.zeros((2,30000))
         self.status = "Disconnected"
         self.statusCallback = statusCallback
+
+        self.buffPosQueue = deque([],BUFFERSIZE)
+        self.oscCh1Queue = deque([], BUFFERSIZE)
+        self.oscCh2Queue = deque([], BUFFERSIZE)
+        self.lastPos = -1
+        self.itteration = 0
+        self.LogicPosQueue = deque([], 4096)
+        self.LogicQueue = deque([], 4096)
+        self.lastLogicPos=-1
+        self.logicItter=0

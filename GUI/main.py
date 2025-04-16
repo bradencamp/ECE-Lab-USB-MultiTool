@@ -56,6 +56,8 @@ USE_CSV = False
 prefixes_voltage = {"m": 1e-3,"":1}
 prefixes_frequency = {"k": 1e3, "M": 1e6,"":1}
 
+a = 0
+
 class ColorBox(QWidget):
 
     def __init__(self, color):
@@ -116,6 +118,10 @@ class MainWindow(QMainWindow):
         self.oscCh1Config = dict(mode=0, sampletime=0, offset=0, attn=0, amp=0)
         self.osc1Buffer = []
         self.osc2Buffer = []
+        self.logicPeriod=65454
+        self.numLogicSamples=300
+        self.logicChannels=16
+        self.logicBuffSize=30000
         self.setWindowTitle("USB MultiTool")
 
         #layout for awg section
@@ -156,7 +162,7 @@ class MainWindow(QMainWindow):
 
         self.oscLine1 = self.plot_graph.plot(self.oscTime1 ,self.osc1Buffer, pen= self.awgPen1)
 
-
+        self.oscPosInterval = 1/(1000*10)
 
         self.logicLines = [None]*8
 
@@ -215,7 +221,11 @@ class MainWindow(QMainWindow):
     def getPorts(self): #Lists all the COM ports available for the user to select (first clears, adds a refresh option, gets all com ports, adds them to the port object)
         self.portSelect.clear()
         self.portSelect.addItem("Refresh Ports")
-        ports = [port.name for port in list(serial.tools.list_ports.comports())]
+        portCanidates = []
+        for port in list(serial.tools.list_ports.comports()):
+            if port.vid == 1155:
+                portCanidates.append(port)
+        ports = [port.name for port in portCanidates]
         self.portSelect.addItems(ports)
         self.portSelect.activated.connect(self.port_currentIndexChanged)
 
@@ -324,8 +334,10 @@ class MainWindow(QMainWindow):
 
     def onLogicCheck(self):
         if(self.logicCheck.isChecked()):
+            self.conn.sendLogic(1,4,0,self.logicPeriod, self.numLogicSamples)
             self.logic_graph.show()
         else:
+            self.conn.sendLogic(0,4,0,self.logicPeriod, self.numLogicSamples)
             self.logic_graph.hide()
         return
 
@@ -357,7 +369,7 @@ class MainWindow(QMainWindow):
             self.awgTime2 = np.linspace(ranges[0][0],ranges[0][1],NUMPOINTS)
             #print("\t{} : {}".format(self.awgTime2[0],self.awgTime2[-1]))
             self.oscTime1 = np.linspace(ranges[0][0],ranges[0][1],NUMPOINTS)
-            vb.disableAutoRange(pg.ViewBox.XAxis)
+            #vb.disableAutoRange(pg.ViewBox.XAxis)
 
         self.viewRange = ranges
 
@@ -510,9 +522,10 @@ class MainWindow(QMainWindow):
             #comment of shame.
         #self.plot_graph.setMouseEnabled(x=False,y=True)
         #if this is commented, autoranging will grow x axis indefinitely, so dont
-        vb.disableAutoRange(pg.ViewBox.XAxis)
+            #perhaps not a problem for plotting osc
+        #vb.disableAutoRange(pg.ViewBox.XAxis) TODO: decide wether to keep this (not disable in other places)
         vb.setDefaultPadding(0.0)#doesn't help 
-        vb.setLimits(yMax = 20, yMin = -20)
+        #vb.setLimits(yMax = 20, yMin = -20) #TEMPORARILY DISABALED
         vb.setXRange(0,10,.01 )
         self.plotViewBox = vb
         self.xAxis = self.plot_graph.getAxis("bottom") #USES directly
@@ -544,7 +557,7 @@ class MainWindow(QMainWindow):
             #comment of shame.
         #self.logic_graph.setMouseEnabled(x=False,y=True)
         #if this is commented, autoranging will grow x axis indefinitely, so dont
-        vb_l.disableAutoRange(pg.ViewBox.XAxis)
+        #vb_l.disableAutoRange(pg.ViewBox.XAxis)
         vb_l.setDefaultPadding(0.0)#doesn't help 
         vb_l.setLimits(yMax = 20, yMin = -20)
         vb_l.setXRange(0,10,.01 )
@@ -849,6 +862,7 @@ class MainWindow(QMainWindow):
     ###-------------------------------------------------------------------------------------###
     def update_plot(self):
         #TODO edit all numpy funtions to use the out parameter
+        global a #TODO: Fix this nonsense
         temp_logic_data = [[0,0,0,0,0,1,1,1,0,0],[0,1,0,1,0,1,0,1,0,1]]
 
         #like angular position of awgtime array. To be used for nonsine functions
@@ -859,7 +873,12 @@ class MainWindow(QMainWindow):
             #self.templine.setData(self.awgTime, np.sin(tau*self.awgCh1Config["freq"]*self.awgData1))
         self.dataIn=self.conn.returnData()
         #print(self.dataIn)
-        self.osc1Buffer.append(self.dataIn[0]) #This is slow and very inefficient. 
+        #self.osc1Buffer.append(self.dataIn[0]) #This is slow and very inefficient. 
+        self.osc1Buffer = np.asarray(self.conn.oscCh1Queue)/4096*3.3
+        self.oscTime1 = self.conn.returnPositions() * self.oscPosInterval
+
+        self.logicBuffer = np.asarray(self.conn.LogicQueue)
+            
         if not self.runStopButton.isChecked():
             self.awgLine1.setData(self.zeros,self.zeros)
             self.awgLine2.setData(self.zeros,self.zeros)
@@ -880,9 +899,12 @@ class MainWindow(QMainWindow):
 
             if self.oscilloCheck.isChecked():   
                 if self.oscCh1EN.isChecked():
-                    if(len(self.osc1Buffer)>=300):
+                    if(len(self.osc1Buffer)>=1000):
                         #self.graphOscCh1()
-                        print("Plotting OSC0")
+                        #change oscPosInterval to change time between two buffer position measuremnts
+                        #print("Plotting OSC0")
+                        a=1 #dummy op for breakpoint 
+                        self.oscLine1.setData(self.oscTime1[-999:],self.osc1Buffer[-999:])
                    #print("Plotting OSC0")
                 if self.oscCh2EN.isChecked():
                     pass
@@ -905,7 +927,9 @@ class MainWindow(QMainWindow):
                 else:
                     for i in (0,1):                
                         if self.logic_checks[i].isChecked():
-                            self.logicLines[i].setData(range(0,10),temp_logic_data[i], stepMode = "left")
+                            if(len(self.logicBuffer)>=1000):
+                                self.logicLines.setData(self.oscTime1[-999:], self.logicBuffer[-999:])
+                            #self.logicLines[i].setData(range(0,10),temp_logic_data[i], stepMode = "left")
                         else:
                             self.logicLines[i].setData(self.zeros,self.zeros)
     def updateAWG(self):
