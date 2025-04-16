@@ -6,15 +6,13 @@
 # - [/] AWG frequencies NOTE: works for ch1, TODO ch2
 # - [x] AWG amplitudes
 # - [x] AWG offsets
-# - [x] Time base
+# - [ ] Time base
 # - [x] Run/Stop button
 # - [?] Single run button TODO: (single period? single data capture? etc)
 # - [x] Record Data button
 # - [x] Scope checkboxes
 # - [ ] Scope ranges
 # - [ ] Trigger stuff
-
-#AWG barely works
 
 
 import sys
@@ -40,9 +38,12 @@ import threading
 #html standard colors
 colors = ["Yellow","Teal","Silver","Red","Purple","Olive","Navy","White",
             "Maroon","Lime","Green","Gray","Fuchsia","Blue","Black","Aqua"]
-
+'''Html standard colors'''
+#Constants
 MAXFREQUENCY = 250e3
+'''max AWG frequency'''
 MINFREQUENCY = 1
+'''min AWG frequency'''
 MINAMP = -5
 MAXAMP = 5
 MINOFF = -10
@@ -51,7 +52,7 @@ NUMPOINTS = 300
 NUMDIVS = 10 #based on default we've worked with thus far, scopy uses ~16
 
 USE_CSV = False
-
+'''Use CSV file for testing'''
 #because of a change made to input field, we need to specify a "" unit
 prefixes_voltage = {"m": 1e-3,"":1}
 prefixes_frequency = {"k": 1e3, "M": 1e6,"":1}
@@ -110,15 +111,25 @@ def hexStr2bin(hex:str):
 class MainWindow(QMainWindow):
     
     def __init__(self):
-        #global dataIn
-        #dataIn = []
         super(MainWindow, self).__init__()
+        self.setWindowTitle("USB MultiTool")
+
         self.awgCh1Config = dict(amp=1, off=0,freq = 1,phase = 0, wave = 0, DC = 0.5)  # Dictionary with initial values
         self.awgCh2Config = dict(amp=1, off=0,freq = 1,phase = 0, wave = 0, DC = 0.5)  # Dictionary with initial values
         self.oscCh1Config = dict(mode=0, sampletime=0, offset=0, attn=0, amp=0)
+        self.oscCh2Config = dict(mode=0, sampletime=0, offset=0, attn=0, amp=0)
         self.osc1Buffer = []
         self.osc2Buffer = []
-        self.setWindowTitle("USB MultiTool")
+
+        self.logicPeriod=65454
+        self.numLogicSamples=300
+        self.logicChannels=16
+        self.logicBuffSize=30000
+
+        self.logicChConfig = [None]*8
+        for i in range(0,8):
+            self.logicChConfig[i] = dict(control=0, trigPin=0, trigEdge=0, logicPeriod=self.logicPeriod, numLogicSamples=self.numLogicSamples)
+
 
         #layout for awg section
         awgLayout = self.awgLayoutSetup()
@@ -157,14 +168,18 @@ class MainWindow(QMainWindow):
         self.awgLine2 = self.plot_graph.plot(self.awgTime2, self.awgData2, pen = self.awgPen2)
 
         self.oscLine1 = self.plot_graph.plot(self.oscTime1 ,self.osc1Buffer, pen= self.awgPen1)
+        self.oscLine2 = self.plot_graph.plot(self.oscTime2 ,self.osc1Buffer, pen= self.awgPen2)
 
-        self.oscPosInterval = 1/(1000)#*10)
+        self.oscPosInterval = 1/(1000*10)
+        self.logicPosInterval = 1/(1000*10)
 
+        self.colors = ['#FF6EC7', '#39FF14', '#FF486D', '#BF00FF', '#FFFF33', '#FFA500', '#00F5FF', '#BFFF00']
         self.logicLines = [None]*8
-
-        self.logicLines[0] = self.logic_graph.plot(pen = self.awgPen1)
-        self.logicLines[1] = self.logic_graph.plot(pen = self.awgPen2)
-
+        self.logicTimes = [None]*8
+        for i in range(0,8):
+            color = self.colors[i % len(self.colors)]
+            self.logicLines[i] = self.logic_graph.plot(pen=pg.mkPen(color=color, width=4))
+            self.logicTimes[i] = np.linspace(0,10,NUMPOINTS)
 
 
         self.set_time_div(1.0) #1v/div
@@ -261,7 +276,7 @@ class MainWindow(QMainWindow):
                 #This stuff is threaded for some reason
                 #self.read_thread = threading.Thread(target=self.read_funct, args=())
                 #self.read_thread.start()
-                self.plot_graph.autoBtnClicked()
+                #self.plot_graph.autoBtnClicked()
             except:
                 self.connectLabel.setText("Device Status: Error")
                 return
@@ -326,14 +341,8 @@ class MainWindow(QMainWindow):
         print("New Type: ",new)
         self.awgCh2Config["wave"] = new
         self.awgCh2Click()
-    #Logic channel Callbacks
 
-    def onLogicCheck(self):
-        if(self.logicCheck.isChecked()):
-            self.logic_graph.show()
-        else:
-            self.logic_graph.hide()
-        return
+
 
     def set_time_div(self, div):
         try:
@@ -363,6 +372,7 @@ class MainWindow(QMainWindow):
             self.awgTime2 = np.linspace(ranges[0][0],ranges[0][1],NUMPOINTS)
             #print("\t{} : {}".format(self.awgTime2[0],self.awgTime2[-1]))
             self.oscTime1 = np.linspace(ranges[0][0],ranges[0][1],NUMPOINTS)
+            self.oscTime2 = np.linspace(ranges[0][0],ranges[0][1],NUMPOINTS)
             #vb.disableAutoRange(pg.ViewBox.XAxis)
 
         self.viewRange = ranges
@@ -426,14 +436,14 @@ class MainWindow(QMainWindow):
         awgPhase = LabelField("Phase:" ,[0, 180],float(0),2,"°", {"":1},BLANK)
         awgLayout.addWidget(awgPhase,0,5)
         awgPhase.valueChanged.connect(self.set_awgPhase)
-        awgLayout.addWidget(QLabel("Sync Status:"),1,5)
+        #awgLayout.addWidget(QLabel("Sync Status:"),1,5)
 
-        syncButton = QPushButton("FORCE SYNC")
-        syncButton.pressed.connect(self.AWGSYNC)
-        buttonPalette = syncButton.palette()
-        buttonPalette.setColor(QPalette.ColorRole.ButtonText, QColor("red"))
-        syncButton.setPalette(buttonPalette)
-        awgLayout.addWidget(syncButton,1,6)
+        #syncButton = QPushButton("FORCE SYNC")
+        #syncButton.pressed.connect(self.AWGSYNC)
+        #buttonPalette = syncButton.palette()
+        #buttonPalette.setColor(QPalette.ColorRole.ButtonText, QColor("red"))
+        #syncButton.setPalette(buttonPalette)
+        #awgLayout.addWidget(syncButton,1,6)
         awgLayout.addWidget(QLabel("Waveform Generator"),0,6)
 
         return awgLayout
@@ -442,17 +452,23 @@ class MainWindow(QMainWindow):
     def centerLayoutSetup(self):
         centerLayout = QGridLayout()
         centerLayout.addWidget(ColorBox("White"),0,0, -1,-1)#background for demonstration. Remove later [1]
+
+        # control buttons
         self.runStopButton = QPushButton("RUN/STOP")
         self.runStopButton.setCheckable(True)
         self.runStopButton.setChecked(False) #default to not clicked/running
         self.runStopButton.clicked.connect(self.runStopClick)
-        singleButton = QPushButton("SINGLE")
+        self.singleButton = QPushButton("SINGLE")
+        self.singleButton.setCheckable(True)
+        self.singleButton.setChecked(False) #default to not clicked
+        self.singleButton.clicked.connect(self.singleSnapshot)
         self.dataButton = QPushButton("RECORD DATA")
         self.dataButton.setCheckable(True)
         self.dataButton.setChecked(False) #default to not clicked
         #connect to method/slot to handle recording data
         self.dataButton.clicked.connect(self.record_data)
 
+        # time base, trigger settings
         centerSettings = QGridLayout()
         timeSetting = ColorBox("#e0dde5") 
         centerLayout.addWidget(timeSetting,0,0,1,-1)
@@ -480,16 +496,16 @@ class MainWindow(QMainWindow):
         logicLayout.addWidget(QLabel("Logic Analyzer"),0,1,alignment = Qt.AlignmentFlag.AlignHCenter)
         
         
-        edges = ["Rising Edge","Falling Edge", "None"]
+        self.edges = ["Rising Edge","Falling Edge", "Either"]
         self.logic_checks = [None]*8
         self.logic_edges = [None]*8
         for i in range(0,8):
             pos = i+1
             self.logic_checks[i] = QCheckBox(f"CH{pos}")
+            #self.logic_checks[i].connect(self.)
             self.logic_edges[i] = QComboBox()
             self.logic_edges[i].setPlaceholderText('Trigger Type')
-            self.logic_edges[i].addItems(edges)
-            #self.logic_edges[i].currentIndexChanged.connect(self.index_changed)
+            self.logic_edges[i].addItems(self.edges)
             logicLayout.addWidget(self.logic_checks[i],i+1,0)
             logicLayout.addWidget(self.logic_edges[i],i+1,1)
         logicLayout.setColumnStretch(0,1)
@@ -595,7 +611,7 @@ class MainWindow(QMainWindow):
         self.oscCh1EN.stateChanged.connect(self.oscCh1Click) #checkbox handler
         self.oscCh1Trig = QComboBox()
         self.oscCh1Trig.setPlaceholderText('Trigger Type')
-        self.oscCh1Trig.addItems(edges)
+        self.oscCh1Trig.addItems(self.edges)
         self.oscCh1VDiv = LabelField("Range",[1e-6,20],1.0,2,"V/Div",{"u":1e-6,"m":1e-3,"":1},BLANK)
 
         self.oscCh2EN = QCheckBox("CH2")
@@ -603,10 +619,10 @@ class MainWindow(QMainWindow):
         self.oscCh2EN.stateChanged.connect(self.oscCh2Click) #checkbox handler
         self.oscCh2Trig = QComboBox()
         self.oscCh2Trig.setPlaceholderText('Trigger Type')
-        self.oscCh2Trig.addItems(edges)
+        self.oscCh2Trig.addItems(self.edges)
         self.oscCh2VDiv = LabelField("Range",[1e-6,20],1.0,2,"V/Div",{"u":1e-6,"m":1e-3,"":1},BLANK)
 
-        oscmode = LabelField("oscmode:",[0,12],int(1),2,"", {"":1},BLANK)
+        oscmode = LabelField("oscmode:",[0,12],int(1),2,"m", {"u":1e-6,"m":1e-3,"":1},BLANK)
         oscmode.valueChanged.connect(self.set_oscmode)
         oscilloLayout.addWidget(oscmode,0,3)
         
@@ -625,16 +641,19 @@ class MainWindow(QMainWindow):
         centerLayout.addLayout(centerSettings,0,3,1,6)
 
         centerLayout.addWidget(self.runStopButton,0,0)
-        centerLayout.addWidget(singleButton,0,1)
+        centerLayout.addWidget(self.singleButton,0,1)
         centerLayout.addWidget(self.dataButton,0,2)
         centerLayout.addWidget(QLabel("Live Data"),0,9)
 
         return centerLayout
+    
     def set_oscmode(self, oscmode):
         print("new mode: ", oscmode)
         self.oscCh1Config["mode"] = oscmode
+        self.oscCh2Config["mode"] = oscmode
         #self.awgCh1Click()
         self.oscCh1Click()
+        self.oscCh2Click()
     statusCallbackSignal = pyqtSignal(str, str) 
     """Used to pass signals about connection updates between different threads """
     
@@ -722,6 +741,13 @@ class MainWindow(QMainWindow):
             self.exportData.export()
             self.dataButton.setChecked(False) #reset button
 
+    #handles single button 
+    def singleSnapshot(self):
+        '''handles the single button:
+            if single button clicked & trigger condition met
+                -> record 1 acquisition 
+        '''
+
 
     ###WAVEFORM GENERATOR--------------------------------------------------------------------------------------------------------
     #awg channel 1 checkbox handler
@@ -783,8 +809,9 @@ class MainWindow(QMainWindow):
         #scale and offset
         self.awgData2 = self.awgCh2Config["amp"]*self.awgData2 + self.awgCh2Config["off"]
         self.awgLine2.setData(self.awgTime2,self.awgData2)
+    
     def AWGSYNC(self):
-        if(self.AWGch1En.isChecked() and self.AWGch2En.isChecked()):
+        """ if(self.AWGch1En.isChecked() and self.AWGch2En.isChecked()):
             min = None
             for a in range(1, 101):
                 for b in range(1, 101):
@@ -800,7 +827,7 @@ class MainWindow(QMainWindow):
                 f_comm = self.awgCh1Config["freq"] / a #same as set[1].freq / b
                 self.conn.sendWave(0, freq = (self.awgCh1Config["freq"]), wave_type = self.waves[self.awgCh1Config["wave"]], amplitude = self.awgCh1Config["amp"], offset = self.awgCh1Config["off"], arbitrary_waveform = "lol", duty = 50, phase = self.awgCh1Config["phase"], numPeriods = a)
                 self.conn.sendWave(1, freq = (self.awgCh2Config["freq"]), wave_type = self.waves[self.awgCh2Config["wave"]], amplitude = self.awgCh2Config["amp"], offset = self.awgCh2Config["off"], arbitrary_waveform = "lol", duty = 50, phase = self.awgCh2Config["phase"], numPeriods = b)
-                #self.setSyncStatus(True)            
+                #self.setSyncStatus(True)          """   
         pass
 
     ###END WAVEFORM GENERATOR--------------------------------------------------------------------------------------------------------
@@ -809,53 +836,85 @@ class MainWindow(QMainWindow):
     ###OSCILLOSCOPE--------------------------------------------------------------------------------------------------------
     #scope master checkbox handler
     def oscClick(self):
-        '''if self.oscilloCheck.isChecked(): #if checked -> check ch1 & ch2 checkboxes
-            self.oscCh1Click()
-            self.oscCh2Click()'''
+        '''
+        if self.oscilloCheck.isChecked(): #if checked -> check ch1 & ch2 checkboxes
+            else -> nothing to plot
+        '''
         if not self.oscilloCheck.isChecked(): #temp solution -> plot zeros to remove waveforms
             self.oscCh1EN.setChecked(False)
             self.oscCh2EN.setChecked(False)
 
     #scope channel 1 checkbox handler
     def oscCh1Click(self):
-        '''if self.oscCh1EN.isChecked():
-            self.awgLine1.setData(self.awgTime1,self.awgData1) #set ch1 waveform data if checked'''
-        print("clicked")
+        print("ch1 clicked")
         self.conn.sendScope(0, mode=self.oscCh1Config["mode"],sampletime=self.oscCh1Config["sampletime"], offset_osc=self.oscCh1Config["offset"], attenuation=self.oscCh1Config["attn"], amp=self.oscCh1Config["amp"])
         if not self.oscCh1EN.isChecked():
-            self.awgLine1.setData(self.zeros,self.zeros) #temp solution -> remove wave
+            self.awgLine1.clear()
         self.plot_graph.autoBtnClicked()
 
     #scope channel 2 checkbox handler
     def oscCh2Click(self):
-        '''if self.oscCh2EN.isChecked():
-            self.awgLine2.setData(self.awgTime2,self.awgData2) #set ch2 waveform data if checked'''
+        print("ch2 clicked")
+        self.conn.sendScope(1, mode=self.oscCh2Config["mode"],sampletime=self.oscCh2Config["sampletime"], offset_osc=self.oscCh2Config["offset"],attenuation=self.oscCh2Config["attn"],amp=self.oscCh2Config["amp"])
         if not self.oscCh2EN.isChecked():
             self.awgLine2.clear()
         self.plot_graph.autoBtnClicked()
 
-    def graphOscCh1(self):        
+    def graphOscCh1(self):
         #self.awgData1 = self.awgCh1Config["amp"]*self.awgData1 + self.awgCh1Config["off"]
         self.oscLine1.setData(self.oscTime1,self.osc1Buffer)
 
     def graphOscCh2(self):
-        match self.awgCh2Config["wave"]:
-            case 1:#square
-                self.awgData2 = np.ones(NUMPOINTS)
-                self.awgData2[self.omega2 >= self.awgCh2Config["DC"]] = -1
-            case 2:#triangle 
-                climb = np.where(self.omega2 < 0.5)
-                fall = np.where(self.omega2  >= 0.5)
-                self.awgData2[climb] = 1 - 4 * self.omega2[climb]
-                self.awgData2[fall] = 4 * self.omega2[fall] - 3               
-            case 3:#sawtooth
-                self.awgData2 = 2*self.omega2-1
-            case _:#sine
-                self.awgData2 = np.sin(tau*self.omega2)
+        #match self.awgCh2Config["wave"]:
+        #    case 1:#square
+        #        self.awgData2 = np.ones(NUMPOINTS)
+        #        self.awgData2[self.omega2 >= self.awgCh2Config["DC"]] = -1
+        #    case 2:#triangle 
+        #         climb = np.where(self.omega2 < 0.5)
+        #        fall = np.where(self.omega2  >= 0.5)
+        #        self.awgData2[climb] = 1 - 4 * self.omega2[climb]
+        #        self.awgData2[fall] = 4 * self.omega2[fall] - 3               
+        #    case 3:#sawtooth
+        #        self.awgData2 = 2*self.omega2-1
+        #    case _:#sine
+        #        self.awgData2 = np.sin(tau*self.omega2)
         #scale and offset
-        self.awgData2 = self.awgCh2Config["amp"]*self.awgData2 + self.awgCh2Config["off"]
-        self.awgLine2.setData(self.awgTime2,self.awgData2)
-    ###END WAVEFORM GENERATOR--------------------------------------------------------------------------------------------------------
+        #self.awgData2 = self.awgCh2Config["amp"]*self.awgData2 + self.awgCh2Config["off"]
+        self.oscLine2.setData(self.oscTime2,self.osc2Buffer)
+    ###END OSCILLOSCOPE--------------------------------------------------------------------------------------------------------
+
+    ###LOGIC ANALYZER--------------------------------------------------------------------------------------------------------
+    #logic analyzer master checkbox handler
+    def onLogicCheck(self):
+        '''if self.logicCheck.isChecked(): #if !checked -> nothing to plot
+        '''
+        if not self.logicCheck.isChecked():
+            for i in range(0,8):
+                self.logic_checks[i].setChecked(False)
+            self.logic_graph.hide()
+        else:
+            self.logic_graph.show()    
+        return
+
+    #individual logic channels checkbox handler
+    def logicClick(self):
+        for i in range(0,8):
+            if self.logic_checks[i].isChecked():
+                print("logic Ch%d clicked", i)
+                # 1=ON
+                self.conn.sendLogic(1,control=self.logicChConfig[i]["control"],trigPin=self.logicChConfig[i]["trigPin"],trigEdge=self.logicChConfig[i]["trigEdge"],logicPeriod=self.logicChConfig[i]["logicPeriod"],numLogicSamples=self.logicChConfig[i]["numLogicSamples"])
+            else:
+                self.logic_checks[i].clear()
+                # 0=OFF
+                #is this necessary
+                #self.conn.sendLogic(0,control=self.logicChConfig[i]["control"],trigPin=self.logicChConfig[i]["trigPin"],trigEdge=self.logicChConfig[i]["trigEdge"],logicPeriod=self.logicChConfig[i]["logicPeriod"],numLogicSamples=self.logicChConfig[i]["numLogicSamples"])
+
+    def graphLogic(self):
+        for i in range(0,8):
+            if self.logic_checks[i].isChecked():
+                self.logicLines[i].setData(self.logicTimes[i],self.logicBuffer)
+
+    ###END LOGIC ANALYZER--------------------------------------------------------------------------------------------------------
 
 
     #Periodic updates 
@@ -863,26 +922,38 @@ class MainWindow(QMainWindow):
     def update_plot(self):
         #TODO edit all numpy funtions to use the out parameter
         global a #TODO: Fix this nonsense
-        temp_logic_data = [[0,0,0,0,0,1,1,1,0,0],[0,1,0,1,0,1,0,1,0,1]]
+        temp_logic_data = [[0,0,0,0,0,1,1,1,0,0],[0,1,0,1,0,1,0,1,0,1],[0,0,0,0,0,1,1,1,1,1],[0,0,0,1,1,1,1,1,1,1],[0,0,0,0,0,0,0,1,1,1],[1,1,1,1,1,0,0,0,0,0],[0,1,1,1,0,0,1,1,1,1]]
+
 
         #like angular position of awgtime array. To be used for nonsine functions
         self.omega1 = np.mod(self.awgTime1+self.awgCh1Config["phase"]/(360*self.awgCh1Config["freq"]),
                              1/self.awgCh1Config["freq"])*self.awgCh1Config["freq"]
         self.omega2 = np.mod(self.awgTime2,1/self.awgCh2Config["freq"])*self.awgCh2Config["freq"]
-        #np.fmod(tau*self.awgCh1Config["freq"]*self.awgTime + pi/180*self.awgCh1Config["phase"],2*tau/self.awgCh1Config["freq"])                
-            #self.templine.setData(self.awgTime, np.sin(tau*self.awgCh1Config["freq"]*self.awgData1))
+
         self.dataIn=self.conn.returnData()
         #print(self.dataIn)
         #self.osc1Buffer.append(self.dataIn[0]) #This is slow and very inefficient. 
-        self.osc1Buffer = np.asarray(self.conn.oscCh1Queue)/4096*3.3
-        self.oscTime1 = self.conn.returnPositions() * self.oscPosInterval
-            
-        if not self.runStopButton.isChecked():
-            self.awgLine1.setData(self.zeros,self.zeros)
-            self.awgLine2.setData(self.zeros,self.zeros)
 
-            self.logicLines[0].setData(self.zeros,self.zeros)
-            self.logicLines[1].setData(self.zeros,self.zeros)
+        self.osc1Buffer = np.asarray(self.conn.oscCh1Queue)/4096*3.3
+        self.oscTime1 = self.conn.returnBuffPositions() * self.oscPosInterval
+
+        self.osc2Buffer = np.asarray(self.conn.oscCh2Queue)/4096*3.3
+        self.oscTime2 = self.conn.returnBuffPositions() * self.oscPosInterval
+
+        self.logicBuffer = np.asarray(self.conn.LogicQueue)
+        for i in range(0,8):
+            self.logicTimes[i] = self.conn.returnLogicPositions() * self.logicPosInterval
+
+        if not self.runStopButton.isChecked():
+            self.awgLine1.clear()
+            self.awgLine2.clear()
+
+            self.oscLine1.clear()
+            self.oscLine2.clear()
+
+            for i in range(0,8):
+                self.logicLines[i].clear()
+
         else:
             if self.AWGch1En.isChecked():
                 #self.graphAWGCh1()
@@ -908,7 +979,9 @@ class MainWindow(QMainWindow):
                         #self.vb.autoRange()
                    #print("Plotting OSC0")
                 if self.oscCh2EN.isChecked():
-                    pass
+                    if(len(self.osc2Buffer)>=1000):
+                        a=2
+                        self.oscLine2.setData(self.oscTime2[-999],self.osc2Buffer[-999])
                     #self.graphOscCh2()
             else:
                 pass
@@ -924,15 +997,21 @@ class MainWindow(QMainWindow):
                         if self.logic_checks[i].isChecked():
                             self.logicLines[i].setData(self.sampleValues,self.csvData[:, 1].astype(int))  
                         else:
-                            self.logicLines[i].setData(self.zeros, self.zeros)
+                            self.logicLines[i].clear()
                 else:
-                    for i in range(0,8):                
-                        if self.logic_checks[i].isChecked():
-                            self.logicLines[i].setData(range(0,10),[2*i+temp_logic_data[i][j] for j in range(0,10)], stepMode = "left")
-                        else:
-                            self.logicLines[i].setData(self.zeros,self.zeros)
+                    if self.onLogicCheck.isChecked():
+                        for i in range(0,8):                
+                            if self.logic_checks[i].isChecked():
+                                if(len(self.logicBuffer)>=1000): #logic buffer full
+                                    self.logicLines[i].setData(self.logicTimes[i][-999:], self.logicBuffer[-999:])
+                                #self.logicLines[i].setData(range(0,10),[2*i+temp_logic_data[i][j] for j in range(0,10)], stepMode = "left")
+                            else:
+                                self.logicLines[i].clear()
+                    else:
+                        pass
                             
-    def updateAWG(self):        
+    def updateAWG(self):
+
         pass                
 
 
