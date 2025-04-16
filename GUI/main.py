@@ -52,7 +52,9 @@ USE_CSV = False
 #because of a change made to input field, we need to specify a "" unit
 prefixes_voltage = {"m": 1e-3,"":1}
 prefixes_frequency = {"k": 1e3, "M": 1e6,"":1}
+
 possibleTimeDivs = [1, 0.5, 0.2, 0.1, 0.05, 0.02, 0.01, 5/1000, 2/1000, 1/1000 ,5/1000/10, 2/1000/10, 1/1000/10 ,5/1000/100, 2/1000/100, 1/1000/100 ,5/1000/1000, 2/1000/1000, 1/1000/1000]
+possibleVoltDivs = [5, 2, 1, .1, .5, .2, .1]
 #simple box widget
 class ColorBox(QWidget):
     '''simple background color widget'''
@@ -140,7 +142,7 @@ class MainWindow(QMainWindow):
 
         #layout for device control
         deviceLayout = self.deviceLayoutSetup()
-
+        self.vDivSize1 = 1
 
         #overall layout
         layout = QGridLayout()
@@ -156,7 +158,7 @@ class MainWindow(QMainWindow):
         self.sampRes = 0
         
         
-        
+        self.voltsDivFix()
         self.logicLines = [None]*8
 
         self.logicLines[0] = self.logic_graph.plot(pen = self.awgPen1)
@@ -329,6 +331,37 @@ class MainWindow(QMainWindow):
             self.logic_graph.hide()
         return
 
+    #Oscilloscope Range Slots
+    def oscCh1Div_changed(self, newVal):
+        '''Changes Divisions to match new Value'''
+        halfNewRange = newVal*5
+        axisRange = self.yAxis1.range
+        midpoint = (axisRange[0]+axisRange[1])/2
+        self.plotViewBox.setYRange(midpoint-halfNewRange,midpoint+halfNewRange)
+        self.voltsDivFix()
+
+    def voltsDivFix(self):
+        '''Fixes positions of horizontal lines as Constant divs'''
+        plotRange = self.yAxis1.range #height of y axis 1
+        divSize = (plotRange[1] - plotRange[0])/(10)#0.5 on either side is a smudge to fully show all divs
+        #print(str(midpoint)+" , "+ str(divSize)+ str(plotRange))
+        for i in range(0,11):
+            self.voltsDiv[i].setValue(plotRange[0]+divSize*i)
+        self.vDivSize1 = divSize
+        self.oscCh1VDiv.input_field.setVal(divSize,False)
+
+    def oscCh2Div_changed(self, newVal):
+        '''Slot for text-based V/div change'''
+        halfNewRange = newVal*5
+        axisRange = self.yAxis2.range
+        midpoint = (axisRange[0]+axisRange[1])/2
+        self.plot_osc2.setYRange(midpoint-halfNewRange,midpoint+halfNewRange)
+
+    def oscCh2Div_changed_manually(self, vb, newRange):
+        '''slot for mouse based V/div change'''
+        divSize = (newRange[1] - newRange[0])/(10)
+        self.oscCh2VDiv.input_field.setVal(divSize,False)
+
     def set_time_div(self, div):
         '''Sets left-right range of plots. The range will default to 10 divisions wide. 
         ### Params
@@ -372,7 +405,8 @@ class MainWindow(QMainWindow):
         vb.disableAutoRange(pg.ViewBox.XAxis)
         #print(self.xAxis.tickSpacing(ranges[0][0],ranges[0][1],NUMPOINTS))
         self.viewRange = ranges
-        self.vertLineFix()
+        #self.vertLineFix()
+        self.voltsDivFix()
 
 
     def on_range_changed_manually(self):
@@ -385,7 +419,8 @@ class MainWindow(QMainWindow):
         self.oscTime1 = np.linspace(ranges[0][0],ranges[0][1],NUMPOINTS)
         self.oscTime2 = np.linspace(ranges[0][0],ranges[0][1],NUMPOINTS)
         self.viewRange = ranges
-        self.vertLineFix()
+        #self.vertLineFix()
+        self.voltsDivFix()
         
     def lineMoved(self, line):
         '''Handler function for a movable line being moved
@@ -409,6 +444,7 @@ class MainWindow(QMainWindow):
             midpoint = (range[0]+range[1])/2#(range[0][0]+range[0][1])/2
             line.setPos(midpoint)
 
+        
     def updateViews(self):
         '''Updates view of second oscilloscope y axis'''
         ## view has resized; update auxiliary views to match
@@ -487,19 +523,19 @@ class MainWindow(QMainWindow):
         #set y axis as well
         self.plot_graph.getAxis("left").setTickPen(color = "black", width = 2)#USES directly
 
-        self.time = np.linspace(0,10,NUMPOINTS)
         self.zeros = [0, 0, 0, 0, 0, 0, 0, 0, 0, 0] #array of 0's for clearing wave -> placeholder for testing
         self.plot_graph.setLabel("left", text = "Voltage", units = "V")
         self.plot_graph.setLabel("bottom", text ="Time" ,units = "s")
-        self.plot_graph.showGrid(x=True, y=True)
+        self.plot_graph.showGrid(x=True, y=False)
         #add infinte line to graph
-        self.plotLine = pg.InfiniteLine(pos=5,movable=True, angle=90, pen={'color':'g', 'width':3},  hoverPen=(0,200,0))
+            #removed for now
+        '''self.plotLine = pg.InfiniteLine(pos=5,movable=True, angle=90, pen={'color':'g', 'width':3},  hoverPen=(0,200,0))
         
         self.plotLine.setZValue(3)
         self.plot_graph.addItem(self.plotLine)
 
         vb.setLimits(minXRange = 4e-6*5)
-        self.plotLine.sigPositionChangeFinished.connect(self.lineMoved)
+        self.plotLine.sigPositionChangeFinished.connect(self.lineMoved)'''
 
 
         #Setting second y-axis
@@ -514,15 +550,18 @@ class MainWindow(QMainWindow):
         self.plot_graph.vb.sigResized.connect(self.updateViews)
         self.plot_osc2.sigResized.connect(self.updateViews)
 
+        self.yAxis2 = self.plot_graph.getAxis('right')
+
         self.oscLine1 = self.plot_graph.plot(self.oscTime1, self.oscData1,pen = self.awgPen1)
         self.oscLine2 = pg.PlotDataItem(self.oscTime2, self.oscData2, pen = self.awgPen2)
         self.plot_osc2.addItem(self.oscLine2)#self.plot_graph.plot(self.oscTime2, self.oscData2, pen = self.awgPen2)
+        self.plot_osc2.sigYRangeChanged.connect(self.oscCh2Div_changed_manually)
         self.oscLine2.setZValue(2)
         
         #stop auto resizing of base plot
         vb.disableAutoRange(pg.ViewBox.YAxis)
-        self.plot_graph.hideButtons()
-        self.yAxis1.setScale(2)
+        #self.plot_graph.hideButtons()
+        #self.yAxis1.setScale(2)
         #when recordData clicked, export plot data to image & save
         self.exportData = pg.exporters.ImageExporter(self.plot_graph) #USES directly
 
@@ -536,8 +575,8 @@ class MainWindow(QMainWindow):
         vb_l = self.logic_graph.getViewBox() #USES directly
         vb_l.setBackgroundColor("w")
         
-        self.verticalLines = []
-        self.verticalLines.append(self.plotLine)
+        '''self.verticalLines = []
+        self.verticalLines.append(self.plotLine)'''
 
         #below line disables a right click menu
         #self.logic_graph.plotItem.setMenuEnabled(False)
@@ -560,17 +599,26 @@ class MainWindow(QMainWindow):
         self.logic_graph.setLabel("bottom", text = "Time",units = "s")
         self.logic_graph.showGrid(x=True, y=True)
         self.logic_graph.setXLink(self.plot_graph)
-
-        self.logicLine = pg.InfiniteLine(pos= 5, movable=True, angle=90, pen={'color':'g', 'width':3},  hoverPen=(0,200,0))
+        ### Removing Vertical Lines for now
+        ''' self.logicLine = pg.InfiniteLine(pos= 5, movable=True, angle=90, pen={'color':'g', 'width':3},  hoverPen=(0,200,0))
         self.logicLine.setZValue(2)
         self.logic_graph.addItem(self.logicLine)
         self.verticalLines.append(self.logicLine)
-        self.logicLine.sigPositionChangeFinished.connect(self.lineMoved)
+        self.logicLine.sigPositionChangeFinished.connect(self.lineMoved)'''
+        ###
 
         self.logic_graph.hide()
         self.plot_graph.hide()
         self.plot_osc2.hide()
-
+        horizontalLines = [None]*11
+        halfGray = QColor("darkGray")
+        halfGray.setAlpha(127)
+        for i in range(0,11):
+            horizontalLines[i] = self.plot_graph.addLine(y=(i-5), pen = pg.mkPen(QColor("darkGray"),width = 2))
+            if i % 2 == 1:
+                horizontalLines[i].pen.setColor(halfGray)
+        self.voltsDiv = horizontalLines  
+        self.plotViewBox.setYRange(-5.5,5,5)     
         graphLayout.ci.setSpacing(0)
         return graphLayout
 
@@ -745,6 +793,7 @@ class MainWindow(QMainWindow):
         self.oscCh1Trig.setPlaceholderText('Trigger Type')
         self.oscCh1Trig.addItems(edges)
         self.oscCh1VDiv = LabelField("Range",[1e-6,20],1.0,2,"V/Div",{"u":1e-6,"m":1e-3,"":1},BLANK)
+        self.oscCh1VDiv.valueChanged.connect(self.oscCh1Div_changed)
 
         self.oscCh2EN = QCheckBox("CH2")
         self.oscCh2EN.setChecked(False) #default scope channel 2 off
@@ -753,7 +802,7 @@ class MainWindow(QMainWindow):
         self.oscCh2Trig.setPlaceholderText('Trigger Type')
         self.oscCh2Trig.addItems(edges)
         self.oscCh2VDiv = LabelField("Range",[1e-6,20],1.0,2,"V/Div",{"u":1e-6,"m":1e-3,"":1},BLANK)
-
+        self.oscCh2VDiv.valueChanged.connect(self.oscCh2Div_changed)
         
         oscilloLayout.addWidget(self.oscCh1EN,1,0,2,1)
         oscilloLayout.addWidget(self.oscCh1VDiv,1,1)
@@ -997,24 +1046,3 @@ window = MainWindow()
 window.show()
 
 app.exec()
-print("Goodbye")
-
-"""[summary]
-
-    ### Parameters
-    1. a : str
-        - [description]
-    2. *b : int, (default 5)
-        - [description]
-    3. *c : Tuple[int, int], (default (1, 2))
-        - [description]
-
-    ### Returns
-    - Any
-        - [description]
-
-    Raises
-    ------
-    - ValueError
-        - [description]
-    """
