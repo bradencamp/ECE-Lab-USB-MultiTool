@@ -40,9 +40,12 @@ import threading
 #html standard colors
 colors = ["Yellow","Teal","Silver","Red","Purple","Olive","Navy","White",
             "Maroon","Lime","Green","Gray","Fuchsia","Blue","Black","Aqua"]
-
+'''Html standard colors'''
+#Constants
 MAXFREQUENCY = 250e3
+'''max AWG frequency'''
 MINFREQUENCY = 1
+'''min AWG frequency'''
 MINAMP = -5
 MAXAMP = 5
 MINOFF = -10
@@ -51,12 +54,17 @@ NUMPOINTS = 300
 NUMDIVS = 10 #based on default we've worked with thus far, scopy uses ~16
 
 USE_CSV = False
-
+'''Use CSV file for testing'''
 #because of a change made to input field, we need to specify a "" unit
 prefixes_voltage = {"m": 1e-3,"":1}
 prefixes_frequency = {"k": 1e3, "M": 1e6,"":1}
 
-a = 0
+oscModeFreq = [1000,2000,5000, 10000,20000,50000, 100000,200000,500000, 1000000,2000000]#backwards from actuall oscmode
+oscModePeriod = [1/freq for freq in oscModeFreq]
+possibleTimeDivs = [0.01, 0.005, 0.002, 0.001, 0.0005, 0.0002, 0.0001, 5e-05, 2e-05, 10e-06, 5e-06]
+#[10*T for T in oscModePeriod]#[1, 0.5, 0.2, 0.1, 0.05, 0.02, 0.01, 5/1000, 2/1000, 1/1000 ,5/1000/10, 2/1000/10, 1/1000/10 ,5/1000/100, 2/1000/100, 1/1000/100 ,5/1000/1000, 2/1000/1000, 1/1000/1000]
+possibleVoltDivs = [5, 2, 1, .1, .5, .2, .1]
+oscBufferShow = 1000
 
 class ColorBox(QWidget):
 
@@ -116,9 +124,30 @@ class MainWindow(QMainWindow):
         self.awgCh1Config = dict(amp=1, off=0,freq = 1,phase = 0, wave = 0, DC = 0.5)  # Dictionary with initial values
         self.awgCh2Config = dict(amp=1, off=0,freq = 1,phase = 0, wave = 0, DC = 0.5)  # Dictionary with initial values
         self.oscCh1Config = dict(mode=0, sampletime=0, offset=0, attn=0, amp=0)
+        self.oscCh2Config = dict(mode=0, sampletime=0, offset=0, attn=0, amp=0)
         self.osc1Buffer = []
         self.osc2Buffer = []
         self.setWindowTitle("USB MultiTool")
+        self.zeros = [0, 0, 0, 0, 0, 0, 0, 0, 0, 0] #array of 0's for clearing wave -> placeholder for testing
+
+
+        self.awgPen1 = pg.mkPen(color=(0, 0, 255), width=4, style=Qt.PenStyle.SolidLine) #scope ch1 = blue, solid line
+        '''Ch1 pen'''
+        self.awgPen2 = pg.mkPen(color=(255, 0, 0), width=4, style=Qt.PenStyle.SolidLine) #scope ch2 = red, dotted line
+        '''Ch2 pen'''
+        self.awgTime1 = np.linspace(0,10,NUMPOINTS)
+        self.awgTime2 = np.linspace(0,10,NUMPOINTS)
+        self.awgLine1 = pg.PlotDataItem()
+        self.awgLine2 = pg.PlotDataItem()
+        self.oscTime1 = np.linspace(0,10,NUMPOINTS)
+        self.oscTime2 = np.linspace(0,10,NUMPOINTS)
+        self.oscData1 = 1*np.sin(2*pi*self.awgCh1Config["freq"]*self.oscTime1+pi/180*self.awgCh1Config["phase"]) #sine wave ch1
+        self.oscData2 = 1*np.sin(2*pi*self.awgCh2Config["freq"]*self.oscTime2) #sine wave ch2
+        self.awgData1 = np.ones(NUMPOINTS)
+        self.awgData2 = np.ones(NUMPOINTS)
+
+        #layout for device control
+        deviceLayout = self.deviceLayoutSetup()
 
         #layout for awg section
         awgLayout = self.awgLayoutSetup()
@@ -126,10 +155,6 @@ class MainWindow(QMainWindow):
 
         #layout for window containing oscilloscope, wave, and logic analyizer
         centerLayout = self.centerLayoutSetup()
-        
-
-        #layout for device control
-        deviceLayout = self.deviceLayoutSetup()
 
 
         #overall layout
@@ -138,28 +163,20 @@ class MainWindow(QMainWindow):
         layout.addLayout(centerLayout, 2, 0, 7,-1) #for center block
         layout.addLayout(deviceLayout, 9, 0,1,-1) #for connect/disconect
 
-
+        layout.setRowStretch(3,3)
         self.timer = QTimer()
         self.timer.setInterval(300)
         self.timer.timeout.connect(self.update_plot)
         self.timer.start()
         self.sampRes = 0
-        self.awgPen1 = pg.mkPen(color=(0, 0, 255), width=5, style=Qt.PenStyle.SolidLine) #scope ch1 = blue, solid line
-        self.awgPen2 = pg.mkPen(color=(255, 0, 0), width=5, style=Qt.PenStyle.DotLine) #scope ch2 = red, dotted line
-        self.awgTime1 = np.linspace(0,10,NUMPOINTS)
-        self.awgTime2 = np.linspace(0,10,NUMPOINTS)
-
-        self.awgData1 = 1*np.sin(2*pi*self.awgCh1Config["freq"]*self.awgTime1+pi/180*self.awgCh1Config["phase"]) #sine wave ch1
-
-        self.awgData2 = 1*np.sin(2*pi*self.awgCh2Config["freq"]*self.awgTime2) #sine wave ch2
         
-        self.awgLine1 = self.plot_graph.plot(self.awgTime1, self.awgData1,pen = self.awgPen1)
-        self.awgLine2 = self.plot_graph.plot(self.awgTime2, self.awgData2, pen = self.awgPen2)
+        #self.awgLine1 = self.plot_graph.plot(self.awgTime1, self.awgData1,pen = self.awgPen1)
+        #self.awgLine2 = self.plot_graph.plot(self.awgTime2, self.awgData2, pen = self.awgPen2)
 
         self.oscLine1 = self.plot_graph.plot(self.oscTime1 ,self.osc1Buffer, pen= self.awgPen1)
 
         self.oscPosInterval = 1/(1000*10)
-
+        self.voltsDivFix()
         self.logicLines = [None]*8
 
         self.logicLines[0] = self.logic_graph.plot(pen = self.awgPen1)
@@ -167,7 +184,7 @@ class MainWindow(QMainWindow):
 
 
 
-        self.set_time_div(1.0) #1v/div
+        self.set_time_div(0) #1v/div
         widget = QWidget()
         widget.setLayout(layout)
         self.setCentralWidget(widget)
@@ -261,7 +278,7 @@ class MainWindow(QMainWindow):
                 #This stuff is threaded for some reason
                 #self.read_thread = threading.Thread(target=self.read_funct, args=())
                 #self.read_thread.start()
-
+                self.plot_graph.autoBtnClicked()
             except:
                 self.connectLabel.setText("Device Status: Error")
                 return
@@ -305,7 +322,13 @@ class MainWindow(QMainWindow):
         print("New Type: ",new)
         self.awgCh1Config["wave"] = new
         self.awgCh1Click()
-    
+
+    def on_ch1Show(self):
+        if(self.ch1Show.isChecked()):
+            self.awgGraphCh1.show()
+        else:
+            self.awgGraphCh1.hide()
+
     #channel 2 configs
     def set_awgCh2Amp(self, amp):
         print("new Amp: ", amp)
@@ -326,6 +349,12 @@ class MainWindow(QMainWindow):
         print("New Type: ",new)
         self.awgCh2Config["wave"] = new
         self.awgCh2Click()
+
+    def on_ch2Show(self):
+        if(self.ch2Show.isChecked()):
+            self.awgGraphCh2.show()
+        else:
+            self.awgGraphCh2.hide()
     #Logic channel Callbacks
 
     def onLogicCheck(self):
@@ -335,40 +364,282 @@ class MainWindow(QMainWindow):
             self.logic_graph.hide()
         return
 
+    #Oscilloscope Range Slots
+    def oscCh1Div_changed(self, newVal):
+        '''Changes Divisions to match new Value'''
+        halfNewRange = newVal*5
+        axisRange = self.yAxis1.range
+        midpoint = (axisRange[0]+axisRange[1])/2
+        self.plotViewBox.setYRange(midpoint-halfNewRange,midpoint+halfNewRange)
+        self.voltsDivFix()
+
+    def voltsDivFix(self):
+        '''Fixes positions of horizontal lines as Constant divs'''
+        plotRange = self.yAxis1.range #height of y axis 1
+        divSize = (plotRange[1] - plotRange[0])/(10)#0.5 on either side is a smudge to fully show all divs
+        #print(str(midpoint)+" , "+ str(divSize)+ str(plotRange))
+        for i in range(0,11):
+            self.voltsDiv[i].setValue(plotRange[0]+divSize*i)
+        self.vDivSize1 = divSize
+        self.oscCh1VDiv.input_field.setVal(divSize,False)
+
+    def oscCh2Div_changed(self, newVal):
+        '''Slot for text-based V/div change'''
+        halfNewRange = newVal*5
+        axisRange = self.yAxis2.range
+        midpoint = (axisRange[0]+axisRange[1])/2
+        self.plot_osc2.setYRange(midpoint-halfNewRange,midpoint+halfNewRange)
+
+    def oscCh2Div_changed_manually(self, vb, newRange):
+        '''slot for mouse based V/div change'''
+        divSize = (newRange[1] - newRange[0])/(10)
+        self.oscCh2VDiv.input_field.setVal(divSize,False)
+
     def set_time_div(self, div):
-        try:
-            self.plotViewBox.setXRange(self.viewRange[0][0],self.viewRange[0][0]+10*div)
-            self.xAxis.setTickSpacing(div,div/2)
-            #TODO throws error if current range is too large in comparision to div
-            #ie 10s range, 4us divs
-            #happens IN pyqtgraph library, so this try does nothoing
-            #also idealy we do not change the range much, so implement float div->mult correction
-        except:
-            return
+        '''Sets left-right range of plots. The range will default to 10 divisions wide. 
+        ### Params
+        div: index of possible time divisions to switch to.'''
+        divT = possibleTimeDivs[div]#convert index into div value
+        midpoint = (self.viewRange[0][0]+ self.viewRange[0][1])/2
+        #limit l-r span of xaxis to prevent too many tick lines from being drawn if user scrolls manually
+        self.plotViewBox.setLimits(maxXRange=divT*20,minXRange = 4*divT)
+        self.logicViewBox.setLimits(maxXRange=divT*20,minXRange = 4*divT)
+        self.xAxis.setTickSpacing(2*divT,divT )
+        self.logic_graph.getAxis("bottom").setTickSpacing(2*divT,divT)
+        #5.5 as a fudge to show fifth point
+        self.plotViewBox.setXRange(midpoint-5.5*divT, midpoint+5.5*divT)#self.viewRange[0][0],self.viewRange[0][0]+10*div)
+        self.viewRange = self.plotViewBox.viewRange()
+        print("New Range: "+str(self.viewRange[0][1] - self.viewRange[0][0]))
+        self.plot_graph.autoBtnClicked()
+        self.oscPosInterval = oscModePeriod[div]
+        print("New OSCMODE:\t"+str(11-div))
+        self.set_oscmode(11-div)
+        #Handle graphing
+     
 
     # handle range scaling
     def on_range_changed(self,vb, ranges):
+        '''Slot for user changing range of plot.
+        ### Params
+        vb: viewbox of view changed
+
+        ranges: new range of view'''
         #perhaps include processing to ensure 
-        #print("Scaling occurred:", ranges)
+        print("Scaling occurred:", ranges)
         #controlling x scale
             #look into using an event filter for this
-        xconstant = isclose(ranges[0][0],self.viewRange[0][0]) and isclose(ranges[0][1],self.viewRange[0][1])
-        if(xconstant):
-            #this happens 
-            #print("\tx close: ")
-            pass
-        else:
-            self.awgTime1 = np.linspace(ranges[0][0],ranges[0][1],NUMPOINTS)
-            #print("\t{} : {}".format(self.awgTime1[0],self.awgTime1[-1]))
-            self.awgTime2 = np.linspace(ranges[0][0],ranges[0][1],NUMPOINTS)
-            #print("\t{} : {}".format(self.awgTime2[0],self.awgTime2[-1]))
-            self.oscTime1 = np.linspace(ranges[0][0],ranges[0][1],NUMPOINTS)
-            #vb.disableAutoRange(pg.ViewBox.XAxis)
-
+        #xconstant = isclose(ranges[0][0],self.viewRange[0][0]) and isclose(ranges[0][1],self.viewRange[0][1])
+        #newDiv = (ranges[0][1] - ranges[0][0]) / 10.0 #Latest attempt at out of mem bug squashing
+        #self.timeDiv.input_field.setVal(newDiv,runCallback=False)
+        #vb.setXRange(self.viewRange[0][0],self.viewRange[0][0]+10*newDiv)
+        '''if(xconstant):
+            #this happens never from experience
+            print("\tx close: ")
+        else:'''
+        self.oscTime1 = np.linspace(ranges[0][0],ranges[0][1],NUMPOINTS)
+        print("\t{} : {}".format(self.oscTime1[0],self.oscTime1[-1]))
+        self.oscTime2 = np.linspace(ranges[0][0],ranges[0][1],NUMPOINTS)
+        print("\t{} : {}".format(self.oscTime2[0],self.oscTime2[-1]))
+        #vb.disableAutoRange(pg.ViewBox.XAxis)
+        #print(self.xAxis.tickSpacing(ranges[0][0],ranges[0][1],NUMPOINTS))
         self.viewRange = ranges
+        #self.vertLineFix()
+        #self.voltsDivFix()
+
+
+    def on_range_changed_manually(self):
+        '''slot for user manually changing range of plot'''
+        ranges = self.plotViewBox.viewRange()
+        print("Manually CHANGED: ", ranges)
+        #newDiv = (ranges[0][1] - ranges[0][0]) / 10.0 #Latest attempt at out of mem bug squashing
+        #self.timeDiv.input_field.setVal(newDiv,runCallback=False)
+        #self.plotViewBox.setXRange(self.viewRange[0][0],self.viewRange[0][0]+10*newDiv)
+        self.oscTime1 = np.linspace(ranges[0][0],ranges[0][1],NUMPOINTS)
+        self.oscTime2 = np.linspace(ranges[0][0],ranges[0][1],NUMPOINTS)
+        self.viewRange = ranges
+        #self.vertLineFix()
+        self.voltsDivFix()
+
+    def updateViews(self):
+        '''Updates view of second oscilloscope y axis'''
+        ## view has resized; update auxiliary views to match
+        
+        self.plot_osc2.setGeometry(self.plot_graph.vb.sceneBoundingRect())
+        
+        ## need to re-update linked axes since this was called
+        ## incorrectly while views had different shapes.
+        ## (probably this should be handled in ViewBox.resizeEvent)
+        self.plot_osc2.linkedViewChanged(self.plot_graph.vb, self.plot_osc2.XAxis)
+
+
 
     #Layouts
     ###-------------------------------------------------------------------------------------###
+       #sets up central graphs
+    def graphSetup(self):
+        '''Sets up graphs.
+        
+        ### Returns 
+        a widget containing Graphs'''
+        graphLayout =pg.GraphicsLayoutWidget(show=True)
+        graphLayout.setBackground("w") 
+        graphLayout.addLabel("")
+
+        self.awgGraphCh1 = graphLayout.addPlot(row = 3, col = 0 )#pg.PlotWidget#
+        self.awgGraphCh2 = graphLayout.addPlot(row = 3, col = 1)#pg.PlotWidget#
+
+        
+        self.awgline1= self.awgGraphCh1.plot([0],[0], pen = self.awgPen1)
+        self.awgline2= self.awgGraphCh2.plot([0],[0], pen = self.awgPen2)
+        self.awgPeriod1 = [i for i in range(0,NUMPOINTS+1)]
+        self.awgPeriod2 = [i for i in range(0,NUMPOINTS+1)]
+        self.set_awgCh1Freq(1)
+        self.set_awgCh2Freq(1)
+        self.awgWave1 = [0]*NUMPOINTS
+        self.awgWave2 = [0]*NUMPOINTS
+
+        self.awgGraphCh1.showGrid(True,True)
+        self.awgGraphCh2.showGrid(True,True)
+
+        self.awgGraphCh1.setLabel("left", text = "Voltage", units = "V")
+        self.awgGraphCh1.setLabel("bottom", text ="Time" ,units = "s")
+        
+        self.awgGraphCh2.setLabel("left", text = "Voltage", units = "V")
+        self.awgGraphCh2.setLabel("bottom", text ="Time" ,units = "s")
+        self.awgGraphCh1.hide()
+        self.awgGraphCh2.hide()
+        #maybe make a custom plotwidget, this will work for now
+        self.plot_graph = pg.PlotItem()
+        #self.plot_osc2 = pg.ViewBox()
+        graphLayout.addItem(self.plot_graph,row = 1, col = 0, colspan = 2) 
+        self.plot_osc2 = graphLayout.addViewBox(row = 1, col = 0, colspan = 2)
+        self.plot_osc2.setZValue(2)
+        vb = self.plot_graph.getViewBox()  
+        vb.setBackgroundColor("w")
+        vb.setMouseMode(pg.ViewBox.PanMode)
+        #below line disables a right click menu
+        #self.plot_graph.plotItem.setMenuEnabled(False)
+        vb.sigRangeChanged.connect(self.on_range_changed)
+        self.viewRange = vb.viewRange()
+        #if we need to completely disable resizing, uncomment below and set both to false
+            #comment of shame.
+        #self.plot_graph.setMouseEnabled(x=False,y=True)
+        #if this is commented, autoranging will grow x axis indefinitely, so dont
+            #We do actually need this for the oscilloscope proper
+        #vb.disableAutoRange(pg.ViewBox.XAxis)
+        #vb.setDefaultPadding(0.0)#doesn't help 
+        vb.sigRangeChangedManually.connect(self.on_range_changed_manually)
+        vb.setLimits(yMax = 20, yMin = -20)
+        vb.setXRange(0,10)
+        self.plotViewBox = vb
+        self.xAxis = self.plot_graph.getAxis("bottom") #USES directly
+        self.yAxis1 = self.plot_graph.getAxis("left")
+        self.xAxis.setTickPen(color = "black", width = 2)
+        #set y axis as well
+        self.plot_graph.getAxis("left").setTickPen(color = "black", width = 2)#USES directly
+
+        
+        self.plot_graph.setLabel("left", text = "Voltage", units = "V")
+        self.plot_graph.setLabel("bottom", text ="Time" ,units = "s")
+        self.plot_graph.showGrid(x=True, y=False)
+        #add infinte line to graph
+            #removed for now
+        '''self.plotLine = pg.InfiniteLine(pos=5,movable=True, angle=90, pen={'color':'g', 'width':3},  hoverPen=(0,200,0))
+        
+        self.plotLine.setZValue(3)
+        self.plot_graph.addItem(self.plotLine)
+
+        vb.setLimits(minXRange = 4e-6*5)
+        self.plotLine.sigPositionChangeFinished.connect(self.lineMoved)'''
+
+
+        #Setting second y-axis
+        
+        self.plot_graph.showAxis('right')
+        self.plot_graph.scene().addItem(self.plot_osc2)
+        self.plot_graph.getAxis('right').linkToView(self.plot_osc2)
+        self.plot_osc2.setXLink(self.plot_graph)
+        self.plot_graph.setLabel("right", text = "Voltage", units = "V")
+
+        self.plot_graph.getAxis("right").setGrid(False)
+        self.plot_graph.vb.sigResized.connect(self.updateViews)
+        self.plot_osc2.sigResized.connect(self.updateViews)
+
+        self.yAxis2 = self.plot_graph.getAxis('right')
+
+        self.oscLine1 = self.plot_graph.plot(pen = self.awgPen1)#self.oscTime1, self.oscData1,
+        self.oscLine2 = pg.PlotDataItem( pen = self.awgPen2)#self.oscTime2, self.oscData2,
+        self.plot_osc2.addItem(self.oscLine2)#self.plot_graph.plot(self.oscTime2, self.oscData2, pen = self.awgPen2)
+        self.plot_osc2.sigYRangeChanged.connect(self.oscCh2Div_changed_manually)
+        self.oscLine2.setZValue(2)
+        
+        #stop auto resizing of base plot
+        #vb.disableAutoRange(pg.ViewBox.YAxis)
+        #self.plot_graph.hideButtons()
+        #self.yAxis1.setScale(2)
+        #when recordData clicked, export plot data to image & save
+        self.exportData = pg.exporters.ImageExporter(self.plot_graph) #USES directly
+
+        #Logic Analyizer section
+            #mostly copied over from plot_graph
+        self.logic_graph = graphLayout.addPlot(row = 2, col = 0, colspan = 2)#pg.PlotWidget()
+        self.logic_graph.showAxis('right')
+        self.logic_graph.setLabel("right", text = "Logic")
+        self.logic_graph.getAxis('right').setStyle(showValues= False)
+        self.logic_graph.getAxis('left').setStyle(showValues= False)
+        vb_l = self.logic_graph.getViewBox() #USES directly
+        vb_l.setBackgroundColor("w")
+        
+        '''self.verticalLines = []
+        self.verticalLines.append(self.plotLine)'''
+
+        #below line disables a right click menu
+        #self.logic_graph.plotItem.setMenuEnabled(False)
+        #vb_l.sigRangeChanged.connect(self.on_range_changed) #TODO:test with this connection
+        #self.viewRange = vb.viewRange()
+        #if we need to completely disable resizing, uncomment below and set both to false
+            #comment of shame.
+        #self.logic_graph.setMouseEnabled(x=False,y=True)
+        #if this is commented, autoranging will grow x axis indefinitely, so dont
+        #vb_l.disableAutoRange(pg.ViewBox.XAxis)
+        vb_l.setDefaultPadding(0.0)#doesn't help 
+        vb_l.setLimits(yMax = 20, yMin = -20)
+        vb_l.setXRange(0,10)
+        self.logicViewBox = vb_l
+        
+        #set y axis as well
+        self.logic_graph.getAxis("left").setTickPen(color = "black", width = 2)#Uses Direclty
+        self.logic_graph.getAxis("bottom").setTickPen(color = "black", width = 2)#Uses Direclty
+        self.logic_graph.setLabel("left", "Logic")
+        self.logic_graph.setLabel("bottom", text = "Time",units = "s")
+        self.logic_graph.showGrid(x=True, y=True)
+        self.logic_graph.setXLink(self.plot_graph)
+        ### Removing Vertical Lines for now
+        ''' self.logicLine = pg.InfiniteLine(pos= 5, movable=True, angle=90, pen={'color':'g', 'width':3},  hoverPen=(0,200,0))
+        self.logicLine.setZValue(2)
+        self.logic_graph.addItem(self.logicLine)
+        self.verticalLines.append(self.logicLine)
+        self.logicLine.sigPositionChangeFinished.connect(self.lineMoved)'''
+        ###
+
+        self.logic_graph.hide()
+        self.plot_graph.hide()
+        self.plot_osc2.hide()
+        horizontalLines = [None]*11
+        halfGray = QColor("darkGray")
+        halfGray.setAlpha(127)
+        for i in range(0,11):
+            horizontalLines[i] = self.plot_graph.addLine(y=(i-5), pen = pg.mkPen(QColor("darkGray"),width = 2))
+            if i % 2 == 1:
+                horizontalLines[i].pen.setColor(halfGray)
+        self.voltsDiv = horizontalLines  
+        self.plotViewBox.setYRange(-5.5,5,5)     
+        graphLayout.ci.setSpacing(0)
+        return graphLayout
+
+
+    
+    
     def awgLayoutSetup(self):
         awgLayout = QGridLayout()
         awgLayout.addWidget(ColorBox(QColor("#cbc6d3")),0,0, -1,-1)#background for demonstration. Remove later colors[0] 
@@ -423,17 +694,26 @@ class MainWindow(QMainWindow):
         awgLayout.addWidget(ch2Off,1,4)        
         ch1Off.valueChanged.connect(self.set_awgCh1Off)
         ch2Off.valueChanged.connect(self.set_awgCh2Off)
+        #display graphs
+        self.ch1Show = QCheckBox("Show CH1")
+        awgLayout.addWidget(self.ch1Show, 0,5)
+        self.ch1Show.stateChanged.connect(self.on_ch1Show)
+        self.ch2Show = QCheckBox("Show CH2")
+        awgLayout.addWidget(self.ch2Show, 1,5)
+        self.ch2Show.stateChanged.connect(self.on_ch2Show)
+        
+        
         awgPhase = LabelField("Phase:" ,[0, 180],float(0),2,"°", {"":1},BLANK)
-        awgLayout.addWidget(awgPhase,0,5)
+        awgLayout.addWidget(awgPhase,1,6),
         awgPhase.valueChanged.connect(self.set_awgPhase)
-        awgLayout.addWidget(QLabel("Sync Status:"),1,5)
+        '''awgLayout.addWidget(QLabel("Sync Status:"),1,5)
 
         syncButton = QPushButton("FORCE SYNC")
         syncButton.pressed.connect(self.AWGSYNC)
         buttonPalette = syncButton.palette()
         buttonPalette.setColor(QPalette.ColorRole.ButtonText, QColor("red"))
         syncButton.setPalette(buttonPalette)
-        awgLayout.addWidget(syncButton,1,6)
+        awgLayout.addWidget(syncButton,1,6)'''
         awgLayout.addWidget(QLabel("Waveform Generator"),0,6)
 
         return awgLayout
@@ -456,11 +736,28 @@ class MainWindow(QMainWindow):
         centerSettings = QGridLayout()
         timeSetting = ColorBox("#e0dde5") 
         centerLayout.addWidget(timeSetting,0,0,1,-1)
-        self.timeDiv = LabelField("Time Base", [1/MAXFREQUENCY,1/MINFREQUENCY],1,3,"s/div",{"u":1e-6,"m":1e-3,"":1},BLANK)
-        centerSettings.addWidget(self.timeDiv,0,0,1,1)
-        self.timeDiv.valueChanged.connect(self.set_time_div)
+        self.timeDiv = QComboBox()
+        #LabelField("Time Base", [1/MAXFREQUENCY,1/MINFREQUENCY],1,3,"s/div",{"u":1e-6,"m":1e-3,"":1},BLANK)
+        centerSettings.addWidget(self.timeDiv,0,0+1,1,1)
+        centerSettings.addWidget(QLabel("Time Div "), 0,0)
+        for div in possibleTimeDivs:
+            unit = ""
+            val = div
+            if(div < 1/1000):#us case
+                unit = "u"
+                val = div*1000*1000
+            elif(div < 1):#ms case
+                unit = "m"
+                val = div*1000
+            self.timeDiv.addItem(f"{val} {unit}s/div")
+            #possibleTimeDivs = [1, 0.5, 0.2, 0.1, 0.05, 0.02, 0.01, 5/1000, 2/1000, 1/1000 ,5/1000/10, 2/1000/10, 1/1000/10 ,5/1000/100, 2/1000/100, 1/1000/100 ,5/1000/1000, 2/1000/1000, 1/1000/1000]
+        
+        #self.timeDiv.addItems(["10 s/div",  "5 s/div", "1 s/div","0.5 s/div", "0.1 s/div", "50 ms/div", "10 ms/div","5 ms/div","1 ms/div"])
+        self.timeDiv.setCurrentIndex(0)
+        self.timeDiv.currentIndexChanged.connect(self.set_time_div)
+        
+        centerSettings.addWidget(QLabel("Trigger Settings: "),0,1+1,1,1)
 
-        centerSettings.addWidget(QLabel("Trigger Settings: "),0,1,1,1)
 
         modes = ["Auto","Normal"]
         trigTypeSelect = QComboBox()
@@ -469,8 +766,8 @@ class MainWindow(QMainWindow):
         trigHoldoffSelect = QComboBox()
         trigHoldoffSelect.addItem("Holdoff (s)")
 
-        centerSettings.addWidget(trigTypeSelect,0,2)
-        centerSettings.addWidget(trigHoldoffSelect,0,3)
+        centerSettings.addWidget(trigTypeSelect,0,2+1)
+        centerSettings.addWidget(trigHoldoffSelect,0,3+1)
 
         logicLayout = QGridLayout()
         logicLayout.addWidget(ColorBox("#c9d4c9"),0,0,-1,-1)#background for demonstration. Remove later
@@ -495,90 +792,11 @@ class MainWindow(QMainWindow):
         logicLayout.setColumnStretch(0,1)
         logicLayout.setColumnStretch(1,4)
 
-        graphLayout =pg.GraphicsLayoutWidget(show=True)
-        graphLayout.setBackground("w") 
         dataLayout = QGridLayout()
         #dataLayout.addWidget(ColorBox("#d0fcde"),0,0,-1,-1)#background for demonstration. Remove later
         dataLayout.addWidget(QLabel("Live Data"),0,0,1,-1,alignment=Qt.AlignmentFlag.AlignHCenter)
-
-
-        #maybe make a custom plotwidget, this will work for now
-        self.plot_graph = graphLayout.addPlot(row = 0, col = 0)#pg.PlotWidget()
-        #####self.plot_graph.setBackground("w")
-        vb = self.plot_graph.getViewBox()  #USES directly
-        vb.setBackgroundColor("w")
-        vb.setMouseMode(pg.ViewBox.PanMode)
-        #below line disables a right click menu
-        #self.plot_graph.plotItem.setMenuEnabled(False)
-        vb.sigRangeChanged.connect(self.on_range_changed)
-        self.viewRange = vb.viewRange()
-        #if we need to completely disable resizing, uncomment below and set both to false
-            #comment of shame.
-        #self.plot_graph.setMouseEnabled(x=False,y=True)
-        #if this is commented, autoranging will grow x axis indefinitely, so dont
-            #perhaps not a problem for plotting osc
-        #vb.disableAutoRange(pg.ViewBox.XAxis) TODO: decide wether to keep this (not disable in other places)
-        vb.setDefaultPadding(0.0)#doesn't help 
-        #vb.setLimits(yMax = 20, yMin = -20) #TEMPORARILY DISABALED
-        vb.setXRange(0,10,.01 )
-        self.plotViewBox = vb
-        self.xAxis = self.plot_graph.getAxis("bottom") #USES directly
-        self.xAxis.setTickPen(color = "black", width = 2)
-        #set y axis as well
-        self.plot_graph.getAxis("left").setTickPen(color = "black", width = 2)#USES directly
-
-        self.time = np.linspace(0,10,NUMPOINTS)
-        self.zeros = [0, 0, 0, 0, 0, 0, 0, 0, 0, 0] #array of 0's for clearing wave -> placeholder for testing
-        self.plot_graph.setLabel("left", "Voltage (V)")
-        self.plot_graph.setLabel("bottom", "Time (s)",)
-        self.plot_graph.showGrid(x=True, y=True)
-        
-        
-        #when recordData clicked, export plot data to image & save
-        self.exportData = pg.exporters.ImageExporter(self.plot_graph) #USES directly
-
-        #Logic Analyizer section
-            #mostly copied over from plot_graph
-        self.logic_graph = graphLayout.addPlot(row = 1, col = 0)#pg.PlotWidget()
-        
-        vb_l = self.logic_graph.getViewBox() #USES directly
-        vb_l.setBackgroundColor("w")
-        #below line disables a right click menu
-        #self.logic_graph.plotItem.setMenuEnabled(False)
-        #vb_l.sigRangeChanged.connect(self.on_range_changed)
-        #self.viewRange = vb.viewRange()
-        #if we need to completely disable resizing, uncomment below and set both to false
-            #comment of shame.
-        #self.logic_graph.setMouseEnabled(x=False,y=True)
-        #if this is commented, autoranging will grow x axis indefinitely, so dont
-        #vb_l.disableAutoRange(pg.ViewBox.XAxis)
-        vb_l.setDefaultPadding(0.0)#doesn't help 
-        vb_l.setLimits(yMax = 20, yMin = -20)
-        vb_l.setXRange(0,10,.01 )
-        self.logicViewBox = vb
-        #self.xAxis = self.plot_graph.plotItem.getAxis("bottom")
-        #self.xAxis.setTickPen(color = "black", width = 2)
-        #set y axis as well
-        self.logic_graph.getAxis("left").setTickPen(color = "black", width = 2)#Uses Direclty
-        self.logic_graph.setLabel("left", "Logic")
-        self.logic_graph.setLabel("bottom", "Time (s)",)
-        self.logic_graph.showGrid(x=True, y=True)
-        self.logic_graph.setXLink(self.plot_graph)
-
-        
-        #title can be passed here
-        
-        #graphLayout.addItem(self.plot_graph)
-        #graphLayout.addItem(self.logic_graph.plotItem)
-
-        #dataLayout.addWidget(self.plot_graph,1,0,5,-1)
-        #dataLayout.addWidget(self.logic_graph,2+5,0,5,-1)
-
-        #dataLayout.setRowStretch(1,1)
-        #dataLayout.setRowStretch(2,1)
-
-        self.logic_graph.hide()
-        dataLayout.addWidget(graphLayout)
+        graphWidget = self.graphSetup()
+        dataLayout.addWidget(graphWidget)
 
 
 
@@ -597,7 +815,7 @@ class MainWindow(QMainWindow):
         self.oscCh1Trig.setPlaceholderText('Trigger Type')
         self.oscCh1Trig.addItems(edges)
         self.oscCh1VDiv = LabelField("Range",[1e-6,20],1.0,2,"V/Div",{"u":1e-6,"m":1e-3,"":1},BLANK)
-
+        self.oscCh1VDiv.valueChanged.connect(self.oscCh1Div_changed)
         self.oscCh2EN = QCheckBox("CH2")
         self.oscCh2EN.setChecked(False) #default scope channel 2 off
         self.oscCh2EN.stateChanged.connect(self.oscCh2Click) #checkbox handler
@@ -605,17 +823,17 @@ class MainWindow(QMainWindow):
         self.oscCh2Trig.setPlaceholderText('Trigger Type')
         self.oscCh2Trig.addItems(edges)
         self.oscCh2VDiv = LabelField("Range",[1e-6,20],1.0,2,"V/Div",{"u":1e-6,"m":1e-3,"":1},BLANK)
-
-        oscmode = LabelField("oscmode:",[0,12],int(1),2,"m", {"u":1e-6,"m":1e-3,"":1},BLANK)
+        self.oscCh2VDiv.valueChanged.connect(self.oscCh2Div_changed)
+        oscmode = LabelField("oscmode:",[0,12],int(1),0,"", {"u":1e-6,"m":1e-3,"":1},BLANK)
         oscmode.valueChanged.connect(self.set_oscmode)
         oscilloLayout.addWidget(oscmode,0,3)
         
         oscilloLayout.addWidget(self.oscCh1EN,1,0,2,1)
-        oscilloLayout.addWidget(self.oscCh1VDiv,1,1)
+        oscilloLayout.addWidget(self.oscCh1VDiv,1,1,1,-1)
         oscilloLayout.addWidget(self.oscCh1Trig,2,1)
 
         oscilloLayout.addWidget(self.oscCh2EN,3,0,2,1)
-        oscilloLayout.addWidget(self.oscCh2VDiv,3,1)
+        oscilloLayout.addWidget(self.oscCh2VDiv,3,1,1,-1)
         oscilloLayout.addWidget(self.oscCh2Trig,4,1)
 
         centerLayout.addLayout(logicLayout,1,0,6,3)
@@ -630,11 +848,14 @@ class MainWindow(QMainWindow):
         centerLayout.addWidget(QLabel("Live Data"),0,9)
 
         return centerLayout
+    
+    
     def set_oscmode(self, oscmode):
         print("new mode: ", oscmode)
         self.oscCh1Config["mode"] = oscmode
         #self.awgCh1Click()
         self.oscCh1Click()
+        self.sendline.setText(str(oscmode))
     statusCallbackSignal = pyqtSignal(str, str) 
     """Used to pass signals about connection updates between different threads """
     
@@ -713,7 +934,7 @@ class MainWindow(QMainWindow):
             self.runStopButton.setText("Stop")
         else:
             self.runStopButton.setText("Run")
-
+        self.plot_graph.autoBtnClicked()
     ###WAVEFORM GENERATOR--------------------------------------------------------------------------------------------------------
     #awg channel 1 checkbox handler
     def awgCh1Click(self): #If the button is checked, send a wave based on the parameters provided
@@ -804,6 +1025,11 @@ class MainWindow(QMainWindow):
         if not self.oscilloCheck.isChecked(): #temp solution -> plot zeros to remove waveforms
             self.oscCh1EN.setChecked(False)
             self.oscCh2EN.setChecked(False)
+            self.plot_graph.hide()
+            self.plot_osc2.hide()
+        else:
+            self.plot_graph.show()
+            self.plot_osc2.show()
     #scope channel 1 checkbox handler
     def oscCh1Click(self):
         '''if self.oscCh1EN.isChecked():
@@ -812,6 +1038,7 @@ class MainWindow(QMainWindow):
         self.conn.sendScope(0, mode=self.oscCh1Config["mode"],sampletime=self.oscCh1Config["sampletime"], offset_osc=self.oscCh1Config["offset"], attenuation=self.oscCh1Config["attn"], amp=self.oscCh1Config["amp"])
         if not self.oscCh1EN.isChecked():
             self.awgLine1.setData(self.zeros,self.zeros) #temp solution -> remove wave
+        self.plot_graph.autoBtnClicked()
 
     #scope channel 2 checkbox handler
     def oscCh2Click(self):
@@ -819,6 +1046,7 @@ class MainWindow(QMainWindow):
             self.awgLine2.setData(self.awgTime2,self.awgData2) #set ch2 waveform data if checked'''
         if not self.oscCh2EN.isChecked():
             self.awgLine2.clear()
+        self.plot_graph.autoBtnClicked()
 
     #handles record data button & exports snapshot of plot to file
     def record_data(self):
@@ -856,7 +1084,13 @@ class MainWindow(QMainWindow):
     ###-------------------------------------------------------------------------------------###
     def update_plot(self):
         #TODO edit all numpy funtions to use the out parameter
-        global a #TODO: Fix this nonsense
+
+
+
+        #TODO REAL: MAKE ALL HIS WORK
+
+
+
         temp_logic_data = [[0,0,0,0,0,1,1,1,0,0],[0,1,0,1,0,1,0,1,0,1]]
 
         #like angular position of awgtime array. To be used for nonsine functions
@@ -877,26 +1111,16 @@ class MainWindow(QMainWindow):
 
             self.logicLines[0].setData(self.zeros,self.zeros)
             self.logicLines[1].setData(self.zeros,self.zeros)
-        else:
-            if self.AWGch1En.isChecked():
-                self.graphAWGCh1()
-                print("Plotting AWG0")
-            else:
-                self.awgLine1.clear()
-            if self.AWGch2En.isChecked():
-                self.graphAWGCh2()
-                print("Plotting AWG1")
-            else:
-                self.awgLine2.clear()      
+        else:  
 
             if self.oscilloCheck.isChecked():   
                 if self.oscCh1EN.isChecked():
-                    if(len(self.osc1Buffer)>=1000):
+                    if(len(self.osc1Buffer)>=oscBufferShow):
                         #self.graphOscCh1()
                         #change oscPosInterval to change time between two buffer position measuremnts
                         #print("Plotting OSC0")
                         a=1 #dummy op for breakpoint 
-                        self.oscLine1.setData(self.oscTime1[-999:],self.osc1Buffer[-999:])
+                        self.oscLine1.setData(self.oscTime1[-(oscBufferShow-1):],self.osc1Buffer[-(oscBufferShow-1):])
                    #print("Plotting OSC0")
                 if self.oscCh2EN.isChecked():
                     pass
@@ -913,7 +1137,7 @@ class MainWindow(QMainWindow):
                     self.sda = self.csvData[:, 2].astype(int)                   # data line
                     for i in (0,1):
                         if self.logic_checks[i].isChecked():
-                            self.logicLines[i].setData(self.sampleValues,self.csvData[:, 1].astype(int))  
+                            self.logicLines[i].setData(self.sampleValues,self.csvData[:, 1].astype(int)+i)  
                         else:
                             self.logicLines[i].setData(self.zeros, self.zeros)
                 else:
@@ -922,9 +1146,19 @@ class MainWindow(QMainWindow):
                             self.logicLines[i].setData(range(0,10),temp_logic_data[i], stepMode = "left")
                         else:
                             self.logicLines[i].setData(self.zeros,self.zeros)
-    def updateAWG(self):
-        
-        pass                
+
+        '''if(self.awgGraphCh1.isVisible()):
+            self.omega1AWG = np.mod(self.awgPeriod1+(self.awgCh1Config["phase"]/(360*self.awgCh1Config["freq"])),
+                            1/self.awgCh1Config["freq"])*self.awgCh1Config["freq"]
+            #TODO: finish graphing
+            self.awgWave1 = self.awgCh1Config["amp"]*np.sin(tau*self.omega1AWG) + self.awgCh1Config["off"]
+            self.awgline1.setData( self.awgPeriod1,self.awgWave1)
+        if(self.awgGraphCh2.isVisible()):
+            self.omega2AWG = np.mod(self.awgPeriod2+(self.awgCh2Config["phase"]/(360*self.awgCh2Config["freq"])),
+                            1/self.awgCh2Config["freq"])*self.awgCh2Config["freq"]
+            #TODO: finish graphing
+            self.awgWave2 = self.awgCh2Config["amp"]*np.sin(tau*self.omega2AWG) + self.awgCh2Config["off"]
+            self.awgline2.setData( self.awgPeriod2,self.awgWave2)'''             
 
 
 app = QApplication(sys.argv)

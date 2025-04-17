@@ -3,3 +3,8 @@ PCB/USBLabTool/fp-info-cache
 PCB/USBLabTool/*.kicad_prl
 PCB/USBLabTool/*.lck
 PCB/USBLabTool/*.bak
+# Byte-compiled / optimized / DLL files
+__pycache__/
+*.py[cod]
+*$py.class
+PCB/USBLabTool/USBLabTool-backups/
