@@ -37,7 +37,7 @@
 			(color 0 0 0 0.0000)
 		)
 		(uuid "37e12e55-0596-42de-ac66-6f566cb1a838")
-		(property "Sheetname" "USB_USER"
+		(property "Sheetname" "usb_iface"
 			(at 297.18 36.1184 0)
 			(effects
 				(font
@@ -247,7 +247,7 @@
 			(color 0 0 0 0.0000)
 		)
 		(uuid "eb849fef-899c-46da-8ce0-ed0caaa370cf")
-		(property "Sheetname" "Power_Supply"
+		(property "Sheetname" "psu"
 			(at 158.75 83.1084 0)
 			(effects
 				(font

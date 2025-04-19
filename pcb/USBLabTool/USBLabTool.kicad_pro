@@ -140,7 +140,7 @@
         "min_track_width": 0.0,
         "min_via_annular_width": 0.1,
         "min_via_diameter": 0.5,
-        "solder_mask_to_copper_clearance": 0.0,
+        "solder_mask_to_copper_clearance": 0.005,
         "use_height_for_length_calcs": true
       },
       "teardrop_options": [
@@ -504,7 +504,7 @@
       "gencad": "",
       "idf": "",
       "netlist": "",
-      "plot": "/home/braden/",
+      "plot": "../../",
       "pos_files": "",
       "specctra_dsn": "",
       "step": "",
@@ -633,11 +633,11 @@
     ],
     [
       "eb849fef-899c-46da-8ce0-ed0caaa370cf",
-      "Power_Supply"
+      "psu"
     ],
     [
       "37e12e55-0596-42de-ac66-6f566cb1a838",
-      "USB_USER"
+      "usb_iface"
     ],
     [
       "a25b8bd5-b6d2-402d-8b42-7856aa781e02",
