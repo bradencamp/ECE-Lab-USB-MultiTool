@@ -61,8 +61,7 @@ prefixes_frequency = {"k": 1e3, "M": 1e6,"":1}
 
 oscModeFreq = [1000,2000,5000, 10000,20000,50000, 100000,200000,500000, 1000000,2000000]#backwards from actuall oscmode
 oscModePeriod = [1/freq for freq in oscModeFreq]
-possibleTimeDivs = [0.01, 0.005, 0.002, 0.001, 0.0005, 0.0002, 0.0001, 5e-05, 2e-05, 10e-06, 5e-06]
-#[10*T for T in oscModePeriod]#[1, 0.5, 0.2, 0.1, 0.05, 0.02, 0.01, 5/1000, 2/1000, 1/1000 ,5/1000/10, 2/1000/10, 1/1000/10 ,5/1000/100, 2/1000/100, 1/1000/100 ,5/1000/1000, 2/1000/1000, 1/1000/1000]
+possibleTimeDivs = [10*T for T in oscModePeriod]#[1, 0.5, 0.2, 0.1, 0.05, 0.02, 0.01, 5/1000, 2/1000, 1/1000 ,5/1000/10, 2/1000/10, 1/1000/10 ,5/1000/100, 2/1000/100, 1/1000/100 ,5/1000/1000, 2/1000/1000, 1/1000/1000]
 possibleVoltDivs = [5, 2, 1, .1, .5, .2, .1]
 oscBufferShow = 1000
 
@@ -127,6 +126,10 @@ class MainWindow(QMainWindow):
         self.oscCh2Config = dict(mode=0, sampletime=0, offset=0, attn=0, amp=0)
         self.osc1Buffer = []
         self.osc2Buffer = []
+        self.logicPeriod=65454
+        self.numLogicSamples=300
+        self.logicChannels=16
+        self.logicBuffSize=30000
         self.setWindowTitle("USB MultiTool")
         self.zeros = [0, 0, 0, 0, 0, 0, 0, 0, 0, 0] #array of 0's for clearing wave -> placeholder for testing
 
@@ -137,8 +140,8 @@ class MainWindow(QMainWindow):
         '''Ch2 pen'''
         self.awgTime1 = np.linspace(0,10,NUMPOINTS)
         self.awgTime2 = np.linspace(0,10,NUMPOINTS)
-        self.awgLine1 = pg.PlotDataItem()
-        self.awgLine2 = pg.PlotDataItem()
+        self.awgLine1 = pg.PlotDataItem(pen = self.awgPen1)
+        self.awgLine2 = pg.PlotDataItem(pen = self.awgPen2)
         self.oscTime1 = np.linspace(0,10,NUMPOINTS)
         self.oscTime2 = np.linspace(0,10,NUMPOINTS)
         self.oscData1 = 1*np.sin(2*pi*self.awgCh1Config["freq"]*self.oscTime1+pi/180*self.awgCh1Config["phase"]) #sine wave ch1
@@ -311,6 +314,8 @@ class MainWindow(QMainWindow):
     def set_awgCh1Freq(self,freq):
         print("new Freq: ", freq)
         self.awgCh1Config["freq"] = freq
+        #set one period for graphing
+        self.awgTime1 = np.linspace(0,1/freq, NUMPOINTS)
         self.awgCh1Click()
 
     def set_awgPhase(self, phase):
@@ -326,7 +331,9 @@ class MainWindow(QMainWindow):
     def on_ch1Show(self):
         if(self.ch1Show.isChecked()):
             self.awgGraphCh1.show()
+            self.awgGraphCh2.show()
         else:
+            self.awgGraphCh2.hide()
             self.awgGraphCh1.hide()
 
     #channel 2 configs
@@ -343,14 +350,16 @@ class MainWindow(QMainWindow):
     def set_awgCh2Freq(self,freq):
         print("new Freq: ", freq)
         self.awgCh2Config["freq"] = freq
+        self.awgTime2 = np.linspace(0,1/freq, NUMPOINTS)
         self.awgCh2Click()
 
     def set_awgTypeCh2(self, new): 
         print("New Type: ",new)
         self.awgCh2Config["wave"] = new
         self.awgCh2Click()
-
+    
     def on_ch2Show(self):
+        '''currently unused'''
         if(self.ch2Show.isChecked()):
             self.awgGraphCh2.show()
         else:
@@ -360,8 +369,11 @@ class MainWindow(QMainWindow):
     def onLogicCheck(self):
         if(self.logicCheck.isChecked()):
             self.logic_graph.show()
+            self.conn.sendLogic(1,4,0,self.logicPeriod, self.numLogicSamples)
         else:
+            self.conn.sendLogic(0,4,0,self.logicPeriod, self.numLogicSamples)
             self.logic_graph.hide()
+
         return
 
     #Oscilloscope Range Slots
@@ -488,9 +500,10 @@ class MainWindow(QMainWindow):
         self.awgGraphCh1 = graphLayout.addPlot(row = 3, col = 0 )#pg.PlotWidget#
         self.awgGraphCh2 = graphLayout.addPlot(row = 3, col = 1)#pg.PlotWidget#
 
-        
-        self.awgline1= self.awgGraphCh1.plot([0],[0], pen = self.awgPen1)
-        self.awgline2= self.awgGraphCh2.plot([0],[0], pen = self.awgPen2)
+        self.awgGraphCh1.addItem(self.awgLine1)
+        self.awgGraphCh2.addItem(self.awgLine2)
+        #self.awgline1= self.awgGraphCh1.plot([0],[0], pen = self.awgPen1)
+        #self.awgline2= self.awgGraphCh2.plot([0],[0], pen = self.awgPen2)
         self.awgPeriod1 = [i for i in range(0,NUMPOINTS+1)]
         self.awgPeriod2 = [i for i in range(0,NUMPOINTS+1)]
         self.set_awgCh1Freq(1)
@@ -695,12 +708,12 @@ class MainWindow(QMainWindow):
         ch1Off.valueChanged.connect(self.set_awgCh1Off)
         ch2Off.valueChanged.connect(self.set_awgCh2Off)
         #display graphs
-        self.ch1Show = QCheckBox("Show CH1")
+        self.ch1Show = QCheckBox("Show AWG")
         awgLayout.addWidget(self.ch1Show, 0,5)
         self.ch1Show.stateChanged.connect(self.on_ch1Show)
-        self.ch2Show = QCheckBox("Show CH2")
-        awgLayout.addWidget(self.ch2Show, 1,5)
-        self.ch2Show.stateChanged.connect(self.on_ch2Show)
+        #self.ch2Show = QCheckBox("Show CH2")
+        #awgLayout.addWidget(self.ch2Show, 1,5)
+        #self.ch2Show.stateChanged.connect(self.on_ch2Show)
         
         
         awgPhase = LabelField("Phase:" ,[0, 180],float(0),2,"°", {"":1},BLANK)
@@ -749,7 +762,7 @@ class MainWindow(QMainWindow):
             elif(div < 1):#ms case
                 unit = "m"
                 val = div*1000
-            self.timeDiv.addItem(f"{val} {unit}s/div")
+            self.timeDiv.addItem(f"{val:.0f} {unit}s/div")
             #possibleTimeDivs = [1, 0.5, 0.2, 0.1, 0.05, 0.02, 0.01, 5/1000, 2/1000, 1/1000 ,5/1000/10, 2/1000/10, 1/1000/10 ,5/1000/100, 2/1000/100, 1/1000/100 ,5/1000/1000, 2/1000/1000, 1/1000/1000]
         
         #self.timeDiv.addItems(["10 s/div",  "5 s/div", "1 s/div","0.5 s/div", "0.1 s/div", "50 ms/div", "10 ms/div","5 ms/div","1 ms/div"])
@@ -782,7 +795,7 @@ class MainWindow(QMainWindow):
         self.logic_edges = [None]*8
         for i in range(0,8):
             pos = i+1
-            self.logic_checks[i] = QCheckBox(f"CH{pos}")
+            self.logic_checks[i] = QCheckBox(f"CH{i}")
             self.logic_edges[i] = QComboBox()
             self.logic_edges[i].setPlaceholderText('Trigger Type')
             self.logic_edges[i].addItems(edges)
@@ -824,16 +837,16 @@ class MainWindow(QMainWindow):
         self.oscCh2Trig.addItems(edges)
         self.oscCh2VDiv = LabelField("Range",[1e-6,20],1.0,2,"V/Div",{"u":1e-6,"m":1e-3,"":1},BLANK)
         self.oscCh2VDiv.valueChanged.connect(self.oscCh2Div_changed)
-        oscmode = LabelField("oscmode:",[0,12],int(1),0,"", {"u":1e-6,"m":1e-3,"":1},BLANK)
-        oscmode.valueChanged.connect(self.set_oscmode)
-        oscilloLayout.addWidget(oscmode,0,3)
+        #oscmode = LabelField("oscmode:",[0,12],int(1),0,"", {"u":1e-6,"m":1e-3,"":1},BLANK)
+        #oscmode.valueChanged.connect(self.set_oscmode)
+        #oscilloLayout.addWidget(oscmode,0,3)
         
         oscilloLayout.addWidget(self.oscCh1EN,1,0,2,1)
-        oscilloLayout.addWidget(self.oscCh1VDiv,1,1,1,-1)
+        oscilloLayout.addWidget(self.oscCh1VDiv,1,1)
         oscilloLayout.addWidget(self.oscCh1Trig,2,1)
 
         oscilloLayout.addWidget(self.oscCh2EN,3,0,2,1)
-        oscilloLayout.addWidget(self.oscCh2VDiv,3,1,1,-1)
+        oscilloLayout.addWidget(self.oscCh2VDiv,3,1)
         oscilloLayout.addWidget(self.oscCh2Trig,4,1)
 
         centerLayout.addLayout(logicLayout,1,0,6,3)
@@ -1103,16 +1116,28 @@ class MainWindow(QMainWindow):
         #print(self.dataIn)
         #self.osc1Buffer.append(self.dataIn[0]) #This is slow and very inefficient. 
         self.osc1Buffer = np.asarray(self.conn.oscCh1Queue)/4096*3.3
+        self.osc2Buffer = np.asarray(self.conn.oscCh2Queue)/4096*3.3
         self.oscTime1 = self.conn.returnPositions() * self.oscPosInterval
-            
-        if not self.runStopButton.isChecked():
+
+        self.logicBuffer = np.asarray(self.conn.LogicQueue)  
+        #not dependent on runstop
+        if self.AWGch1En.isChecked():
+            self.graphAWGCh1()
+            #print("Plotting AWG1")
+        else:
             self.awgLine1.setData(self.zeros,self.zeros)
+            self.awgLine1.clear()
+        if self.AWGch2En.isChecked():
+            self.graphAWGCh2()
+            #print("Plotting AWG0")
+        else:
             self.awgLine2.setData(self.zeros,self.zeros)
+        if not self.runStopButton.isChecked():
+            
 
             self.logicLines[0].setData(self.zeros,self.zeros)
             self.logicLines[1].setData(self.zeros,self.zeros)
         else:  
-
             if self.oscilloCheck.isChecked():   
                 if self.oscCh1EN.isChecked():
                     if(len(self.osc1Buffer)>=oscBufferShow):
@@ -1122,7 +1147,15 @@ class MainWindow(QMainWindow):
                         a=1 #dummy op for breakpoint 
                         self.oscLine1.setData(self.oscTime1[-(oscBufferShow-1):],self.osc1Buffer[-(oscBufferShow-1):])
                    #print("Plotting OSC0")
+                else:
+                    self.oscLine1.clear()
                 if self.oscCh2EN.isChecked():
+                    if(len(self.osc1Buffer)>=oscBufferShow):
+                        #self.graphOscCh1()
+                        #change oscPosInterval to change time between two buffer position measuremnts
+                        #print("Plotting OSC0")
+                        a=1 #dummy op for breakpoint 
+                        self.oscLine2.setData(self.oscTime1[-(oscBufferShow-1):],self.osc2Buffer[-(oscBufferShow-1):])
                     pass
                     #self.graphOscCh2()
             else:
@@ -1137,7 +1170,9 @@ class MainWindow(QMainWindow):
                     self.sda = self.csvData[:, 2].astype(int)                   # data line
                     for i in (0,1):
                         if self.logic_checks[i].isChecked():
-                            self.logicLines[i].setData(self.sampleValues,self.csvData[:, 1].astype(int)+i)  
+                            if(len(self.osc1Buffer)>=oscBufferShow):
+                                self.logicLines.setData(self.oscTime1[-(oscBufferShow-1):], self.logicBuffer[-(oscBufferShow-1):]) #perhaps slice
+                            #self.logicLines[i].setData(self.sampleValues,self.csvData[:, 1].astype(int)+i)  
                         else:
                             self.logicLines[i].setData(self.zeros, self.zeros)
                 else:
